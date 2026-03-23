@@ -1,0 +1,219 @@
+/* ============================================
+   PARCHE IBARNA - Contact Page (Fully Responsive)
+============================================ */
+
+/* Contacto Hero */
+.contacto-hero {
+  padding: 100px 0 50px;
+  text-align: center;
+  background: linear-gradient(135deg, var(--bg-dark), var(--bg-dark-2));
+  border-bottom: 1px solid var(--border-light);
+}
+
+.contacto-hero h1 {
+  font-size: clamp(1.8rem, 6vw, 2.8rem);
+  margin-bottom: 0.8rem;
+}
+
+.contacto-hero h1 span {
+  color: var(--primary);
+}
+
+.contacto-hero p {
+  color: var(--text-gray);
+  font-size: 0.9rem;
+  padding: 0 16px;
+}
+
+/* Contacto Hero Responsive */
+@media (max-width: 768px) {
+  .contacto-hero {
+    padding: 80px 0 40px;
+  }
+}
+
+/* Contacto Section */
+.contacto-section {
+  padding: 50px 0;
+}
+
+.contacto-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+/* Info Cards */
+.contacto-info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.info-card {
+  background: var(--bg-card-solid);
+  border: 1px solid var(--border-light);
+  border-radius: 20px;
+  padding: 1.2rem;
+  text-align: center;
+  transition: var(--transition);
+}
+
+.info-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-medium);
+}
+
+.info-card i {
+  font-size: 1.5rem;
+  color: var(--primary);
+  margin-bottom: 0.8rem;
+}
+
+.info-card h3 {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.info-card p {
+  font-size: 0.75rem;
+  color: var(--text-gray);
+  line-height: 1.5;
+}
+
+/* Contact Form */
+.contacto-form {
+  background: var(--bg-card-solid);
+  border: 1px solid var(--border-light);
+  border-radius: 24px;
+  padding: 1.8rem;
+}
+
+.contacto-form h2 {
+  font-size: 1.3rem;
+  margin-bottom: 1.2rem;
+  text-align: center;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.contacto-form input,
+.contacto-form select,
+.contacto-form textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-white);
+  font-family: var(--font-primary);
+  font-size: 0.85rem;
+  padding: 0.7rem 0;
+  margin-bottom: 1rem;
+  outline: none;
+  transition: var(--transition);
+}
+
+.contacto-form input:focus,
+.contacto-form select:focus,
+.contacto-form textarea:focus {
+  border-bottom-color: var(--primary);
+}
+
+.contacto-form input::placeholder,
+.contacto-form textarea::placeholder {
+  color: var(--text-dim);
+}
+
+.contacto-form select {
+  cursor: pointer;
+}
+
+.contacto-form select option {
+  background: var(--bg-card-solid);
+}
+
+.form-message {
+  margin-top: 1rem;
+  padding: 0.8rem;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+.form-message.success {
+  background: rgba(37, 211, 102, 0.1);
+  border: 1px solid rgba(37, 211, 102, 0.3);
+  color: #7fdd9e;
+}
+
+.form-message.error {
+  background: rgba(255, 68, 68, 0.1);
+  border: 1px solid rgba(255, 68, 68, 0.3);
+  color: #ff8888;
+}
+
+/* Contact Grid Responsive */
+@media (max-width: 992px) {
+  .contacto-grid {
+    gap: 1.5rem;
+  }
+  
+  .contacto-info {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .contacto-section {
+    padding: 30px 0;
+  }
+  
+  .contacto-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .contacto-info {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .contacto-info {
+    grid-template-columns: 1fr;
+  }
+  
+  .contacto-form {
+    padding: 1.2rem;
+  }
+  
+  .contacto-form h2 {
+    font-size: 1.1rem;
+  }
+  
+  .info-card {
+    padding: 1rem;
+  }
+  
+  .info-card i {
+    font-size: 1.3rem;
+  }
+  
+  .info-card h3 {
+    font-size: 0.8rem;
+  }
+  
+  .info-card p {
+    font-size: 0.7rem;
+  }
+}

@@ -1,0 +1,352 @@
+/* ============================================
+   PARCHE IBARNA - Menu Page (Compact Cards)
+   Cards más pequeñas y modernas
+============================================ */
+
+/* Menu Hero */
+.menu-hero {
+  padding: 100px 0 50px;
+  text-align: center;
+  background: linear-gradient(135deg, var(--bg-dark), var(--bg-dark-2));
+  border-bottom: 1px solid var(--border-light);
+}
+
+.menu-hero h1 {
+  font-size: clamp(1.8rem, 6vw, 2.8rem);
+  margin-bottom: 0.8rem;
+}
+
+.menu-hero h1 span {
+  color: var(--primary);
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.menu-hero p {
+  color: var(--text-gray);
+  font-size: 0.9rem;
+  padding: 0 16px;
+}
+
+/* Menu Section */
+.menu-section {
+  padding: 50px 0 70px;
+}
+
+/* Tabs */
+.menu-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+
+.tab-btn {
+  background: var(--surface-1);
+  border: 1px solid var(--border-light);
+  border-radius: 50px;
+  padding: 0.7rem 1.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-gray);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tab-btn i {
+  font-size: 0.85rem;
+}
+
+.tab-btn:hover {
+  border-color: var(--primary);
+  color: var(--text-white);
+  transform: translateY(-2px);
+}
+
+.tab-btn.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--bg-dark);
+  box-shadow: 0 0 14px var(--primary-glow);
+}
+
+/* Menu Grid - Cards más compactas */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.2rem;
+}
+
+/* Card Compacta */
+.menu-card {
+  background: var(--bg-card-solid);
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.menu-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-medium);
+  box-shadow: 0 8px 25px rgba(0, 255, 255, 0.15);
+}
+
+/* Imagen de la card - Más pequeña */
+.menu-image {
+  position: relative;
+  height: 160px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0a1525, #102035);
+}
+
+.menu-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.menu-card:hover .menu-image img {
+  transform: scale(1.08);
+}
+
+/* Placeholder para imágenes que no cargan */
+.menu-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  background: linear-gradient(135deg, #0a1525, #102035);
+}
+
+/* Badge para destacados */
+.menu-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: var(--primary);
+  color: var(--bg-dark);
+  font-size: 0.55rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  z-index: 2;
+  box-shadow: 0 0 10px var(--primary-glow);
+}
+
+/* Overlay sutil */
+.menu-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 60%, rgba(0, 0, 0, 0.5));
+  pointer-events: none;
+}
+
+/* Cuerpo de la card - Compacto */
+.menu-body {
+  padding: 0.9rem;
+}
+
+.menu-category {
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 0.3rem;
+  display: block;
+}
+
+.menu-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  line-height: 1.3;
+  color: var(--text-white);
+}
+
+.menu-description {
+  font-size: 0.7rem;
+  color: var(--text-gray);
+  margin-bottom: 0.8rem;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.menu-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border-light);
+}
+
+.menu-price {
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--primary-light);
+  letter-spacing: -0.5px;
+}
+
+.menu-order {
+  background: transparent;
+  border: 1px solid var(--border-medium);
+  color: var(--primary-light);
+  padding: 0.3rem 0.8rem;
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.menu-order:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--bg-dark);
+}
+
+/* Alcohol indicator */
+.alcohol-badge {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  font-size: 0.55rem;
+  font-weight: 600;
+  padding: 0.2rem 0.5rem;
+  border-radius: 20px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 2;
+}
+
+.alcohol-badge.with-alcohol {
+  color: #ffaa44;
+  border-left: 2px solid #ffaa44;
+}
+
+.alcohol-badge.no-alcohol {
+  color: #44ffaa;
+  border-left: 2px solid #44ffaa;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-dim);
+  grid-column: 1 / -1;
+}
+
+.empty-state i {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.empty-state p {
+  font-size: 0.85rem;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .menu-grid {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+  
+  .menu-image {
+    height: 150px;
+  }
+}
+
+@media (max-width: 768px) {
+  .menu-hero {
+    padding: 80px 0 40px;
+  }
+  
+  .menu-section {
+    padding: 30px 0 50px;
+  }
+  
+  .menu-tabs {
+    gap: 0.5rem;
+    margin-bottom: 1.8rem;
+  }
+  
+  .tab-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.7rem;
+  }
+  
+  .tab-btn i {
+    font-size: 0.7rem;
+  }
+  
+  .menu-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .menu-image {
+    height: 140px;
+  }
+  
+  .menu-body {
+    padding: 0.8rem;
+  }
+  
+  .menu-title {
+    font-size: 0.95rem;
+  }
+  
+  .menu-description {
+    font-size: 0.68rem;
+  }
+  
+  .menu-price {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .menu-image {
+    height: 130px;
+  }
+  
+  .menu-badge {
+    font-size: 0.5rem;
+    padding: 0.15rem 0.5rem;
+  }
+  
+  .menu-footer {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+  
+  .menu-order {
+    width: 100%;
+    text-align: center;
+  }
+}
