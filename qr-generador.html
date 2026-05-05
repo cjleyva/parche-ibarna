@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Generador QR - PARCHE IBARNA</title>
+  <title>QR Carta - PARCHE IBARNA</title>
 
   <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -27,19 +27,19 @@
 
     .container{
       width:100%;
-      max-width:600px;
-      background:rgba(15,23,42,.95);
+      max-width:620px;
+      background:rgba(15,23,42,.96);
       border:1px solid rgba(0,255,255,.2);
       border-radius:28px;
       padding:35px;
       text-align:center;
-      box-shadow:0 20px 60px rgba(0,0,0,.4);
+      box-shadow:0 20px 60px rgba(0,0,0,.45);
     }
 
     .logo{
       font-size:34px;
       font-weight:800;
-      color:white;
+      color:#fff;
       margin-bottom:8px;
     }
 
@@ -50,15 +50,15 @@
 
     .subtitle{
       color:#9fb3c8;
-      margin-bottom:28px;
+      margin-bottom:25px;
       font-size:14px;
     }
 
     .input-group{
       display:flex;
       gap:10px;
-      margin-bottom:18px;
       flex-wrap:wrap;
+      margin-bottom:15px;
     }
 
     .input-group input{
@@ -95,17 +95,16 @@
     .qr-box{
       background:white;
       border-radius:24px;
-      padding:22px;
+      padding:30px;
       display:inline-block;
-      box-shadow:0 0 30px rgba(0,255,255,.2);
       margin-bottom:25px;
+      box-shadow:0 0 30px rgba(0,255,255,.2);
     }
 
-    .qr-box img{
+    #qrCode svg{
       width:320px;
-      max-width:100%;
+      height:320px;
       display:block;
-      border-radius:12px;
     }
 
     .buttons{
@@ -162,6 +161,11 @@
       .btn{
         justify-content:center;
       }
+
+      #qrCode svg{
+        width:260px;
+        height:260px;
+      }
     }
   </style>
 </head>
@@ -170,7 +174,7 @@
 <div class="container">
 
   <div class="logo">PARCHE <span>IBARNA</span></div>
-  <div class="subtitle">Generador de código QR para carta digital</div>
+  <div class="subtitle">Generador QR Carta Digital</div>
 
   <div class="input-group">
     <input
@@ -184,23 +188,23 @@
   <div class="preview" id="urlPreview"></div>
 
   <div class="qr-box">
-    <img id="qrImage" alt="Código QR">
+    <div id="qrCode"></div>
   </div>
 
   <div class="buttons">
-    <button class="btn btn-primary" onclick="downloadQR()">
+    <button class="btn btn-primary" onclick="downloadPNG()">
       <i class="fa-solid fa-download"></i>
-      Descargar QR
+      Descargar PNG
+    </button>
+
+    <button class="btn btn-outline" onclick="downloadSVG()">
+      <i class="fa-solid fa-file"></i>
+      Descargar SVG
     </button>
 
     <button class="btn btn-outline" onclick="copyURL()">
       <i class="fa-solid fa-copy"></i>
       Copiar URL
-    </button>
-
-    <button class="btn btn-outline" onclick="printQR()">
-      <i class="fa-solid fa-print"></i>
-      Imprimir
     </button>
   </div>
 
@@ -208,10 +212,13 @@
 
 </div>
 
+<!-- Librería QR moderna -->
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+
 <script>
 let currentURL = "";
 
-function showMessage(text, ok=true){
+function showMessage(text, ok = true){
   const msg = document.getElementById("message");
   msg.style.display = "block";
   msg.innerHTML = text;
@@ -241,47 +248,86 @@ function generateQR(){
   }
 
   currentURL = url;
-
   document.getElementById("urlPreview").textContent = url;
 
-  const qrImage = document.getElementById("qrImage");
+  const qr = qrcode(0, "M");
+  qr.addData(url);
+  qr.make();
 
-  qrImage.src =
-    "https://api.qrserver.com/v1/create-qr-code/?size=500x500&margin=20&data="
-    + encodeURIComponent(url);
+  const svgTag = qr.createSvgTag({
+    scalable: true,
+    margin: 4
+  });
 
-  showMessage("✅ QR generado correctamente");
+  document.getElementById("qrCode").innerHTML = svgTag;
+
+  showMessage("✅ QR SVG generado correctamente");
 }
 
-function downloadQR(){
-  const link = document.createElement("a");
-  link.href = document.getElementById("qrImage").src;
-  link.download = "parche-ibarna-qr.png";
-  link.click();
+function downloadSVG(){
+  const svg = document.querySelector("#qrCode svg");
 
-  showMessage("📥 QR descargado");
+  if(!svg){
+    showMessage("❌ No hay QR", false);
+    return;
+  }
+
+  const data = new XMLSerializer().serializeToString(svg);
+  const blob = new Blob([data], {type:"image/svg+xml"});
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "parche-ibarna-qr.svg";
+  a.click();
+
+  URL.revokeObjectURL(url);
+
+  showMessage("📥 SVG descargado");
+}
+
+function downloadPNG(){
+  const svg = document.querySelector("#qrCode svg");
+
+  if(!svg){
+    showMessage("❌ No hay QR", false);
+    return;
+  }
+
+  const data = new XMLSerializer().serializeToString(svg);
+  const svgBlob = new Blob([data], {type:"image/svg+xml"});
+  const url = URL.createObjectURL(svgBlob);
+
+  const img = new Image();
+
+  img.onload = function(){
+    const canvas = document.createElement("canvas");
+    canvas.width = 1200;
+    canvas.height = 1200;
+
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.drawImage(img,0,0,1200,1200);
+
+    const png = canvas.toDataURL("image/png");
+
+    const a = document.createElement("a");
+    a.href = png;
+    a.download = "parche-ibarna-qr.png";
+    a.click();
+
+    URL.revokeObjectURL(url);
+
+    showMessage("📥 PNG HD descargado");
+  };
+
+  img.src = url;
 }
 
 async function copyURL(){
   await navigator.clipboard.writeText(currentURL);
   showMessage("📋 URL copiada");
-}
-
-function printQR(){
-  const src = document.getElementById("qrImage").src;
-
-  const w = window.open("");
-  w.document.write(`
-    <html>
-      <body style="margin:0;text-align:center;font-family:Arial;padding-top:40px">
-        <img src="${src}" width="350">
-        <h2>PARCHE IBARNA</h2>
-        <p>Escanea para ver la carta digital</p>
-      </body>
-    </html>
-  `);
-  w.document.close();
-  w.print();
 }
 
 generateQR();
