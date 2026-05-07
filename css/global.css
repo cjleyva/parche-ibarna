@@ -1,5 +1,6 @@
 /* ============================================
    PARCHE IBARNA - Global Styles
+   Con botón Mi Pedido visible en móvil
 ============================================ */
 
 :root {
@@ -14,11 +15,13 @@
     --bg-glass: rgba(255, 255, 255, 0.05);
     --text-white: #ffffff;
     --text-gray: #a0a0b0;
+    --text-gray-light: #c0c0d0;
     --text-dim: #6b6b7b;
     --border-light: rgba(255, 255, 255, 0.1);
     --border-medium: rgba(0, 255, 255, 0.3);
     --surface-1: rgba(255, 255, 255, 0.05);
     --surface-2: rgba(255, 255, 255, 0.08);
+    --transition: all 0.3s ease;
 }
 
 * {
@@ -35,15 +38,20 @@ body {
     min-height: 100vh;
 }
 
+/* ============================================
+   HEADER - NAVBAR
+============================================ */
 .header {
     position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     width: 100%;
-    z-index: 100;
+    z-index: 1000;
     background: rgba(10, 10, 15, 0.95);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border-light);
-    transition: all 0.3s ease;
+    transition: var(--transition);
 }
 
 .header.scrolled {
@@ -62,6 +70,7 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+    position: relative;
 }
 
 .logo {
@@ -70,6 +79,7 @@ body {
     text-decoration: none;
     color: var(--text-white);
     letter-spacing: -1px;
+    z-index: 1001;
 }
 
 .logo span {
@@ -79,6 +89,7 @@ body {
     color: transparent;
 }
 
+/* Menú de navegación desktop */
 .nav-menu {
     display: flex;
     gap: 2rem;
@@ -87,12 +98,16 @@ body {
     padding: 0;
 }
 
+.nav-menu li {
+    list-style: none;
+}
+
 .nav-menu a {
     color: var(--text-gray);
     text-decoration: none;
     font-weight: 500;
     font-size: 0.9rem;
-    transition: color 0.3s;
+    transition: var(--transition);
 }
 
 .nav-menu a:hover,
@@ -100,6 +115,7 @@ body {
     color: var(--primary);
 }
 
+/* Botón menú móvil */
 .mobile-menu-btn {
     display: none;
     background: none;
@@ -107,12 +123,21 @@ body {
     color: var(--text-white);
     font-size: 1.5rem;
     cursor: pointer;
+    z-index: 1001;
+    padding: 0.5rem;
+    transition: var(--transition);
 }
 
+.mobile-menu-btn:hover {
+    color: var(--primary);
+}
+
+/* Botones del header desktop */
 .header-buttons {
     display: flex;
     align-items: center;
     gap: 0.8rem;
+    z-index: 1001;
 }
 
 .btn-orders {
@@ -127,7 +152,7 @@ body {
     color: var(--text-white);
     font-weight: 600;
     font-size: 0.8rem;
-    transition: all 0.3s ease;
+    transition: var(--transition);
 }
 
 .btn-orders i {
@@ -155,7 +180,122 @@ body {
     margin-left: 0.3rem;
 }
 
-/* FOOTER */
+/* Botón móvil dentro del menú */
+.mobile-order-btn {
+    display: none;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-light);
+}
+
+.btn-order-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    border: none;
+    padding: 0.8rem;
+    border-radius: 40px;
+    text-decoration: none;
+    color: var(--bg-dark);
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: var(--transition);
+    width: 100%;
+}
+
+.btn-order-mobile i {
+    font-size: 1rem;
+    color: var(--bg-dark);
+}
+
+.btn-order-mobile:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px var(--primary-glow);
+    color: var(--bg-dark);
+}
+
+/* ============================================
+   RESPONSIVE - MENÚ MÓVIL
+=========================================== */
+@media (max-width: 768px) {
+    .mobile-menu-btn {
+        display: block;
+    }
+    
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 280px;
+        height: 100vh;
+        background: rgba(10, 10, 15, 0.98);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
+        gap: 0.5rem;
+        padding: 80px 1.5rem 2rem;
+        transition: right 0.3s ease-in-out;
+        z-index: 1000;
+        margin: 0;
+        border-left: 1px solid var(--border-light);
+        box-shadow: -5px 0 30px rgba(0, 0, 0, 0.5);
+        overflow-y: auto;
+    }
+    
+    .nav-menu.active {
+        right: 0;
+    }
+    
+    .nav-menu li {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .nav-menu a {
+        font-size: 1rem;
+        padding: 0.8rem;
+        display: block;
+        width: 100%;
+        border-radius: 12px;
+        transition: all 0.3s;
+    }
+    
+    .nav-menu a:hover,
+    .nav-menu a.active {
+        background: rgba(0, 255, 255, 0.1);
+        color: var(--primary);
+    }
+    
+    /* Mostrar botón Mi Pedido en móvil */
+    .mobile-order-btn {
+        display: block;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+    }
+    
+    /* Ocultar botones del header en móvil */
+    .header-buttons {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-menu {
+        width: 100%;
+        right: -100%;
+    }
+    
+    .logo {
+        font-size: 1.2rem;
+    }
+}
+
+/* ============================================
+   FOOTER
+============================================ */
 .footer {
     background: rgba(0, 0, 0, 0.6);
     border-top: 1px solid var(--border-light);
@@ -204,7 +344,7 @@ body {
     background: var(--surface-1);
     border-radius: 50%;
     color: var(--text-gray);
-    transition: all 0.3s;
+    transition: var(--transition);
 }
 
 .social-links a:hover {
@@ -226,17 +366,18 @@ body {
     text-decoration: none;
     font-size: 0.85rem;
     margin-bottom: 0.5rem;
-    transition: color 0.3s;
+    transition: var(--transition);
 }
 
 .footer-links a:hover {
     color: var(--primary);
+    transform: translateX(5px);
 }
 
 .footer-hours p {
     color: var(--text-gray);
     font-size: 0.85rem;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.5rem;
 }
 
 .footer-hours .closed {
@@ -258,40 +399,37 @@ body {
     padding: 0 20px;
 }
 
-/* RESPONSIVE */
-@media (max-width: 768px) {
-    .mobile-menu-btn {
-        display: block;
-    }
-    
-    .nav-menu {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: rgba(10, 10, 15, 0.98);
-        flex-direction: column;
-        padding: 1rem;
-        gap: 1rem;
-        text-align: center;
-        border-bottom: 1px solid var(--border-light);
-    }
-    
-    .nav-menu.active {
-        display: flex;
-    }
-    
-    .header-buttons {
-        display: none;
-    }
-    
-    .footer-content {
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
-    
-    .social-links {
-        justify-content: center;
+/* ============================================
+   TOAST NOTIFICATION
+============================================ */
+.toast-notification {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: var(--bg-dark);
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    z-index: 1100;
+    opacity: 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.toast-notification.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+@media (max-width: 576px) {
+    .toast-notification {
+        font-size: 0.7rem;
+        padding: 0.6rem 1rem;
+        white-space: nowrap;
     }
 }

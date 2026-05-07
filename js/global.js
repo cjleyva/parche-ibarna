@@ -1,261 +1,153 @@
 // ============================================
-// PARCHE IBARNA - Órdenes JavaScript
-// Página: ordenes.html
+// PARCHE IBARNA - Global JavaScript
+// Con soporte para badge móvil y desktop
 // ============================================
 
 (function() {
-    let currentCart = [];
+    'use strict';
 
-    // Esperar a que el DOM esté listo
     document.addEventListener('DOMContentLoaded', function() {
-        loadCart();
-        initEventListeners();
-    });
-
-    function loadCart() {
-        currentCart = JSON.parse(localStorage.getItem('parcheCart') || '[]');
-        renderCart();
-        updateSummary();
-        checkEmptyState();
-    }
-
-    function formatPrice(price) {
-        return `$${price.toLocaleString('es-CO')}`;
-    }
-
-    function saveCart() {
-        localStorage.setItem('parcheCart', JSON.stringify(currentCart));
-        updateCartBadge();
-    }
-
-    function updateCartBadge() {
-        const totalItems = currentCart.reduce((sum, item) => sum + item.quantity, 0);
-        const badges = document.querySelectorAll('#cartBadge');
-        badges.forEach(badge => {
-            if (badge) {
-                if (totalItems > 0) {
-                    badge.textContent = totalItems;
-                    badge.style.display = 'inline-flex';
-                } else {
-                    badge.style.display = 'none';
+        
+        // ============================================
+        // 1. MOBILE MENU TOGGLE
+        // ============================================
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navMenu = document.getElementById('navMenu');
+        
+        if (mobileMenuBtn && navMenu) {
+            function toggleMenu() {
+                navMenu.classList.toggle('active');
+                
+                const icon = mobileMenuBtn.querySelector('i');
+                if (icon) {
+                    if (navMenu.classList.contains('active')) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-times');
+                        document.body.style.overflow = 'hidden';
+                    } else {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                        document.body.style.overflow = '';
+                    }
+                }
+            }
+            
+            mobileMenuBtn.addEventListener('click', toggleMenu);
+        }
+        
+        // ============================================
+        // 2. CERRAR MENÚ AL HACER CLICK EN UN ENLACE
+        // ============================================
+        const navLinks = document.querySelectorAll('.nav-menu a');
+        const menuBtn = document.getElementById('mobileMenuBtn');
+        const menu = document.getElementById('navMenu');
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                if (menu && menu.classList.contains('active')) {
+                    menu.classList.remove('active');
+                    document.body.style.overflow = '';
+                    const icon = menuBtn?.querySelector('i');
+                    if (icon) {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                }
+            });
+        });
+        
+        // ============================================
+        // 3. CERRAR MENÚ AL HACER CLICK FUERA
+        // ============================================
+        document.addEventListener('click', function(event) {
+            if (window.innerWidth <= 768) {
+                if (menu && menu.classList.contains('active')) {
+                    if (!menu.contains(event.target) && !menuBtn?.contains(event.target)) {
+                        menu.classList.remove('active');
+                        document.body.style.overflow = '';
+                        const icon = menuBtn?.querySelector('i');
+                        if (icon) {
+                            icon.classList.remove('fa-times');
+                            icon.classList.add('fa-bars');
+                        }
+                    }
                 }
             }
         });
         
-        // Disparar evento storage para actualizar otras pestañas
-        window.dispatchEvent(new Event('storage'));
-    }
-
-    function renderCart() {
-        const container = document.getElementById('cartItemsContainer');
-        if (!container) return;
-
-        if (currentCart.length === 0) {
-            container.innerHTML = `
-                <div class="empty-cart-message">
-                    <i class="fas fa-shopping-cart"></i>
-                    <p>No hay productos en tu pedido</p>
-                    <a href="menu.html" class="btn-browse">Ver Carta</a>
-                </div>
-            `;
-            return;
-        }
-
-        container.innerHTML = currentCart.map(item => `
-            <div class="cart-item" data-id="${item.id}">
-                <div class="cart-item-image">
-                    <img src="${item.image || 'https://placehold.co/200/1a1a2e/00ffff?text=' + encodeURIComponent(item.name)}" alt="${item.name}">
-                </div>
-                <div class="cart-item-details">
-                    <div class="cart-item-name">${escapeHtml(item.name)}</div>
-                    <div class="cart-item-price">${formatPrice(item.price)} c/u</div>
-                    <div class="cart-item-controls">
-                        <div class="quantity-control">
-                            <button class="qty-decrease" data-id="${item.id}">−</button>
-                            <span>${item.quantity}</span>
-                            <button class="qty-increase" data-id="${item.id}">+</button>
-                        </div>
-                        <div class="cart-item-subtotal">${formatPrice(item.price * item.quantity)}</div>
-                        <button class="btn-remove-item" data-id="${item.id}">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        `).join('');
-
-        // Bind events después de renderizar
-        bindCartItemEvents();
-    }
-
-    function bindCartItemEvents() {
-        // Botones de disminuir cantidad
-        document.querySelectorAll('.qty-decrease').forEach(btn => {
-            btn.removeEventListener('click', handleDecrease);
-            btn.addEventListener('click', handleDecrease);
-        });
-
-        // Botones de aumentar cantidad
-        document.querySelectorAll('.qty-increase').forEach(btn => {
-            btn.removeEventListener('click', handleIncrease);
-            btn.addEventListener('click', handleIncrease);
-        });
-
-        // Botones de eliminar item
-        document.querySelectorAll('.btn-remove-item').forEach(btn => {
-            btn.removeEventListener('click', handleRemove);
-            btn.addEventListener('click', handleRemove);
-        });
-    }
-
-    function handleDecrease(e) {
-        const id = parseInt(e.currentTarget.dataset.id);
-        const item = currentCart.find(i => i.id === id);
-        if (item && item.quantity > 1) {
-            item.quantity--;
-            saveCart();
-            renderCart();
-            updateSummary();
-        } else if (item && item.quantity === 1) {
-            removeItem(id);
-        }
-    }
-
-    function handleIncrease(e) {
-        const id = parseInt(e.currentTarget.dataset.id);
-        const item = currentCart.find(i => i.id === id);
-        if (item) {
-            item.quantity++;
-            saveCart();
-            renderCart();
-            updateSummary();
-        }
-    }
-
-    function handleRemove(e) {
-        const id = parseInt(e.currentTarget.dataset.id);
-        removeItem(id);
-    }
-
-    function removeItem(id) {
-        currentCart = currentCart.filter(item => item.id !== id);
-        saveCart();
-        renderCart();
-        updateSummary();
-        checkEmptyState();
-        showNotification('Producto eliminado');
-    }
-
-    function clearAllItems() {
-        if (confirm('¿Estás seguro de vaciar todo tu pedido?')) {
-            currentCart = [];
-            saveCart();
-            renderCart();
-            updateSummary();
-            checkEmptyState();
-            showNotification('Pedido vaciado');
-        }
-    }
-
-    function updateSummary() {
-        const subtotal = currentCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        const iva = subtotal * 0.19;
-        const total = subtotal + iva;
-
-        const subtotalEl = document.getElementById('summarySubtotal');
-        const ivaEl = document.getElementById('summaryIva');
-        const totalEl = document.getElementById('summaryTotal');
-
-        if (subtotalEl) subtotalEl.textContent = formatPrice(subtotal);
-        if (ivaEl) ivaEl.textContent = formatPrice(iva);
-        if (totalEl) totalEl.textContent = formatPrice(total);
-    }
-
-    function checkEmptyState() {
-        const emptyState = document.getElementById('emptyCartState');
-        const ordersGrid = document.querySelector('.orders-grid');
-        
-        if (currentCart.length === 0) {
-            if (emptyState) emptyState.style.display = 'block';
-            if (ordersGrid) ordersGrid.style.display = 'none';
-        } else {
-            if (emptyState) emptyState.style.display = 'none';
-            if (ordersGrid) ordersGrid.style.display = 'grid';
-        }
-    }
-
-    function confirmOrder() {
-        if (currentCart.length === 0) {
-            showNotification('No hay productos en tu pedido');
-            return;
-        }
-
-        const subtotal = currentCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        const iva = subtotal * 0.19;
-        const total = subtotal + iva;
-        
-        let mensaje = "🍸 *PEDIDO PARCHE IBARNA* 🍸\n\n";
-        mensaje += "📋 *DETALLE DEL PEDIDO:*\n";
-        mensaje += "─".repeat(40) + "\n\n";
-        
-        currentCart.forEach((item, index) => {
-            mensaje += `${index + 1}. *${item.name}*\n`;
-            mensaje += `   Cantidad: ${item.quantity} × ${formatPrice(item.price)}\n`;
-            mensaje += `   Subtotal: ${formatPrice(item.price * item.quantity)}\n\n`;
-        });
-        
-        mensaje += "─".repeat(40) + "\n";
-        mensaje += `💰 *SUBTOTAL: ${formatPrice(subtotal)}*\n`;
-        mensaje += `📊 *IVA (19%): ${formatPrice(iva)}*\n`;
-        mensaje += `💵 *TOTAL: ${formatPrice(total)}*\n\n`;
-        mensaje += "📍 *Recoge en:* PARCHE IBARNA - Poblado Campestre\n";
-        mensaje += "⏰ *Horario:* Miércoles a Domingo\n";
-        mensaje += "📞 *WhatsApp:* 316 0000000\n\n";
-        mensaje += "✨ *¡Gracias por tu preferencia!* ✨";
-        
-        const numeroWhatsApp = "573160000000";
-        const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
-        
-        window.open(url, '_blank');
-        showNotification('Redirigiendo a WhatsApp...');
-    }
-
-    function showNotification(message) {
-        let toast = document.querySelector('.toast-notification');
-        if (!toast) {
-            toast = document.createElement('div');
-            toast.className = 'toast-notification';
-            document.body.appendChild(toast);
-        }
-        toast.textContent = message;
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 2000);
-    }
-
-    function escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
-
-    function initEventListeners() {
-        const clearAllBtn = document.getElementById('clearAllBtn');
-        const confirmOrderBtn = document.getElementById('confirmOrderBtn');
-        const continueShoppingBtn = document.getElementById('continueShoppingBtn');
-        
-        if (clearAllBtn) {
-            clearAllBtn.addEventListener('click', clearAllItems);
-        }
-        
-        if (confirmOrderBtn) {
-            confirmOrderBtn.addEventListener('click', confirmOrder);
-        }
-        
-        if (continueShoppingBtn) {
-            continueShoppingBtn.addEventListener('click', () => {
-                window.location.href = 'menu.html';
+        // ============================================
+        // 4. HEADER SCROLL EFFECT
+        // ============================================
+        const header = document.querySelector('.header');
+        if (header) {
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
             });
         }
-    }
-
+        
+        // ============================================
+        // 5. DETECTAR PÁGINA ACTUAL
+        // ============================================
+        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+        const navItems = document.querySelectorAll('.nav-menu a:not(.btn-order-mobile)');
+        
+        navItems.forEach(item => {
+            const itemPage = item.getAttribute('href');
+            if (itemPage === currentPage) {
+                item.classList.add('active');
+            } else if (currentPage === '' && itemPage === 'index.html') {
+                item.classList.add('active');
+            }
+        });
+        
+        // ============================================
+        // 6. ACTUALIZAR BADGE DEL CARRITO (Desktop y Móvil)
+        // ============================================
+        function updateCartBadge() {
+            const cart = JSON.parse(localStorage.getItem('parcheCart') || '[]');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            // Actualizar badge desktop
+            const desktopBadge = document.getElementById('cartBadge');
+            if (desktopBadge) {
+                if (totalItems > 0) {
+                    desktopBadge.textContent = totalItems;
+                    desktopBadge.style.display = 'inline-flex';
+                } else {
+                    desktopBadge.style.display = 'none';
+                }
+            }
+            
+            // Actualizar badge móvil
+            const mobileBadge = document.getElementById('cartBadgeMobile');
+            if (mobileBadge) {
+                if (totalItems > 0) {
+                    mobileBadge.textContent = totalItems;
+                    mobileBadge.style.display = 'inline-flex';
+                } else {
+                    mobileBadge.style.display = 'none';
+                }
+            }
+        }
+        
+        updateCartBadge();
+        window.addEventListener('storage', updateCartBadge);
+        window.addEventListener('pageshow', updateCartBadge);
+        
+        // ============================================
+        // 7. PREVENIR CLICK EN ENLACES VACÍOS
+        // ============================================
+        document.querySelectorAll('a[href="#"], a[href=""]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+            });
+        });
+        
+        console.log('🌐 PARCHE IBARNA | Global scripts initialized');
+    });
+    
 })();
