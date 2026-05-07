@@ -1,9 +1,13 @@
 // ============================================
 // PARCHE IBARNA - Órdenes JavaScript
+// Envío de pedido al WhatsApp de la coctelería
 // ============================================
 
 (function() {
     let currentCart = [];
+
+    // NÚMERO DE WHATSAPP DE LA COCTELERÍA
+    const WHATSAPP_NUMBER = "573204901827";
 
     document.addEventListener('DOMContentLoaded', function() {
         loadCart();
@@ -29,7 +33,7 @@
 
     function updateCartBadge() {
         const totalItems = currentCart.reduce((sum, item) => sum + item.quantity, 0);
-        document.querySelectorAll('#cartBadge').forEach(badge => {
+        document.querySelectorAll('#cartBadge, #cartBadgeMobile').forEach(badge => {
             if (badge) {
                 if (totalItems > 0) {
                     badge.textContent = totalItems;
@@ -197,28 +201,48 @@
         const iva = subtotal * 0.19;
         const total = subtotal + iva;
         
-        let mensaje = "🍸 *PEDIDO PARCHE IBARNA* 🍸\n\n";
+        // Obtener fecha y hora actual
+        const ahora = new Date();
+        const fecha = ahora.toLocaleDateString('es-CO');
+        const hora = ahora.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' });
+        
+        // Mensaje para el personal de la coctelería
+        let mensaje = "🍸 *¡NUEVO PEDIDO - PARCHE IBARNA!* 🍸\n\n";
+        mensaje += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
+        mensaje += `📅 *Fecha:* ${fecha}\n`;
+        mensaje += `⏰ *Hora:* ${hora}\n`;
+        mensaje += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n";
+        
         mensaje += "📋 *DETALLE DEL PEDIDO:*\n";
-        mensaje += "─".repeat(40) + "\n\n";
+        mensaje += "┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈\n\n";
         
         currentCart.forEach((item, index) => {
-            mensaje += `${index + 1}. *${item.name}*\n`;
-            mensaje += `   Cantidad: ${item.quantity} × ${formatPrice(item.price)}\n`;
-            mensaje += `   Subtotal: ${formatPrice(item.price * item.quantity)}\n\n`;
+            mensaje += `*${index + 1}. ${item.name}*\n`;
+            mensaje += `   ├ 🥤 Cantidad: ${item.quantity}\n`;
+            mensaje += `   ├ 💰 Precio unitario: ${formatPrice(item.price)}\n`;
+            mensaje += `   └ 📦 Subtotal: ${formatPrice(item.price * item.quantity)}\n\n`;
         });
         
-        mensaje += "─".repeat(40) + "\n";
+        mensaje += "┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈\n\n";
         mensaje += `💰 *SUBTOTAL: ${formatPrice(subtotal)}*\n`;
         mensaje += `📊 *IVA (19%): ${formatPrice(iva)}*\n`;
-        mensaje += `💵 *TOTAL: ${formatPrice(total)}*\n\n`;
-        mensaje += "📍 *Recoge en:* PARCHE IBARNA - Poblado Campestre\n";
-        mensaje += "⏰ *Horario:* Miércoles a Domingo\n";
-        mensaje += "📞 *WhatsApp:* 316 0000000\n\n";
-        mensaje += "✨ *¡Gracias por tu preferencia!* ✨";
+        mensaje += `💵 *TOTAL A PAGAR: ${formatPrice(total)}*\n\n`;
         
-        const numeroWhatsApp = "573160000000";
-        window.open(`https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`, '_blank');
-        showNotification('Redirigiendo a WhatsApp...');
+        mensaje += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
+        mensaje += "👨‍🍳 *INSTRUCCIONES PARA EL PERSONAL:*\n";
+        mensaje += "┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈\n";
+        mensaje += "✅ Preparar con los ingredientes premium\n";
+        mensaje += "✅ Servir en la cristalería correspondiente\n";
+        mensaje += "✅ Entregar al cliente en la mesa\n\n";
+        
+        mensaje += "✨ *¡Gracias por tu preferencia!* ✨\n";
+        mensaje += "📍 PARCHE IBARNA - Poblado Campestre";
+        
+        // Enviar al número de la coctelería
+        const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`;
+        
+        window.open(url, '_blank');
+        showNotification('Redirigiendo a WhatsApp del local...');
     }
 
     function showNotification(message) {
