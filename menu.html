@@ -17,9 +17,7 @@
 </head>
 <body>
 
-<!-- ============================================
-   HEADER / NAVBAR
-============================================ -->
+<!-- HEADER CON BOTÓN MI PEDIDO -->
 <header class="header">
   <nav class="navbar">
     <div class="container">
@@ -35,14 +33,18 @@
         <li><a href="promociones.html">Promos</a></li>
         <li><a href="contacto.html">Contacto</a></li>
       </ul>
-      <a href="contacto.html" class="btn-reserve">Reservar Mesa</a>
+      <div class="header-buttons">
+        <a href="ordenes.html" class="btn-orders">
+          <i class="fas fa-shopping-bag"></i>
+          <span>Mi Pedido</span>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </a>
+      </div>
     </div>
   </nav>
 </header>
 
-<!-- ============================================
-   MENU HERO
-============================================ -->
+<!-- MENU HERO -->
 <section class="menu-hero">
   <div class="container">
     <h1>Nuestra <span>Carta</span></h1>
@@ -50,53 +52,38 @@
   </div>
 </section>
 
-<!-- ============================================
-   MENU TABS - CATEGORÍAS COMPLETAS
-============================================ -->
+<!-- MENU TABS -->
 <section class="menu-section">
   <div class="container">
     <div class="menu-tabs">
-      <button class="tab-btn active" data-category="clasicos">
-        <i class="fas fa-glass-martini-alt"></i> Clásicos
-      </button>
-      <button class="tab-btn" data-category="signature">
-        <i class="fas fa-star"></i> Signature
-      </button>
-      <button class="tab-btn" data-category="tropicales">
-        <i class="fas fa-umbrella-beach"></i> Tropicales
-      </button>
-      <button class="tab-btn" data-category="cervezas">
-        <i class="fas fa-beer"></i> Cervezas
-      </button>
-      <button class="tab-btn" data-category="tragos">
-        <i class="fas fa-whiskey-glass"></i> Tragos
-      </button>
-      <button class="tab-btn" data-category="sodas">
-        <i class="fas fa-bottle-water"></i> Sodas
-      </button>
-      <button class="tab-btn" data-category="sin-alcohol">
-        <i class="fas fa-leaf"></i> Sin Alcohol
-      </button>
+      <button class="tab-btn active" data-category="clasicos"><i class="fas fa-glass-martini-alt"></i> Clásicos</button>
+      <button class="tab-btn" data-category="signature"><i class="fas fa-star"></i> Signature</button>
+      <button class="tab-btn" data-category="tropicales"><i class="fas fa-umbrella-beach"></i> Tropicales</button>
+      <button class="tab-btn" data-category="cervezas"><i class="fas fa-beer"></i> Cervezas</button>
+      <button class="tab-btn" data-category="tragos"><i class="fas fa-whiskey-glass"></i> Tragos</button>
+      <button class="tab-btn" data-category="sodas"><i class="fas fa-bottle-water"></i> Sodas</button>
+      <button class="tab-btn" data-category="sin-alcohol"><i class="fas fa-leaf"></i> Sin Alcohol</button>
     </div>
 
     <div id="menu-container" class="menu-grid"></div>
   </div>
 </section>
 
-<!-- ============================================
-   FOOTER
-============================================ -->
+<!-- TOAST NOTIFICATION -->
+<div id="toastNotification" class="toast-notification"></div>
+
+<!-- FOOTER -->
 <footer class="footer">
   <div class="container">
     <div class="footer-content">
       <div class="footer-brand">
         <a href="index.html" class="footer-logo">PARCHE<span> IBARNA</span></a>
-        <p>Coctelería de élite en el corazón de Chapinero</p>
+        <p>Inspiración europea, alma colombiana. Coctelería de autor en Poblado Campestre.</p>
         <div class="social-links">
-          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-          <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-          <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-tiktok"></i></a>
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-whatsapp"></i></a>
         </div>
       </div>
       <div class="footer-links">
@@ -128,21 +115,14 @@
     </div>
     <div class="footer-bottom">
       <p>© 2026 PARCHE IBARNA — Todos los derechos reservados</p>
-      <p>Hecho con ♥ en Bogotá</p>
+      <p>Inspirado en Barcelona ❤️ Poblado Campestre</p>
     </div>
   </div>
 </footer>
 
-<!-- ============================================
-   WHATSAPP FLOAT
-============================================ -->
-<a href="https://wa.me/573160000000?text=Hola!%20Quiero%20reservar%20en%20Parche%20Ibarna" class="whatsapp-float" target="_blank" rel="noopener">
-  <i class="fab fa-whatsapp"></i>
-  <span>Reservar</span>
-</a>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/global.js"></script>
+<script src="js/menu-data.js"></script>
 <script src="js/menu.js"></script>
 </body>
 </html>

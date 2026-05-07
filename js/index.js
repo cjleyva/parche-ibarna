@@ -1,90 +1,12 @@
 // ============================================
 // PARCHE IBARNA - Index Page JavaScript
+// CARRUSEL CON 6 SLIDES E IMÁGENES LOCALES
 // ============================================
 
 (function() {
     'use strict';
-
-    // ========== ANIMATE STATS COUNTERS ==========
-    const statNumbers = document.querySelectorAll('.stat-number');
-    
-    function animateStats() {
-        statNumbers.forEach(stat => {
-            const target = parseInt(stat.dataset.target);
-            const suffix = stat.dataset.suffix || '';
-            let current = 0;
-            const increment = Math.ceil(target / 40);
-            
-            const timer = setInterval(() => {
-                current += increment;
-                if (current >= target) {
-                    stat.textContent = target + suffix;
-                    clearInterval(timer);
-                } else {
-                    stat.textContent = current + suffix;
-                }
-            }, 30);
-        });
-    }
-
-    // Observer for stats section with responsive threshold
-    const statsSection = document.querySelector('.stats');
-    if (statsSection) {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    animateStats();
-                    observer.disconnect();
-                }
-            });
-        }, { threshold: 0.2 });
-        
-        observer.observe(statsSection);
-    }
 
     // ========== HERO CAROUSEL ==========
-    const slides = document.querySelectorAll('.slide');
-    let currentSlide = 0;
-    
-    function showSlide(index) {
-        slides.forEach((slide, i) => {
-            slide.classList.toggle('active', i === index);
-        });
-    }
-    
-    if (slides.length > 0) {
-        // Start with first slide active
-        showSlide(0);
-        
-        // Auto-rotate slides
-        setInterval(() => {
-            currentSlide = (currentSlide + 1) % slides.length;
-            showSlide(currentSlide);
-        }, 5000);
-    }
-
-    // ========== FEATURED COCKTAILS RESPONSIVE ==========
-    const cocktailCards = document.querySelectorAll('.cocktail-card');
-    cocktailCards.forEach(card => {
-        card.addEventListener('click', () => {
-            const link = card.querySelector('.btn-small');
-            if (link) {
-                window.location.href = link.getAttribute('href');
-            }
-        });
-    });
-
-    console.log('✨ PARCHE IBARNA | Home page initialized');
-})(); 
-
-// ============================================
-// CARRUSEL - Versión corregida (funciona en móviles)
-// ============================================
-
-(function() {
-    'use strict';
-    
-    // Elementos del carrusel
     const slides = document.querySelectorAll('.carousel-slide');
     const prevBtn = document.getElementById('carouselPrev');
     const nextBtn = document.getElementById('carouselNext');
@@ -124,7 +46,6 @@
         
         currentSlide = index;
         
-        // Pequeño delay para evitar múltiples transiciones
         setTimeout(() => {
             isTransitioning = false;
         }, 600);
@@ -160,7 +81,7 @@
     }
     
     // Eventos para botones
-    if (prevBtn) {
+    if (prevBtn && slides.length > 0) {
         prevBtn.addEventListener('click', (e) => {
             e.preventDefault();
             stopAutoSlide();
@@ -169,7 +90,7 @@
         });
     }
     
-    if (nextBtn) {
+    if (nextBtn && slides.length > 0) {
         nextBtn.addEventListener('click', (e) => {
             e.preventDefault();
             stopAutoSlide();
@@ -179,28 +100,30 @@
     }
     
     // Eventos para indicadores
-    indicators.forEach((indicator, index) => {
-        indicator.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (currentSlide === index) return;
-            stopAutoSlide();
-            showSlide(index);
-            startAutoSlide();
+    if (indicators.length > 0) {
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (currentSlide === index) return;
+                stopAutoSlide();
+                showSlide(index);
+                startAutoSlide();
+            });
         });
-    });
+    }
     
-    // Pausar al hacer hover en desktop
+    // Pausar al hacer hover
     const carouselContainer = document.querySelector('.carousel-container');
-    if (carouselContainer) {
+    if (carouselContainer && slides.length > 0) {
         carouselContainer.addEventListener('mouseenter', stopAutoSlide);
         carouselContainer.addEventListener('mouseleave', startAutoSlide);
     }
     
-    // Soporte para swipe en móviles
+    // Soporte para SWIPE en móviles
     let touchStartX = 0;
     let touchEndX = 0;
     
-    if (carouselContainer) {
+    if (carouselContainer && slides.length > 0) {
         carouselContainer.addEventListener('touchstart', (e) => {
             touchStartX = e.changedTouches[0].screenX;
             stopAutoSlide();
@@ -227,14 +150,84 @@
         startAutoSlide();
     }
     
-    // Manejar cambio de orientación en móviles
-    window.addEventListener('resize', () => {
-        // Reajustar altura si es necesario
-        const heroCarousel = document.querySelector('.hero-carousel');
-        if (heroCarousel && window.innerWidth <= 768) {
-            heroCarousel.style.height = 'auto';
-        }
+    // ========== ANIMATE STATS COUNTERS ==========
+    const statNumbers = document.querySelectorAll('.stat-number');
+    
+    function animateStats() {
+        statNumbers.forEach(stat => {
+            const target = parseInt(stat.dataset.target);
+            const suffix = stat.dataset.suffix || '';
+            let current = 0;
+            const increment = Math.ceil(target / 40);
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    stat.textContent = target + suffix;
+                    clearInterval(timer);
+                } else {
+                    stat.textContent = current + suffix;
+                }
+            }, 30);
+        });
+    }
+
+    const statsSection = document.querySelector('.stats');
+    if (statsSection) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateStats();
+                    observer.disconnect();
+                }
+            });
+        }, { threshold: 0.2 });
+        
+        observer.observe(statsSection);
+    }
+    
+    // ========== REVEAL ANIMATION ==========
+    const revealElements = document.querySelectorAll('.reveal');
+    
+    if (revealElements.length > 0) {
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        revealElements.forEach(el => revealObserver.observe(el));
+    }
+    
+    // ========== CARDS CLICK ==========
+    const cocktailCards = document.querySelectorAll('.cocktail-card');
+    cocktailCards.forEach(card => {
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', (e) => {
+            if (e.target.classList.contains('btn-small') || e.target.closest('.btn-small')) {
+                return;
+            }
+            const link = card.querySelector('.btn-small');
+            if (link) {
+                window.location.href = link.getAttribute('href');
+            }
+        });
     });
     
-    console.log('✨ Carrusel inicializado correctamente');
+    // ========== HEADER SCROLL ==========
+    const header = document.querySelector('.header');
+    if (header) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    }
+    
+    console.log('✨ PARCHE IBARNA | Carrusel con 6 slides inicializado');
 })();

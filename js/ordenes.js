@@ -1,12 +1,10 @@
 // ============================================
 // PARCHE IBARNA - Órdenes JavaScript
-// Página: ordenes.html
 // ============================================
 
 (function() {
     let currentCart = [];
 
-    // Esperar a que el DOM esté listo
     document.addEventListener('DOMContentLoaded', function() {
         loadCart();
         initEventListeners();
@@ -16,6 +14,7 @@
         currentCart = JSON.parse(localStorage.getItem('parcheCart') || '[]');
         renderCart();
         updateSummary();
+        updateCounters();
         checkEmptyState();
     }
 
@@ -30,8 +29,7 @@
 
     function updateCartBadge() {
         const totalItems = currentCart.reduce((sum, item) => sum + item.quantity, 0);
-        const badges = document.querySelectorAll('#cartBadge');
-        badges.forEach(badge => {
+        document.querySelectorAll('#cartBadge').forEach(badge => {
             if (badge) {
                 if (totalItems > 0) {
                     badge.textContent = totalItems;
@@ -41,9 +39,6 @@
                 }
             }
         });
-        
-        // Disparar evento storage para actualizar otras pestañas
-        window.dispatchEvent(new Event('storage'));
     }
 
     function renderCart() {
@@ -64,10 +59,15 @@
         container.innerHTML = currentCart.map(item => `
             <div class="cart-item" data-id="${item.id}">
                 <div class="cart-item-image">
-                    <img src="${item.image || 'https://placehold.co/200/1a1a2e/00ffff?text=' + encodeURIComponent(item.name)}" alt="${item.name}">
+                    <img src="${item.image || 'https://placehold.co/200/1a1a2e/00ffff?text=' + encodeURIComponent(item.name)}" alt="${escapeHtml(item.name)}">
                 </div>
                 <div class="cart-item-details">
-                    <div class="cart-item-name">${escapeHtml(item.name)}</div>
+                    <div class="cart-item-name">
+                        ${escapeHtml(item.name)}
+                        <span class="alcohol-tag ${item.alcohol ? '' : 'no-alcohol'}">
+                            ${item.alcohol ? '🍸 Con Alcohol' : '🥤 Sin Alcohol'}
+                        </span>
+                    </div>
                     <div class="cart-item-price">${formatPrice(item.price)} c/u</div>
                     <div class="cart-item-controls">
                         <div class="quantity-control">
@@ -77,31 +77,27 @@
                         </div>
                         <div class="cart-item-subtotal">${formatPrice(item.price * item.quantity)}</div>
                         <button class="btn-remove-item" data-id="${item.id}">
-                            <i class="fas fa-trash-alt"></i>
+                            <i class="fas fa-trash-alt"></i> Eliminar
                         </button>
                     </div>
                 </div>
             </div>
         `).join('');
 
-        // Bind events después de renderizar
         bindCartItemEvents();
     }
 
     function bindCartItemEvents() {
-        // Botones de disminuir cantidad
         document.querySelectorAll('.qty-decrease').forEach(btn => {
             btn.removeEventListener('click', handleDecrease);
             btn.addEventListener('click', handleDecrease);
         });
 
-        // Botones de aumentar cantidad
         document.querySelectorAll('.qty-increase').forEach(btn => {
             btn.removeEventListener('click', handleIncrease);
             btn.addEventListener('click', handleIncrease);
         });
 
-        // Botones de eliminar item
         document.querySelectorAll('.btn-remove-item').forEach(btn => {
             btn.removeEventListener('click', handleRemove);
             btn.addEventListener('click', handleRemove);
@@ -116,6 +112,7 @@
             saveCart();
             renderCart();
             updateSummary();
+            updateCounters();
         } else if (item && item.quantity === 1) {
             removeItem(id);
         }
@@ -129,6 +126,7 @@
             saveCart();
             renderCart();
             updateSummary();
+            updateCounters();
         }
     }
 
@@ -142,6 +140,7 @@
         saveCart();
         renderCart();
         updateSummary();
+        updateCounters();
         checkEmptyState();
         showNotification('Producto eliminado');
     }
@@ -152,6 +151,7 @@
             saveCart();
             renderCart();
             updateSummary();
+            updateCounters();
             checkEmptyState();
             showNotification('Pedido vaciado');
         }
@@ -162,13 +162,16 @@
         const iva = subtotal * 0.19;
         const total = subtotal + iva;
 
-        const subtotalEl = document.getElementById('summarySubtotal');
-        const ivaEl = document.getElementById('summaryIva');
-        const totalEl = document.getElementById('summaryTotal');
+        document.getElementById('summarySubtotal').textContent = formatPrice(subtotal);
+        document.getElementById('summaryIva').textContent = formatPrice(iva);
+        document.getElementById('summaryTotal').textContent = formatPrice(total);
+    }
 
-        if (subtotalEl) subtotalEl.textContent = formatPrice(subtotal);
-        if (ivaEl) ivaEl.textContent = formatPrice(iva);
-        if (totalEl) totalEl.textContent = formatPrice(total);
+    function updateCounters() {
+        const productCount = currentCart.length;
+        const itemCount = currentCart.reduce((sum, item) => sum + item.quantity, 0);
+        document.getElementById('productCount').textContent = productCount;
+        document.getElementById('itemCount').textContent = itemCount;
     }
 
     function checkEmptyState() {
@@ -214,9 +217,7 @@
         mensaje += "✨ *¡Gracias por tu preferencia!* ✨";
         
         const numeroWhatsApp = "573160000000";
-        const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
-        
-        window.open(url, '_blank');
+        window.open(`https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`, '_blank');
         showNotification('Redirigiendo a WhatsApp...');
     }
 
@@ -239,23 +240,10 @@
     }
 
     function initEventListeners() {
-        const clearAllBtn = document.getElementById('clearAllBtn');
-        const confirmOrderBtn = document.getElementById('confirmOrderBtn');
-        const continueShoppingBtn = document.getElementById('continueShoppingBtn');
-        
-        if (clearAllBtn) {
-            clearAllBtn.addEventListener('click', clearAllItems);
-        }
-        
-        if (confirmOrderBtn) {
-            confirmOrderBtn.addEventListener('click', confirmOrder);
-        }
-        
-        if (continueShoppingBtn) {
-            continueShoppingBtn.addEventListener('click', () => {
-                window.location.href = 'menu.html';
-            });
-        }
+        document.getElementById('clearAllBtn')?.addEventListener('click', clearAllItems);
+        document.getElementById('confirmOrderBtn')?.addEventListener('click', confirmOrder);
+        document.getElementById('continueShoppingBtn')?.addEventListener('click', () => {
+            window.location.href = 'menu.html';
+        });
     }
-
 })();

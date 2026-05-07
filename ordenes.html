@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Mi Pedido | PARCHE IBARNA</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/ordenes.css">
+</head>
+<body>
+
+<header class="header">
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo">PARCHE <span>IBARNA</span></a>
+      <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="menu.html">Carta</a></li>
+        <li><a href="galeria.html">Galería</a></li>
+        <li><a href="nosotros.html">Nosotros</a></li>
+        <li><a href="promociones.html">Promos</a></li>
+        <li><a href="ordenes.html" class="active">Mi Pedido</a></li>
+      </ul>
+      <div class="header-buttons">
+        <a href="menu.html" class="btn-orders">
+          <i class="fas fa-arrow-left"></i>
+          <span>Seguir Comprando</span>
+        </a>
+        <!-- Botón Pedir por WhatsApp con los mismos estilos que tenía en menu -->
+        <a href="https://wa.me/573160000000?text=Hola!%20Quiero%20hacer%20un%20pedido%20en%20Parche%20Ibarna" class="btn-order-whatsapp" target="_blank">
+          <i class="fab fa-whatsapp"></i>
+          <span>Pedir por WhatsApp</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<section class="orders-hero">
+  <div class="container">
+    <h1>Mi <span>Pedido</span></h1>
+    <p>Revisa tus productos antes de confirmar</p>
+  </div>
+</section>
+
+<section class="orders-section">
+  <div class="container">
+    <div class="orders-grid">
+      <!-- Lista de productos -->
+      <div class="orders-list">
+        <div class="orders-header">
+          <h3><i class="fas fa-shopping-bag"></i> Productos Seleccionados</h3>
+          <button class="btn-clear-all" id="clearAllBtn"><i class="fas fa-trash-alt"></i> Vaciar todo</button>
+        </div>
+        
+        <div id="cartItemsContainer" class="cart-items-container">
+          <!-- Los items se cargarán dinámicamente -->
+        </div>
+      </div>
+
+      <!-- Resumen del pedido -->
+      <div class="orders-summary">
+        <div class="summary-header">
+          <h3>
+            <i class="fas fa-receipt"></i>
+            Resumen del Pedido
+          </h3>
+          <p>Revisa los detalles antes de confirmar</p>
+        </div>
+        
+        <div class="summary-body">
+          <div class="summary-items">
+            <div class="summary-item-line">
+              <span class="label"><i class="fas fa-box"></i> Productos</span>
+              <span class="value" id="productCount">0</span>
+            </div>
+            <div class="summary-item-line">
+              <span class="label"><i class="fas fa-tag"></i> Items</span>
+              <span class="value" id="itemCount">0</span>
+            </div>
+          </div>
+
+          <div class="summary-divider"></div>
+
+          <div class="summary-totals">
+            <div class="total-row subtotal">
+              <span>Subtotal</span>
+              <span id="summarySubtotal">$0</span>
+            </div>
+            <div class="total-row iva">
+              <span>IVA (19%)</span>
+              <span id="summaryIva">$0</span>
+            </div>
+            <div class="total-row grand-total">
+              <span>Total a pagar</span>
+              <span id="summaryTotal">$0</span>
+            </div>
+          </div>
+
+          <div class="order-actions">
+            <button class="btn-continue" id="continueShoppingBtn">
+              <i class="fas fa-arrow-left"></i> Seguir comprando
+            </button>
+            <button class="btn-confirm" id="confirmOrderBtn">
+              <i class="fab fa-whatsapp"></i> Confirmar Pedido
+            </button>
+          </div>
+
+          <div class="benefits-card">
+            <div class="benefit-item">
+              <i class="fas fa-check-circle"></i>
+              <span>Servicio con amor</span>
+            </div>
+            <div class="benefit-item">
+              <i class="fas fa-clock"></i>
+              <span>Tiempo de preparación: 10-15 min</span>
+            </div>
+            <div class="benefit-item">
+              <i class="fas fa-music"></i>
+              <span>Ambiente único en Poblado Campestre</span>
+            </div>
+          </div>
+
+          <div class="info-note">
+            <i class="fas fa-info-circle"></i>
+            <p>Al confirmar, serás redirigido a WhatsApp para completar tu pedido. Nuestro equipo te atenderá de inmediato.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Estado vacío -->
+    <div id="emptyCartState" class="empty-cart-state" style="display: none;">
+      <i class="fas fa-shopping-bag"></i>
+      <h3>Tu pedido está vacío</h3>
+      <p>Agrega tus bebidas favoritas desde la carta</p>
+      <a href="menu.html" class="btn-order-now">Ver Carta <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <a href="index.html" class="footer-logo">PARCHE<span> IBARNA</span></a>
+        <p>Inspiración europea, alma colombiana. Coctelería de autor en Poblado Campestre.</p>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-tiktok"></i></a>
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <h4>Navegación</h4>
+        <a href="index.html">Inicio</a>
+        <a href="menu.html">Carta</a>
+        <a href="galeria.html">Galería</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="promociones.html">Promos</a>
+        <a href="ordenes.html">Mi Pedido</a>
+      </div>
+      <div class="footer-links">
+        <h4>Cocteles</h4>
+        <a href="menu.html#clasicos">Clásicos</a>
+        <a href="menu.html#signature">Signature</a>
+        <a href="menu.html#tropicales">Tropicales</a>
+        <a href="menu.html#cervezas">Cervezas</a>
+      </div>
+      <div class="footer-hours">
+        <h4>Horarios</h4>
+        <p>Mié – Jue: 6pm – 1am</p>
+        <p>Vie – Sáb: 6pm – 3am</p>
+        <p>Dom: 4pm – 11pm</p>
+        <p class="closed">Lun – Mar: Cerrado</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+     <p>© 2026 PARCHE IBARNA — Todos los derechos reservados</p>
+     <p>Inspirado en Barcelona ❤️ Poblado Campestre</p>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/global.js"></script>
+<script src="js/ordenes.js"></script>
+</body>
+</html>

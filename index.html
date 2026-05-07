@@ -35,69 +35,104 @@
         <li><a href="promociones.html">Promos</a></li>
         <li><a href="contacto.html">Contacto</a></li>
       </ul>
-      <a href="contacto.html" class="btn-reserve">Reservar Mesa</a>
+      <div class="header-buttons">
+        <a href="ordenes.html" class="btn-orders">
+          <i class="fas fa-shopping-bag"></i>
+          <span>Mi Pedido</span>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </a>
+      </div>
     </div>
   </nav>
 </header>
 
 <!-- ============================================
-   HERO CAROUSEL - FULLY RESPONSIVE
+   HERO CAROUSEL - CON IMÁGENES DE TUS PRODUCTOS
+   ALTURA REDUCIDA
 ============================================ -->
 <section class="hero-carousel">
   <div class="carousel-container">
     <div class="carousel-slides" id="carouselSlides">
-      <!-- Slide 1 -->
+      <!-- Slide 1 - Kalimotxo / Barcelona -->
       <div class="carousel-slide active">
-        <div class="slide-bg" style="background-image: url('https://images.pexels.com/photos/1282423/pexels-photo-1282423.jpeg?auto=compress&cs=tinysrgb&w=1200')"></div>
+        <div class="slide-bg" style="background-image: url('imagenes/barcelona.jpeg');"></div>
         <div class="slide-overlay"></div>
         <div class="slide-content">
           <span class="slide-badge">✦ Coctelería de Autor ✦</span>
-          <h1>COCTELERÍA<br>DE ÉLITE</h1>
-          <p>Mixología de vanguardia, ingredientes premium y atmósfera única en Chapinero.</p>
+          <h1>KALIMOTXO<br>EL ORIGINAL</h1>
+          <p>Vino tinto con Coca-Cola, refrescante y auténtico. La fusión perfecta entre España y el Valle.</p>
           <div class="slide-buttons">
             <a href="menu.html" class="btn-primary">Explorar Carta</a>
             <a href="contacto.html" class="btn-outline">Reservar Mesa</a>
           </div>
         </div>
       </div>
-      <!-- Slide 2 -->
+      <!-- Slide 2 - Tinto de Verano -->
       <div class="carousel-slide">
-        <div class="slide-bg" style="background-image: url('https://images.pexels.com/photos/260922/pexels-photo-260922.jpeg?auto=compress&cs=tinysrgb&w=1200')"></div>
+        <div class="slide-bg" style="background-image: url('imagenes/tinto_verano.jpeg');"></div>
         <div class="slide-overlay"></div>
         <div class="slide-content">
-          <span class="slide-badge">✦ Noches Únicas ✦</span>
-          <h1>AMBIENTE<br>EUROPEO</h1>
-          <p>La energía de los mejores clubes de Europa en el corazón de Bogotá.</p>
-          <div class="slide-buttons">
-            <a href="nosotros.html" class="btn-primary">Conócenos</a>
-            <a href="galeria.html" class="btn-outline">Ver Galería</a>
-          </div>
-        </div>
-      </div>
-      <!-- Slide 3 -->
-      <div class="carousel-slide">
-        <div class="slide-bg" style="background-image: url('https://images.pexels.com/photos/3186654/pexels-photo-3186654.jpeg?auto=compress&cs=tinysrgb&w=1200')"></div>
-        <div class="slide-overlay"></div>
-        <div class="slide-content">
-          <span class="slide-badge">✦ Sabores Únicos ✦</span>
-          <h1>SIGNATURE<br>COCKTAILS</h1>
-          <p>Creaciones exclusivas con ingredientes locales y técnica internacional.</p>
+          <span class="slide-badge">✦ Refrescante ✦</span>
+          <h1>TINTO DE<br>VERANO</h1>
+          <p>Vino tinto con Sprite, servido con abundante hielo. Refrescante y tradicional.</p>
           <div class="slide-buttons">
             <a href="menu.html" class="btn-primary">Ver Carta</a>
-            <a href="promociones.html" class="btn-outline">Promociones</a>
+            <a href="contacto.html" class="btn-outline">Reservar</a>
           </div>
         </div>
       </div>
-      <!-- Slide 4 - Sin Alcohol -->
+      <!-- Slide 3 - Havana Sunrise / Alma Caribe -->
       <div class="carousel-slide">
-        <div class="slide-bg" style="background-image: url('https://images.pexels.com/photos/3679459/pexels-photo-3679459.jpeg?auto=compress&cs=tinysrgb&w=1200')"></div>
+        <div class="slide-bg" style="background-image: url('imagenes/alma_caribe.jpeg');"></div>
         <div class="slide-overlay"></div>
         <div class="slide-content">
-          <span class="slide-badge">✦ Para Todos ✦</span>
-          <h1>SIN ALCOHOL<br>TAMBIÉN</h1>
-          <p>Cocteles sofisticados sin alcohol para disfrutar sin límites.</p>
+          <span class="slide-badge">✦ Sabor Caribe ✦</span>
+          <h1>HAVANA<br>SUNRISE</h1>
+          <p>Ron Havana Club 3 Años, jugo de naranja, toronja y granadina. El amanecer en tu copa.</p>
           <div class="slide-buttons">
-            <a href="menu.html#sin-alcohol" class="btn-primary">Descubrir</a>
+            <a href="menu.html" class="btn-primary">Explorar</a>
+            <a href="contacto.html" class="btn-outline">Reservar</a>
+          </div>
+        </div>
+      </div>
+      <!-- Slide 4 - Cubata / Clásico Sello -->
+      <div class="carousel-slide">
+        <div class="slide-bg" style="background-image: url('imagenes/clasico_sello.jpeg');"></div>
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+          <span class="slide-badge">✦ Clásico ✦</span>
+          <h1>CUBATA<br>TRADICIONAL</h1>
+          <p>Ron Viejo de Caldas, Coca-Cola y un toque esencial de limón. El sabor de siempre.</p>
+          <div class="slide-buttons">
+            <a href="menu.html" class="btn-primary">Ver Carta</a>
+            <a href="contacto.html" class="btn-outline">Reservar</a>
+          </div>
+        </div>
+      </div>
+      <!-- Slide 5 - Margarita Frozen -->
+      <div class="carousel-slide">
+        <div class="slide-bg" style="background-image: url('imagenes/margarita_froze.jpeg');"></div>
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+          <span class="slide-badge">✦ Frozen ✦</span>
+          <h1>MARGARITA<br>FROZEN</h1>
+          <p>Tequila Jose Cuervo, granizado de fresa y gomitas enchiladas. La frescura que necesitas.</p>
+          <div class="slide-buttons">
+            <a href="menu.html" class="btn-primary">Explorar</a>
+            <a href="contacto.html" class="btn-outline">Reservar</a>
+          </div>
+        </div>
+      </div>
+      <!-- Slide 6 - Coronarita de Fresa -->
+      <div class="carousel-slide">
+        <div class="slide-bg" style="background-image: url('imagenes/coronarita.jpeg');"></div>
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+          <span class="slide-badge">✦ Especial ✦</span>
+          <h1>CORONARITA<br>DE FRESA</h1>
+          <p>Margarita Frozen de fresa con una Coronita al revés. Dos en una.</p>
+          <div class="slide-buttons">
+            <a href="menu.html" class="btn-primary">Ver Carta</a>
             <a href="contacto.html" class="btn-outline">Reservar</a>
           </div>
         </div>
@@ -115,6 +150,8 @@
     <!-- Indicadores -->
     <div class="carousel-indicators" id="carouselIndicators">
       <button class="indicator active"></button>
+      <button class="indicator"></button>
+      <button class="indicator"></button>
       <button class="indicator"></button>
       <button class="indicator"></button>
       <button class="indicator"></button>
@@ -179,42 +216,42 @@
     <div class="cocktails-grid">
       <div class="cocktail-card reveal">
         <div class="cocktail-image">
-          <img src="https://images.pexels.com/photos/3186654/pexels-photo-3186654.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Ibarna Sour">
+          <img src="imagenes/barcelona.jpeg" alt="Kalimotxo" onerror="this.src='https://placehold.co/600x400/1a1a2e/00ffff?text=Kalimotxo'">
+        </div>
+        <div class="cocktail-info">
+          <span class="cocktail-badge">✦ Clásico</span>
+          <h3>Kalimotxo</h3>
+          <p>Vino tinto con Coca-Cola, refrescante y auténtico</p>
+          <div class="cocktail-footer">
+            <span class="price">$22.000</span>
+            <a href="menu.html" class="btn-small">Ver más</a>
+          </div>
+        </div>
+      </div>
+      <div class="cocktail-card reveal">
+        <div class="cocktail-image">
+          <img src="imagenes/coronarita.jpeg" alt="Coronarita" onerror="this.src='https://placehold.co/600x400/1a1a2e/00ffff?text=Coronarita'">
+        </div>
+        <div class="cocktail-info">
+          <span class="cocktail-badge">✦ Especial</span>
+          <h3>Coronarita de Fresa</h3>
+          <p>Margarita Frozen de fresa con una Coronita al revés</p>
+          <div class="cocktail-footer">
+            <span class="price">$21.000</span>
+            <a href="menu.html" class="btn-small">Ver más</a>
+          </div>
+        </div>
+      </div>
+      <div class="cocktail-card reveal">
+        <div class="cocktail-image">
+          <img src="imagenes/alma_caribe.jpeg" alt="Havana Sunrise" onerror="this.src='https://placehold.co/600x400/1a1a2e/00ffff?text=Havana+Sunrise'">
         </div>
         <div class="cocktail-info">
           <span class="cocktail-badge">✦ Signature</span>
-          <h3>Ibarna Sour</h3>
-          <p>Ron añejo, maracuyá, albahaca, espuma de clara y bitter</p>
+          <h3>Havana Sunrise</h3>
+          <p>Ron Havana Club, jugo de naranja, toronja y granadina</p>
           <div class="cocktail-footer">
-            <span class="price">$28.000</span>
-            <a href="menu.html" class="btn-small">Ver más</a>
-          </div>
-        </div>
-      </div>
-      <div class="cocktail-card reveal">
-        <div class="cocktail-image">
-          <img src="https://images.pexels.com/photos/3679150/pexels-photo-3679150.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Neon Wave">
-        </div>
-        <div class="cocktail-info">
-          <span class="cocktail-badge">✦ Premium</span>
-          <h3>Neon Wave</h3>
-          <p>Vodka, licor de melocotón, lima y butterfly pea flower</p>
-          <div class="cocktail-footer">
-            <span class="price">$32.000</span>
-            <a href="menu.html" class="btn-small">Ver más</a>
-          </div>
-        </div>
-      </div>
-      <div class="cocktail-card reveal">
-        <div class="cocktail-image">
-          <img src="https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Virgin Mojito">
-        </div>
-        <div class="cocktail-info">
-          <span class="cocktail-badge">✦ Sin Alcohol</span>
-          <h3>Virgin Mojito</h3>
-          <p>Menta fresca, lima, azúcar de caña y soda</p>
-          <div class="cocktail-footer">
-            <span class="price">$14.000</span>
+            <span class="price">$20.000</span>
             <a href="menu.html" class="btn-small">Ver más</a>
           </div>
         </div>
@@ -277,10 +314,10 @@
         <a href="index.html" class="footer-logo">PARCHE<span> IBARNA</span></a>
         <p>Coctelería de élite en el corazón de Chapinero</p>
         <div class="social-links">
-          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-          <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-          <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-tiktok"></i></a>
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-whatsapp"></i></a>
         </div>
       </div>
       <div class="footer-links">
@@ -308,21 +345,12 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2024 PARCHE IBARNA — Todos los derechos reservados</p>
-      <p>Hecho con ♥ en Bogotá</p>
+      <p>© 2026 PARCHE IBARNA — Todos los derechos reservados</p>
+      <p>Inspirado en Barcelona ❤️ Poblado Campestre</p>
     </div>
   </div>
 </footer>
 
-<!-- ============================================
-   WHATSAPP FLOAT
-============================================ -->
-<a href="https://wa.me/573204901827?text=Hola!%20Quiero%20reservar%20en%20Parche%20Ibarna" class="whatsapp-float" target="_blank" rel="noopener">
-  <i class="fab fa-whatsapp"></i>
-  <span>Reservar</span>
-</a>
-
-<!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/global.js"></script>
 <script src="js/index.js"></script>
