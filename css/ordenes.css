@@ -1,12 +1,51 @@
 /* ============================================
    PARCHE IBARNA - Órdenes Page Styles
+   Con carrusel de fondo del mismo tamaño original
 ============================================ */
 
+/* HERO CON CARRUSEL DE FONDO - MISMO TAMAÑO QUE ANTES */
 .orders-hero {
+    position: relative;
     padding: 120px 0 40px;
     text-align: center;
-    background: linear-gradient(135deg, var(--bg-dark), var(--bg-dark-2));
-    border-bottom: 1px solid var(--border-light);
+    overflow: hidden;
+}
+
+.hero-carousel-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.hero-swiper {
+    width: 100%;
+    height: 100%;
+}
+
+.hero-slide-bg {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(10, 10, 15, 0.85), rgba(0, 20, 40, 0.8));
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
 }
 
 .orders-hero h1 {
@@ -26,6 +65,16 @@
     font-size: 0.9rem;
 }
 
+/* Responsive hero - mismo tamaño que antes */
+@media (max-width: 768px) {
+    .orders-hero {
+        padding: 100px 0 30px;
+    }
+}
+
+/* ============================================
+   SECCIÓN DE ÓRDENES
+============================================ */
 .orders-section {
     padding: 50px 0 80px;
 }
@@ -224,6 +273,9 @@
     color: white;
 }
 
+/* ============================================
+   RESUMEN DEL PEDIDO - SIN IVA
+============================================ */
 .orders-summary {
     background: linear-gradient(135deg, rgba(18, 18, 30, 0.95), rgba(25, 25, 40, 0.95));
     backdrop-filter: blur(20px);
@@ -309,14 +361,12 @@
     padding: 0.4rem 0;
 }
 
-.total-row.subtotal span:first-child,
-.total-row.iva span:first-child {
+.total-row.subtotal span:first-child {
     color: var(--text-gray);
     font-size: 0.8rem;
 }
 
-.total-row.subtotal span:last-child,
-.total-row.iva span:last-child {
+.total-row.subtotal span:last-child {
     color: var(--text-white);
     font-weight: 600;
     font-size: 0.85rem;
@@ -447,6 +497,9 @@
     color: var(--text-dim);
 }
 
+/* ============================================
+   ESTADO VACÍO
+============================================ */
 .empty-cart-state {
     text-align: center;
     padding: 3rem 2rem;
@@ -531,6 +584,9 @@
     color: var(--primary);
 }
 
+/* ============================================
+   RESPONSIVE
+============================================ */
 @media (max-width: 992px) {
     .orders-grid {
         grid-template-columns: 1fr;
@@ -542,12 +598,40 @@
 }
 
 @media (max-width: 768px) {
-    .orders-hero { padding: 100px 0 30px; }
-    .cart-item { flex-direction: column; }
-    .cart-item-image { width: 100%; height: 140px; }
-    .cart-item-image img { object-fit: contain; }
-    .cart-item-controls { flex-direction: column; align-items: stretch; }
-    .quantity-control { justify-content: center; }
-    .cart-item-subtotal { text-align: center; }
-    .btn-remove-item { justify-content: center; }
+    .orders-section {
+        padding: 30px 0 60px;
+    }
+    .cart-item {
+        flex-direction: column;
+    }
+    .cart-item-image {
+        width: 100%;
+        height: 140px;
+    }
+    .cart-item-image img {
+        object-fit: contain;
+    }
+    .cart-item-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .quantity-control {
+        justify-content: center;
+    }
+    .cart-item-subtotal {
+        text-align: center;
+    }
+    .btn-remove-item {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .summary-header h3 {
+        font-size: 1rem;
+    }
+    
+    .total-row.grand-total span:last-child {
+        font-size: 1rem;
+    }
 }

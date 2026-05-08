@@ -2,14 +2,14 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="description" content="Contacto y reservas en PARCHE IBARNA | Reserva tu mesa para cocteles en Bogotá.">
   <title>Contacto | PARCHE IBARNA - Coctelería de Élite</title>
   
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <link rel="stylesheet" href="css/global.css">
   <link rel="stylesheet" href="css/contacto.css">
 </head>
@@ -28,14 +28,29 @@
         <li><a href="promociones.html">Promos</a></li>
         <li><a href="contacto.html" class="active">Contacto</a></li>
       </ul>
-      <a href="contacto.html" class="btn-reserve">Reservar Mesa</a>
+      <div class="header-buttons">
+        <a href="ordenes.html" class="btn-orders">
+          <i class="fas fa-shopping-bag"></i>
+          <span>Mi Pedido</span>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </a>
+      </div>
     </div>
   </nav>
 </header>
 
 <main>
+  <!-- Hero con carrusel de fondo -->
   <section class="contacto-hero">
-    <div class="container">
+    <div class="hero-carousel-bg">
+      <div class="swiper hero-swiper">
+        <div class="swiper-wrapper" id="heroCarouselWrapper">
+          <!-- Las imágenes se cargarán desde JS -->
+        </div>
+      </div>
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
       <h1>Reserva tu <span>mesa</span></h1>
       <p>Vive la experiencia PARCHE IBARNA</p>
     </div>
@@ -54,6 +69,7 @@
             <i class="fas fa-clock"></i>
             <h3>Horarios</h3>
             <p>Mié – Jue: 6pm – 1am<br>Vie – Sáb: 6pm – 3am<br>Dom: 4pm – 11pm</p>
+            <p class="closed">Lun – Mar: Cerrado</p>
           </div>
           <div class="info-card">
             <i class="fas fa-phone"></i>
@@ -71,19 +87,26 @@
           <h2>Solicita tu reserva</h2>
           <form id="reservaForm">
             <div class="form-row">
-              <input type="text" placeholder="Nombre completo" required>
-              <input type="tel" placeholder="Teléfono">
+              <input type="text" id="nombre" placeholder="Nombre completo" required>
+              <input type="tel" id="telefono" placeholder="Teléfono">
             </div>
-            <input type="email" placeholder="Email" required>
-            <select>
-              <option>Tipo de reserva</option>
-              <option>Mesa Regular</option>
-              <option>Mesa VIP</option>
-              <option>Evento Privado</option>
-              <option>Cumpleaños</option>
+            <div class="form-row">
+              <input type="email" id="email" placeholder="Email" required>
+              <input type="number" id="personas" placeholder="Número de personas" min="1" max="20" required>
+            </div>
+            <div class="form-row">
+              <input type="date" id="fecha" required>
+              <input type="time" id="hora" required>
+            </div>
+            <select id="tipoReserva" required>
+              <option value="">Tipo de reserva</option>
+              <option value="Mesa Regular">Mesa Regular</option>
+              <option value="Mesa VIP">Mesa VIP</option>
+              <option value="Evento Privado">Evento Privado</option>
+              <option value="Cumpleaños">Cumpleaños</option>
             </select>
-            <textarea rows="4" placeholder="Número de personas, fecha, ocasión especial..."></textarea>
-            <button type="submit" class="btn-primary btn-full">Enviar Reserva</button>
+            <textarea id="detalles" rows="4" placeholder="Ocasión especial, solicitudes adicionales..."></textarea>
+            <button type="submit" class="btn-primary btn-full">Enviar Reserva por WhatsApp</button>
             <div id="form-message"></div>
           </form>
         </div>
@@ -97,7 +120,13 @@
     <div class="footer-content">
       <div class="footer-brand">
         <a href="index.html" class="footer-logo">PARCHE<span> IBARNA</span></a>
-        <p>Coctelería de élite en el corazón de Chapinero</p>
+        <p>Inspiración europea, alma colombiana. Coctelería de autor en Poblado Campestre.</p>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-tiktok"></i></a>
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-whatsapp"></i></a>
+        </div>
       </div>
       <div class="footer-links">
         <h4>Navegación</h4>
@@ -108,16 +137,32 @@
         <a href="promociones.html">Promos</a>
         <a href="contacto.html">Contacto</a>
       </div>
+      <div class="footer-links">
+        <h4>Cocteles</h4>
+        <a href="menu.html#clasicos">Clásicos</a>
+        <a href="menu.html#signature">Signature</a>
+        <a href="menu.html#cervezas">Cervezas</a>
+        <a href="menu.html#sin-alcohol">Sin Alcohol</a>
+      </div>
+      <div class="footer-hours">
+        <h4>Horarios</h4>
+        <p>Mié – Jue: 6pm – 1am</p>
+        <p>Vie – Sáb: 6pm – 3am</p>
+        <p>Dom: 4pm – 11pm</p>
+        <p class="closed">Lun – Mar: Cerrado</p>
+      </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2024 PARCHE IBARNA — Todos los derechos reservados</p>
+      <p>© 2026 PARCHE IBARNA — Todos los derechos reservados</p>
+      <p>Inspirado en Barcelona ❤️ Poblado Campestre</p>
     </div>
   </div>
 </footer>
 
-<a href="https://wa.me/573160000000" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i><span>Reservar</span></a>
+<a href="https://wa.me/573204901827" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i><span>Reservar</span></a>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="js/global.js"></script>
 <script src="js/contacto.js"></script>
 </body>

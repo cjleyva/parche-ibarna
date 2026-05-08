@@ -2,13 +2,14 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="description" content="Galería de cocteles PARCHE IBARNA | Imágenes de nuestras creaciones y ambiente.">
   <title>Galería | PARCHE IBARNA - Coctelería de Élite</title>
   
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   
   <link rel="stylesheet" href="css/global.css">
   <link rel="stylesheet" href="css/galeria.css">
@@ -28,12 +29,19 @@
         <li><a href="promociones.html">Promos</a></li>
         <li><a href="contacto.html">Contacto</a></li>
       </ul>
-      <a href="contacto.html" class="btn-reserve">Reservar Mesa</a>
+      <div class="header-buttons">
+        <a href="ordenes.html" class="btn-orders">
+          <i class="fas fa-shopping-bag"></i>
+          <span>Mi Pedido</span>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </a>
+      </div>
     </div>
   </nav>
 </header>
 
 <main>
+  <!-- Hero Section -->
   <section class="galeria-hero">
     <div class="container">
       <h1>Nuestra <span>Galería</span></h1>
@@ -41,14 +49,32 @@
     </div>
   </section>
 
+  <!-- Carrusel Superior - 12 imágenes destacadas -->
+  <section class="galeria-carousel">
+    <div class="container">
+      <h2 class="carousel-title">✨ Nuestros <span>Cocteles Destacados</span> ✨</h2>
+      <div class="swiper galeria-swiper">
+        <div class="swiper-wrapper" id="carousel-wrapper">
+          <!-- Las imágenes se cargarán dinámicamente desde JS -->
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filtros y Galería Completa -->
   <section class="galeria-section">
     <div class="container">
       <div class="galeria-filters">
         <button class="filter-btn active" data-filter="all">Todos</button>
-        <button class="filter-btn" data-filter="cocktail">Cocteles</button>
+        <button class="filter-btn" data-filter="clasicos">Clásicos</button>
+        <button class="filter-btn" data-filter="signature">Signature</button>
+        <button class="filter-btn" data-filter="cervezas">Cervezas</button>
+        <button class="filter-btn" data-filter="tragos">Tragos</button>
+        <button class="filter-btn" data-filter="sodas">Sodas</button>
         <button class="filter-btn" data-filter="sin-alcohol">Sin Alcohol</button>
-        <button class="filter-btn" data-filter="ambiente">Ambiente</button>
-        <button class="filter-btn" data-filter="mixologia">Mixología</button>
       </div>
       <div id="galeria-grid" class="galeria-grid"></div>
     </div>
@@ -60,7 +86,7 @@
     <div class="footer-content">
       <div class="footer-brand">
         <a href="index.html" class="footer-logo">PARCHE<span> IBARNA</span></a>
-        <p>Coctelería de élite en el corazón de Chapinero</p>
+        <p>Inspiración europea, alma colombiana. Coctelería de autor en Poblado Campestre.</p>
         <div class="social-links">
           <a href="#"><i class="fab fa-instagram"></i></a>
           <a href="#"><i class="fab fa-tiktok"></i></a>
@@ -77,16 +103,32 @@
         <a href="promociones.html">Promos</a>
         <a href="contacto.html">Contacto</a>
       </div>
+      <div class="footer-links">
+        <h4>Cocteles</h4>
+        <a href="menu.html#clasicos">Clásicos</a>
+        <a href="menu.html#signature">Signature</a>
+        <a href="menu.html#cervezas">Cervezas</a>
+        <a href="menu.html#sin-alcohol">Sin Alcohol</a>
+      </div>
+      <div class="footer-hours">
+        <h4>Horarios</h4>
+        <p>Mié – Jue: 6pm – 1am</p>
+        <p>Vie – Sáb: 6pm – 3am</p>
+        <p>Dom: 4pm – 11pm</p>
+        <p class="closed">Lun – Mar: Cerrado</p>
+      </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2024 PARCHE IBARNA — Todos los derechos reservados</p>
+      <p>© 2026 PARCHE IBARNA — Todos los derechos reservados</p>
+      <p>Inspirado en Barcelona ❤️ Poblado Campestre</p>
     </div>
   </div>
 </footer>
 
-<a href="https://wa.me/573160000000" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i><span>Reservar</span></a>
+<a href="https://wa.me/573204901827" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i><span>Reservar</span></a>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="js/global.js"></script>
 <script src="js/galeria.js"></script>
 </body>

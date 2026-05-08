@@ -1,62 +1,356 @@
 // ============================================
 // PARCHE IBARNA - Datos del Menú
+// Catálogo completo de 24 bebidas únicas
+// Organizado por categorías correctas
 // ============================================
 
 const cocktailData = {
     'clasicos': [
-        { name: 'Kalimotxo', description: 'Vino tinto con Coca-Cola, refrescante y auténtico.', price: 22000, image: 'imagenes/barcelona.jpeg', alcohol: true, badge: null },
-        { name: 'Tinto de Verano', description: 'Vino tinto con Sprite, servido con abundante hielo.', price: 19000, image: 'imagenes/tinto_verano.jpeg', alcohol: true, badge: null },
-        { name: 'Havana Sunrise', description: 'Ron Havana Club 3 Años, jugo de naranja, toronja y granadina.', price: 20000, image: 'imagenes/alma_caribe.jpeg', alcohol: true, badge: null },
-        { name: 'Cubata', description: 'Ron Viejo de Caldas, Coca-Cola y un toque de limón.', price: 24000, image: 'imagenes/clasico_sello.jpeg', alcohol: true, badge: null },
-        { name: 'Margarita Frozen', description: 'Tequila Jose Cuervo, granizado de fresa y gomitas enchiladas.', price: 18000, image: 'imagenes/margarita_froze.jpeg', alcohol: true, badge: null },
-        { name: 'Coronarita de Fresa', description: 'Margarita Frozen de fresa con una Coronita al revés.', price: 21000, image: 'imagenes/coronarita.jpeg', alcohol: true, badge: null }
+        { 
+            name: 'Kalimotxo', 
+            description: 'El encuentro perfecto entre tradición y frescura. Vino tinto con Coca-Cola, refrescante y auténtico. La fusión perfecta entre España y el Valle, servido con abundante hielo para garantizar una frescura total.', 
+            price: 22000, 
+            image: 'imagenes/barcelona.jpeg', 
+            alcohol: true, 
+            badge: null,
+            emoji: '🍷'
+        },
+        { 
+            name: 'Tinto de Verano', 
+            description: 'La bebida ideal para los días soleados. Vino tinto con Sprite, servido con abundante hielo. Refrescante, tradicional y perfecto para compartir en el Poblado Campestre.', 
+            price: 19000, 
+            image: 'imagenes/tinto_verano.jpeg', 
+            alcohol: true, 
+            badge: null,
+            emoji: '🍷'
+        },
+        { 
+            name: 'Cubata', 
+            description: 'Un clásico con sello propio llega al Poblado Campestre. Nuestra Cubata rinde homenaje a la tradición: la madurez y el sabor inigualable del Ron Viejo de Caldas se encuentra con la chispa de la Coca-Cola y un toque esencial de limón.', 
+            price: 24000, 
+            image: 'imagenes/cubata.jpeg', 
+            alcohol: true, 
+            badge: null,
+            emoji: '🥃'
+        },
+        { 
+            name: 'Havana Sunrise', 
+            description: 'El alma del Caribe se encuentra con el Poblado Campestre. Disfruta de nuestro Havana Sunrise, una mezcla vibrante donde la fuerza del Ron Havana Club 3 Años se funde con la frescura natural del jugo de naranja y el toque cítrico de la toronja.', 
+            price: 20000, 
+            image: 'imagenes/havana_sunrise.jpeg', 
+            alcohol: true, 
+            badge: null,
+            emoji: '🍹'
+        },
+        { 
+            name: 'Margarita Clásica', 
+            description: 'La elegancia del tequila en su máxima expresión. Mezcla maestra que equilibra la fuerza del Tequila Jose Cuervo Especial con la acidez exacta del limón fresco. Servida en copa elegantemente escarchada con sal.', 
+            price: 25000, 
+            image: 'imagenes/margarita_clasica.jpeg', 
+            alcohol: true, 
+            badge: '🔥 Clásico',
+            emoji: '🍸'
+        },
+        { 
+            name: 'Blue Lagoon', 
+            description: 'Un viaje sensorial al azul profundo. Disfruta de un ícono de la coctelería mundial en Parche i Barna. Preparado con Absolut Vodka y Curacao Azul, este cóctel destaca por su color vibrante y sabor equilibrado.', 
+            price: 28000, 
+            image: 'imagenes/blue_lagoon.jpeg', 
+            alcohol: true, 
+            badge: null,
+            emoji: '💙'
+        }
     ],
-    'signature': [
-        { name: 'Ibarna Sour', description: 'Ron añejo, maracuyá, albahaca, espuma de clara y bitter.', price: 28000, image: 'imagenes/ibarna_sour.jpeg', badge: '🔥 #1', alcohol: true },
-        { name: 'Neon Wave', description: 'Vodka, licor de melocotón, lima y butterfly pea flower.', price: 32000, image: 'imagenes/neon_wave.jpeg', badge: null, alcohol: true },
-        { name: 'Brutal Purple', description: 'Gin violeta, crème de cassis, uva negra y espuma de lavanda.', price: 30000, image: 'imagenes/brutal_purple.jpeg', badge: null, alcohol: true },
-        { name: 'Smoky Old', description: 'Mezcal, whisky, vermut ahumado, cereza.', price: 34000, image: 'imagenes/smoky_old.jpeg', badge: null, alcohol: true },
-        { name: 'Electric Rose', description: 'Gin rosado, pomelo, agua de rosas, espuma.', price: 29000, image: 'imagenes/electric_rose.jpeg', badge: null, alcohol: true }
-    ],
-    'tropicales': [
-        { name: 'Mango Fuego', description: 'Mezcal, mango, chile habanero, jengibre.', price: 26000, image: 'imagenes/mango_fuego.jpeg', alcohol: true, badge: null },
-        { name: 'Coco Loco', description: 'Ron de coco, piña colada artesanal, lima.', price: 24000, image: 'imagenes/coco_loco.jpeg', alcohol: true, badge: null },
-        { name: 'Lulo Storm', description: 'Aguardiente, lulo colombiano, naranja, panela.', price: 23000, image: 'imagenes/lulo_storm.jpeg', alcohol: true, badge: null },
-        { name: 'Maracuyá Spritz', description: 'Vodka, maracuyá, prosecco, hierbabuena.', price: 27000, image: 'imagenes/maracuya_spritz.jpeg', alcohol: true, badge: null },
-        { name: 'Piña Colada', description: 'Ron, crema de coco, piña, hielo.', price: 22000, image: 'imagenes/piña_colada.jpeg', alcohol: true, badge: null }
+    'exclusivos': [
+        { 
+            name: 'Gold Tea Fresh', 
+            description: 'El encuentro perfecto entre té y maracuyá. Nuestro Gold Tea Fresh combina la elegancia de un licor de té con el dulzor vibrante del sirope de maracuyá y un toque cítrico de limón. Servido con bastante hielo y aromatizado con hierbabuena.', 
+            price: 32000, 
+            image: 'imagenes/golde_tea.jpeg', 
+            badge: '✨ Exclusivos',
+            alcohol: true,
+            emoji: '🍵'
+        },
+        { 
+            name: 'Piña Cream Barna', 
+            description: 'La textura de la frescura. Más que un granizado, es una experiencia ultra cremosa que combina la frescura de la piña natural con la suavidad de la leche en polvo y ron añejo premium. Decorado con trozos de piña real.', 
+            price: 30000, 
+            image: 'imagenes/pina_cream.jpeg', 
+            badge: '✨ Exclusivos',
+            alcohol: true,
+            emoji: '🍍'
+        },
+        { 
+            name: 'Blue Zombie', 
+            description: 'Una explosión de color y sabor. Un granizado electrizante que combina la fuerza del ron con el toque del chicle y la frescura del limón. Viene con perlas explosivas sabor chicle y gomitas ácidas.', 
+            price: 31000, 
+            image: 'imagenes/blue_zombie.jpeg', 
+            badge: '💀 Especial',
+            alcohol: true,
+            emoji: '💙'
+        },
+        { 
+            name: 'Terciopelo Hershey\'s', 
+            description: 'El postre perfecto convertido en cóctel. Crema de Baileys Premium con chocolate Hershey\'s fundido y esencia de vainilla. Cremoso, dulce y sofisticado.', 
+            price: 35000, 
+            image: 'imagenes/terciopelo_hersheys.jpeg', 
+            badge: '🍫 Postre',
+            alcohol: true,
+            emoji: '🍫'
+        },
+        { 
+            name: 'La Mexicana', 
+            description: 'Una explosión de carácter y frescura. Tequila con chamoy, limón y granadina. Coronada con escarchado de Tajín y chicle picante, es la mezcla perfecta entre elegancia y tradición picante.', 
+            price: 29000, 
+            image: 'imagenes/mexicana.jpeg', 
+            badge: '🌶️ Picante',
+            alcohol: true,
+            emoji: '🌶️'
+        },
+        { 
+            name: 'Tóxic', 
+            description: 'Atrévete a probar nuestro Tóxic. Aguardiente Antioqueño Sin Azúcar con toque cítrico secreto, servido en copa escarchada con sal de limón. Refrescante, ligero y equilibrado.', 
+            price: 27000, 
+            image: 'imagenes/toxic.jpeg', 
+            badge: '☣️ Atrevido',
+            alcohol: true,
+            emoji: '🧪'
+        },
+        { 
+            name: 'Cherry Temptation', 
+            description: 'Una tentación dulce y vibrante. Absolut Vodka con cerezas seleccionadas y sirope de fresa. Coronado con burbujas de Sprite. Fresco y visualmente encantador.', 
+            price: 30000, 
+            image: 'imagenes/charry_templatation.jpeg', 
+            badge: null,
+            alcohol: true,
+            emoji: '🍒'
+        },
+        { 
+            name: 'Tropical & Premium', 
+            description: 'El clásico Aguardiente Amarillo como nunca lo habías imaginado. Granizado artesanal de maracuyá con perlas explosivas, gomas ácidas y pulpa fresca. Refrescante, atrevido, único.', 
+            price: 31000, 
+            image: 'imagenes/tropical_premiu.jpeg', 
+            badge: '✨ Premium',
+            alcohol: true,
+            emoji: '🥭'
+        },
+        { 
+            name: 'Havana Spirit', 
+            description: 'El equilibrio perfecto entre lo cítrico y lo burbujeante. Hierbabuena macerada al instante, limón fresco y Havana Club 3 Años con soda cristalina.', 
+            price: 26000, 
+            image: 'imagenes/havana_spirit.jpeg', 
+            alcohol: true, 
+            badge: null,
+            emoji: '🍃'
+        }
     ],
     'cervezas': [
-        { name: 'Corona Extra', description: 'Cerveza mexicana clara, ligera y refrescante.', price: 12000, image: 'imagenes/corona.jpeg', alcohol: true, badge: null },
-        { name: 'Club Colombia Dorada', description: 'Cerveza dorada, balance perfecto entre malta y lúpulo.', price: 11000, image: 'imagenes/club_colombia.jpeg', alcohol: true, badge: null },
-        { name: 'Heineken', description: 'Cerveza premium de origen holandés.', price: 12000, image: 'imagenes/heineken.jpeg', alcohol: true, badge: null },
-        { name: 'Michelada', description: 'Cerveza preparada con limón, salsas y especias.', price: 15000, image: 'imagenes/michelada.jpeg', alcohol: true, badge: null }
+        { 
+            name: 'Corona Extra', 
+            description: 'La cerveza mexicana clara por excelencia. Ligera, refrescante y perfecta para cualquier momento. Servida con su tradicional limón.', 
+            price: 12000, 
+            image: 'imagenes/corona.jpeg', 
+            alcohol: true, 
+            badge: null,
+            emoji: '🍺'
+        },
+        { 
+            name: 'Mango Viche Supreme', 
+            description: 'El placer de lo cítrico. Una michelada audaz que fusiona la cerveza con sirope de mango biche y jugosas rebanadas de fruta natural. Escarchada con sal y limón.', 
+            price: 28000, 
+            image: 'imagenes/mango_biche.jpeg', 
+            badge: '🥭 Especial',
+            alcohol: true,
+            emoji: '🥭🍺'
+        },
+        { 
+            name: 'Club Colombia Dorada', 
+            description: 'Orgullo nacional. Una cerveza dorada con el balance perfecto entre malta y lúpulo. Suave, refrescante y con carácter.', 
+            price: 11000, 
+            image: 'imagenes/club_colombia.jpeg', 
+            alcohol: true, 
+            badge: null,
+            emoji: '🍺'
+        },
+        { 
+            name: 'Heineken', 
+            description: 'La cerveza premium de origen holandés. Sabor suave, distintivo y reconocido mundialmente.', 
+            price: 12000, 
+            image: 'imagenes/heineken.jpeg', 
+            alcohol: true, 
+            badge: null,
+            emoji: '🍺'
+        },
+        { 
+            name: 'Michelada', 
+            description: 'La reina de las cervezas preparadas. Cerveza con limón, sales, salsas y especias. Perfecta para cualquier hora.', 
+            price: 15000, 
+            image: 'imagenes/michelada.jpeg', 
+            alcohol: true, 
+            badge: null,
+            emoji: '🍺🌶️'
+        }
     ],
     'tragos': [
-        { name: 'Ron Viejo de Caldas', description: 'Ron añejo colombiano.', price: 18000, image: 'imagenes/ron_viejo.jpeg', alcohol: true, badge: null },
-        { name: 'Havana Club 3 Años', description: 'Ron cubano suave, ideal para cócteles.', price: 20000, image: 'imagenes/havana_club.jpeg', alcohol: true, badge: null },
-        { name: 'Aguardiente Antioqueño', description: 'El trago tradicional colombiano.', price: 15000, image: 'imagenes/aguardiente.jpeg', alcohol: true, badge: null },
-        { name: 'Tequila Jose Cuervo', description: 'Tequila reposado mexicano.', price: 22000, image: 'imagenes/tequila.jpeg', alcohol: true, badge: null },
-        { name: 'Ginebra Beefeater', description: 'Ginebra inglesa seca.', price: 25000, image: 'imagenes/beefeater.jpeg', alcohol: true, badge: null }
+        { 
+            name: 'Ron Viejo de Caldas', 
+            description: 'Ron añejo colombiano, suave y con carácter. Perfecto solo, en las rocas o como base para los mejores cócteles.', 
+            price: 18000, 
+            image: 'imagenes/ron_viejo.jpeg', 
+            alcohol: true, 
+            badge: null,
+            emoji: '🥃'
+        },
+        { 
+            name: 'Havana Club 3 Años', 
+            description: 'El ron cubano suave por excelencia. Ideal para cócteles, su sabor limpio y versátil lo convierte en el favorito de los bartenders.', 
+            price: 20000, 
+            image: 'imagenes/havana_club.jpeg', 
+            alcohol: true, 
+            badge: null,
+            emoji: '🥃'
+        },
+        { 
+            name: 'Aguardiente Antioqueño', 
+            description: 'El trago tradicional colombiano. Con su característico sabor a anís y su inconfundible carácter, es el alma de las fiestas.', 
+            price: 15000, 
+            image: 'imagenes/aguardiente.jpeg', 
+            alcohol: true, 
+            badge: null,
+            emoji: '🍾'
+        },
+        { 
+            name: 'Tequila Jose Cuervo', 
+            description: 'El tequila reposado más reconocido del mundo. Perfecto para chupitos, margaritas o para disfrutar solo.', 
+            price: 22000, 
+            image: 'imagenes/tequila.jpeg', 
+            alcohol: true, 
+            badge: null,
+            emoji: '🥃'
+        },
+        { 
+            name: 'Ginebra Beefeater', 
+            description: 'La ginebra inglesa seca por excelencia. Ideal para los mejores Gin Tonics, su sabor a enebro y cítricos la hacen única.', 
+            price: 25000, 
+            image: 'imagenes/beefeater.jpeg', 
+            alcohol: true, 
+            badge: null,
+            emoji: '🍸'
+        }
     ],
     'sodas': [
-        { name: 'Coca-Cola', description: 'La clásica bebida de burbujas.', price: 6000, image: 'imagenes/cocacola.jpeg', alcohol: false, badge: null },
-        { name: 'Sprite', description: 'Refrescante bebida de limón.', price: 6000, image: 'imagenes/sprite.jpeg', alcohol: false, badge: null },
-        { name: 'Jugo de Naranja', description: 'Jugo natural de naranja recién exprimido.', price: 8000, image: 'imagenes/jugo_naranja.jpeg', alcohol: false, badge: null },
-        { name: 'Limonada Natural', description: 'Limonada fresca con limones naturales.', price: 7000, image: 'imagenes/limonada.jpeg', alcohol: false, badge: null }
+        { 
+            name: 'Soda Italiana de Fresa - Berry Barna', 
+            description: 'Efervescencia y sabor en movimiento. Fusión de trozos de fruta natural con sirope premium de fresa, toque cítrico de limón y soda cristalina.', 
+            price: 12000, 
+            image: 'imagenes/soda_italiana_fresa.jpeg', 
+            alcohol: false, 
+            badge: '✨ Nueva',
+            emoji: '🍓'
+        },
+        { 
+            name: 'Soda Italiana de Maracuyá - Passion Barna', 
+            description: 'La frescura que te acompaña a donde vayas. Sirope artesanal con pulpa de maracuyá natural, limón y soda premium burbujeante.', 
+            price: 12000, 
+            image: 'imagenes/soda_italiana_maracuya.jpeg', 
+            alcohol: false, 
+            badge: '✨ Nueva',
+            emoji: '🥭'
+        },
+        { 
+            name: 'Coca-Cola', 
+            description: 'La clásica bebida de burbujas que todos amamos. Servida con abundante hielo y una rodaja de limón fresco.', 
+            price: 6000, 
+            image: 'imagenes/cocacola.jpeg', 
+            alcohol: false, 
+            badge: null,
+            emoji: '🥤'
+        },
+        { 
+            name: 'Sprite', 
+            description: 'Refrescante bebida de limón, libre de cafeína. Su sabor cítrico y burbujeante la convierte en el acompañante perfecto.', 
+            price: 6000, 
+            image: 'imagenes/sprite.jpeg', 
+            alcohol: false, 
+            badge: null,
+            emoji: '🥤'
+        }
     ],
     'sin-alcohol': [
-        { name: 'Virgin Mojito', description: 'Menta fresca, lima, azúcar de caña, soda.', price: 14000, image: 'imagenes/virgin_mojito.jpeg', alcohol: false, badge: null },
-        { name: 'Ibarna Zero', description: 'Maracuyá, albahaca, jengibre, soda.', price: 15000, image: 'imagenes/ibarna_sour.jpeg', alcohol: false, badge: null },
-        { name: 'Berry Smash', description: 'Frutos rojos, limón, tónica, lavanda.', price: 15000, image: 'imagenes/berry_smash.jpeg', alcohol: false, badge: null },
-        { name: 'Coconut Dream', description: 'Leche de coco, piña, canela, espuma.', price: 16000, image: 'imagenes/coco_loco.jpeg', alcohol: false, badge: null },
-        { name: 'Oreo Dream', description: 'Granizado cremoso de galleta Oreo.', price: 18000, image: 'imagenes/oreo_dream.jpeg', alcohol: false, badge: '✨ Nuevo' }
+        { 
+            name: 'Virgin Mojito', 
+            description: 'El clásico sin alcohol que no puede faltar. Menta fresca macerada, lima recién exprimida, azúcar de caña y soda.', 
+            price: 14000, 
+            image: 'imagenes/virgin_mojito.jpeg', 
+            alcohol: false, 
+            badge: null,
+            emoji: '🌿'
+        },
+        { 
+            name: 'Oreo Dream', 
+            description: 'El capricho irresistible del Poblado Campestre. Un granizado cremoso que eleva el sabor de la galleta más famosa del mundo a una experiencia de lujo. Decorado con crema chantilly y crujientes trozos de galleta Oreo.', 
+            price: 18000, 
+            image: 'imagenes/oreo_dream.jpeg', 
+            alcohol: false, 
+            badge: '🍪 Especial',
+            emoji: '🍪'
+        },
+        { 
+            name: 'Ibarna Zero', 
+            description: 'Nuestra creación insignia sin alcohol. Maracuyá, albahaca fresca, jengibre y soda se combinan en una bebida refrescante y llena de personalidad.', 
+            price: 15000, 
+            image: 'imagenes/ibarna_sour.jpeg', 
+            alcohol: false, 
+            badge: null,
+            emoji: '🍹'
+        },
+        { 
+            name: 'Berry Smash', 
+            description: 'Elegancia en cada sorbo. Frutos rojos, limón fresco, tónica y un toque de lavanda se unen en esta bebida sofisticada y refrescante.', 
+            price: 15000, 
+            image: 'imagenes/berry_smash.jpeg', 
+            alcohol: false, 
+            badge: null,
+            emoji: '🫐'
+        },
+        { 
+            name: 'Coconut Dream', 
+            description: 'Cremoso y tropical. Leche de coco, piña natural, canela y espuma se combinan en esta bebida que te transporta al paraíso.', 
+            price: 16000, 
+            image: 'imagenes/coco_loco.jpeg', 
+            alcohol: false, 
+            badge: null,
+            emoji: '🥥'
+        },
+        { 
+            name: 'Passion Cooler', 
+            description: 'El equilibrio perfecto entre dulce y ácido. Maracuyá, limón fresco, miel de abeja y soda se unen en esta bebida refrescante.', 
+            price: 14000, 
+            image: 'imagenes/passion_cooler.jpeg', 
+            alcohol: false, 
+            badge: null,
+            emoji: '🍊'
+        },
+        { 
+            name: 'Ginger Fizz', 
+            description: 'Refrescante y digestivo. Jengibre fresco, limón, miel y agua con gas se combinan en esta bebida que despierta los sentidos.', 
+            price: 13000, 
+            image: 'imagenes/ginger_fizz.jpeg', 
+            alcohol: false, 
+            badge: null,
+            emoji: '🫚'
+        }
     ]
 };
 
 function getCategoryName(category) {
     const names = {
-        'clasicos': '🍸 Clásicos', 'signature': '✨ Signature', 'tropicales': '🌴 Tropicales',
-        'cervezas': '🍺 Cervezas', 'tragos': '🥃 Tragos', 'sodas': '🥤 Sodas', 'sin-alcohol': '🌿 Sin Alcohol'
+        'clasicos': '🍸 Clásicos',
+        'exclusivos': '✨ Exclusivos',
+        'cervezas': '🍺 Cervezas',
+        'tragos': '🥃 Tragos',
+        'sodas': '🥤 Sodas',
+        'sin-alcohol': '🌿 Sin Alcohol'
     };
     return names[category] || '🍸 Coctel';
 }

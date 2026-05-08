@@ -1,6 +1,7 @@
 // ============================================
 // PARCHE IBARNA - Órdenes JavaScript
 // Envío de pedido al WhatsApp de la coctelería
+// SIN IVA
 // ============================================
 
 (function() {
@@ -9,10 +10,47 @@
     // NÚMERO DE WHATSAPP DE LA COCTELERÍA
     const WHATSAPP_NUMBER = "573204901827";
 
+    // Imágenes para el carrusel del hero
+    const heroImages = [
+        'imagenes/barcelona.jpeg',
+        'imagenes/golde_tea.jpeg',
+        'imagenes/blue_zombie.jpeg',
+        'imagenes/margarita_clasica.jpeg',
+        'imagenes/coronita.jpeg',
+        'imagenes/pina_cream.jpeg'
+    ];
+
     document.addEventListener('DOMContentLoaded', function() {
         loadCart();
         initEventListeners();
+        initHeroCarousel();
     });
+
+    // Inicializar carrusel del hero
+    function initHeroCarousel() {
+        const heroWrapper = document.getElementById('heroCarouselWrapper');
+        if (!heroWrapper) return;
+
+        heroWrapper.innerHTML = heroImages.map(img => `
+            <div class="swiper-slide">
+                <div class="hero-slide-bg" style="background-image: url('${img}');"></div>
+            </div>
+        `).join('');
+
+        new Swiper('.hero-swiper', {
+            slidesPerView: 1,
+            loop: true,
+            autoplay: {
+                delay: 4000,
+                disableOnInteraction: false,
+            },
+            effect: 'fade',
+            fadeEffect: {
+                crossFade: true
+            },
+            speed: 2000
+        });
+    }
 
     function loadCart() {
         currentCart = JSON.parse(localStorage.getItem('parcheCart') || '[]');
@@ -162,12 +200,9 @@
     }
 
     function updateSummary() {
-        const subtotal = currentCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        const iva = subtotal * 0.19;
-        const total = subtotal + iva;
+        const total = currentCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
-        document.getElementById('summarySubtotal').textContent = formatPrice(subtotal);
-        document.getElementById('summaryIva').textContent = formatPrice(iva);
+        document.getElementById('summarySubtotal').textContent = formatPrice(total);
         document.getElementById('summaryTotal').textContent = formatPrice(total);
     }
 
@@ -197,16 +232,14 @@
             return;
         }
 
-        const subtotal = currentCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        const iva = subtotal * 0.19;
-        const total = subtotal + iva;
+        const total = currentCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         
         // Obtener fecha y hora actual
         const ahora = new Date();
         const fecha = ahora.toLocaleDateString('es-CO');
         const hora = ahora.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' });
         
-        // Mensaje para el personal de la coctelería
+        // Mensaje para el personal de la coctelería - SIN IVA
         let mensaje = "🍸 *¡NUEVO PEDIDO - PARCHE IBARNA!* 🍸\n\n";
         mensaje += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
         mensaje += `📅 *Fecha:* ${fecha}\n`;
@@ -224,15 +257,12 @@
         });
         
         mensaje += "┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈\n\n";
-        mensaje += `💰 *SUBTOTAL: ${formatPrice(subtotal)}*\n`;
-        mensaje += `📊 *IVA (19%): ${formatPrice(iva)}*\n`;
         mensaje += `💵 *TOTAL A PAGAR: ${formatPrice(total)}*\n\n`;
         
         mensaje += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
         mensaje += "👨‍🍳 *INSTRUCCIONES PARA EL PERSONAL:*\n";
         mensaje += "┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈\n";
         mensaje += "✅ Preparar con los ingredientes premium\n";
-        mensaje += "✅ Servir en la cristalería correspondiente\n";
         mensaje += "✅ Entregar al cliente en la mesa\n\n";
         
         mensaje += "✨ *¡Gracias por tu preferencia!* ✨\n";
