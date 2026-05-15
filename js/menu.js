@@ -1,6 +1,6 @@
 // ============================================
 // PARCHE IBARNA - Menu Page JavaScript
-// Categorías completas con todas las bebidas
+// Con identificación de mesa y redirección a órdenes
 // ============================================
 
 (function() {
@@ -8,13 +8,88 @@
 
     const menuContainer = document.getElementById('menu-container');
     const tabBtns = document.querySelectorAll('.tab-btn');
+    
+    // Variable para almacenar el número de mesa
+    let numeroMesa = null;
+
+    // ============================================
+    // OBTENER MESA DESDE LA URL
+    // ============================================
+    function obtenerMesaDesdeURL() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const mesa = urlParams.get('mesa');
+        if (mesa && !isNaN(mesa) && mesa >= 1 && mesa <= 20) {
+            numeroMesa = parseInt(mesa);
+            console.log(`📱 Cliente en MESA ${numeroMesa}`);
+            mostrarBannerMesa();
+            return true;
+        }
+        console.log('📱 Cliente sin mesa asignada');
+        return false;
+    }
+
+    // ============================================
+    // MOSTRAR BANNER DE MESA
+    // ============================================
+    function mostrarBannerMesa() {
+        const banner = document.getElementById('mesaBannerTop');
+        const mesaTexto = document.getElementById('mesaNumeroTexto');
+        
+        if (banner && mesaTexto && numeroMesa) {
+            mesaTexto.innerHTML = `<i class="fas fa-chair"></i> Estás en la MESA ${numeroMesa} - Tus pedidos llegarán directamente a esta mesa`;
+            banner.style.display = 'block';
+            
+            // Actualizar los enlaces de "Mi Pedido" con el parámetro de mesa
+            actualizarEnlacesPedido();
+        }
+    }
+
+    // ============================================
+    // ACTUALIZAR ENLACES DE "MI PEDIDO" CON LA MESA
+    // ============================================
+    function actualizarEnlacesPedido() {
+        if (!numeroMesa) return;
+        
+        const ordenesLinkDesktop = document.getElementById('ordenesLinkDesktop');
+        const ordenesLinkMobile = document.getElementById('ordenesLinkMobile');
+        
+        const nuevaURL = `ordenes.html?mesa=${numeroMesa}`;
+        
+        if (ordenesLinkDesktop) {
+            ordenesLinkDesktop.href = nuevaURL;
+        }
+        if (ordenesLinkMobile) {
+            ordenesLinkMobile.href = nuevaURL;
+        }
+        
+        console.log(`✅ Enlaces de pedido actualizados a: ${nuevaURL}`);
+    }
+
+    // ============================================
+    // GUARDAR MESA EN LOCALSTORAGE PARA USO FUTURO
+    // ============================================
+    function guardarMesaEnStorage() {
+        if (numeroMesa) {
+            localStorage.setItem('parcheMesaActual', numeroMesa);
+        }
+    }
 
     function formatPrice(price) {
         return `$${price.toLocaleString('es-CO')}`;
     }
 
     function updateCartBadge() {
-        const cart = JSON.parse(localStorage.getItem('parcheCart') || '[]');
+        let cart = [];
+        
+        if (numeroMesa) {
+            // Si hay mesa, usar carrito específico de la mesa
+            const cartKey = `parcheCart_mesa_${numeroMesa}`;
+            cart = JSON.parse(localStorage.getItem(cartKey) || '[]');
+        } else {
+            // Si no hay mesa, usar carrito general
+            cart = JSON.parse(localStorage.getItem('parcheCart') || '[]');
+        }
+        
         const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
         document.querySelectorAll('#cartBadge, #cartBadgeMobile').forEach(badge => {
             if (badge) {
@@ -42,7 +117,15 @@
     }
 
     function addToCart(product) {
-        let cart = JSON.parse(localStorage.getItem('parcheCart') || '[]');
+        let cart = [];
+        let cartKey = 'parcheCart';
+        
+        if (numeroMesa) {
+            cartKey = `parcheCart_mesa_${numeroMesa}`;
+        }
+        
+        cart = JSON.parse(localStorage.getItem(cartKey) || '[]');
+        
         const existingIndex = cart.findIndex(item => item.name === product.name);
         
         if (existingIndex !== -1) {
@@ -51,7 +134,7 @@
             cart.push({ ...product, id: Date.now() });
         }
         
-        localStorage.setItem('parcheCart', JSON.stringify(cart));
+        localStorage.setItem(cartKey, JSON.stringify(cart));
         updateCartBadge();
         showNotification(`✓ ${product.name} agregado (${product.quantity})`);
     }
@@ -183,9 +266,18 @@
         });
     });
 
-    // Initial render
-    renderMenu('clasicos');
-    updateCartBadge();
-    
-    window.addEventListener('storage', updateCartBadge);
+    // ============================================
+    // INICIALIZAR
+    // ============================================
+    function init() {
+        obtenerMesaDesdeURL();
+        guardarMesaEnStorage();
+        renderMenu('clasicos');
+        updateCartBadge();
+        
+        // Escuchar cambios en localStorage
+        window.addEventListener('storage', updateCartBadge);
+    }
+
+    init();
 })();

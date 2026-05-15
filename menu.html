@@ -32,7 +32,7 @@
         <li><a href="promociones.html">Promos</a></li>
         <li><a href="contacto.html">Contacto</a></li>
         <li class="mobile-order-btn">
-          <a href="ordenes.html" class="btn-order-mobile">
+          <a href="ordenes.html" class="btn-order-mobile" id="ordenesLinkMobile">
             <i class="fas fa-shopping-bag"></i>
             <span>Mi Pedido</span>
             <span class="cart-badge" id="cartBadgeMobile">0</span>
@@ -40,7 +40,7 @@
         </li>
       </ul>
       <div class="header-buttons">
-        <a href="ordenes.html" class="btn-orders">
+        <a href="ordenes.html" class="btn-orders" id="ordenesLinkDesktop">
           <i class="fas fa-shopping-bag"></i>
           <span>Mi Pedido</span>
           <span class="cart-badge" id="cartBadge">0</span>
@@ -49,6 +49,16 @@
     </div>
   </nav>
 </header>
+
+<!-- Banner de mesa (se muestra si viene del QR) -->
+<div class="mesa-banner-top" id="mesaBannerTop" style="display: none;">
+  <div class="container">
+    <div class="mesa-banner-content">
+      <i class="fas fa-qrcode"></i>
+      <span id="mesaNumeroTexto"></span>
+    </div>
+  </div>
+</div>
 
 <section class="menu-hero">
   <div class="container">
@@ -62,7 +72,6 @@
     <div class="menu-tabs">
       <button class="tab-btn active" data-category="clasicos"><i class="fas fa-glass-martini-alt"></i> Clásicos</button>
       <button class="tab-btn" data-category="exclusivos"><i class="fas fa-star"></i> Exclusivos</button>
-      <button class="tab-btn" data-category="tropicales"><i class="fas fa-umbrella-beach"></i> Tropicales</button>
       <button class="tab-btn" data-category="cervezas"><i class="fas fa-beer"></i> Cervezas</button>
       <button class="tab-btn" data-category="tragos"><i class="fas fa-whiskey-glass"></i> Tragos</button>
       <button class="tab-btn" data-category="sodas"><i class="fas fa-bottle-water"></i> Sodas</button>
@@ -101,7 +110,6 @@
         <h4>Cocteles</h4>
         <a href="menu.html#clasicos">Clásicos</a>
         <a href="menu.html#exclusivos">Exclusivos</a>
-        <a href="menu.html#tropicales">Tropicales</a>
         <a href="menu.html#cervezas">Cervezas</a>
         <a href="menu.html#tragos">Tragos</a>
         <a href="menu.html#sodas">Sodas</a>
