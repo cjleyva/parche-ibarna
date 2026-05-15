@@ -1,6 +1,6 @@
 // ============================================
 // PARCHE IBARNA - Menu Page JavaScript
-// Con identificación de mesa y redirección a órdenes
+// Con identificación de mesa, redirección a órdenes y botón flotante
 // ============================================
 
 (function() {
@@ -52,6 +52,7 @@
         
         const ordenesLinkDesktop = document.getElementById('ordenesLinkDesktop');
         const ordenesLinkMobile = document.getElementById('ordenesLinkMobile');
+        const floatOrderBtn = document.getElementById('floatOrderBtn');
         
         const nuevaURL = `ordenes.html?mesa=${numeroMesa}`;
         
@@ -60,6 +61,9 @@
         }
         if (ordenesLinkMobile) {
             ordenesLinkMobile.href = nuevaURL;
+        }
+        if (floatOrderBtn) {
+            floatOrderBtn.href = nuevaURL;
         }
         
         console.log(`✅ Enlaces de pedido actualizados a: ${nuevaURL}`);
@@ -82,15 +86,15 @@
         let cart = [];
         
         if (numeroMesa) {
-            // Si hay mesa, usar carrito específico de la mesa
             const cartKey = `parcheCart_mesa_${numeroMesa}`;
             cart = JSON.parse(localStorage.getItem(cartKey) || '[]');
         } else {
-            // Si no hay mesa, usar carrito general
             cart = JSON.parse(localStorage.getItem('parcheCart') || '[]');
         }
         
         const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        
+        // Actualizar badges del header (desktop)
         document.querySelectorAll('#cartBadge, #cartBadgeMobile').forEach(badge => {
             if (badge) {
                 if (totalItems > 0) {
@@ -101,6 +105,17 @@
                 }
             }
         });
+        
+        // Actualizar badge del botón flotante (móvil)
+        const floatOrderCount = document.getElementById('floatOrderCount');
+        if (floatOrderCount) {
+            if (totalItems > 0) {
+                floatOrderCount.textContent = totalItems;
+                floatOrderCount.style.display = 'flex';
+            } else {
+                floatOrderCount.style.display = 'none';
+            }
+        }
     }
 
     function showNotification(message) {
@@ -192,7 +207,6 @@
         
         initQuantityControls();
         
-        // Reveal animation
         const revealElements = document.querySelectorAll('.menu-card.reveal');
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -275,7 +289,6 @@
         renderMenu('clasicos');
         updateCartBadge();
         
-        // Escuchar cambios en localStorage
         window.addEventListener('storage', updateCartBadge);
     }
 
