@@ -13,19 +13,71 @@
     let numeroMesa = null;
 
     // ============================================
-    // OBTENER MESA DESDE LA URL
+    // OBTENER MESA DESDE LA URL O LOCALSTORAGE
     // ============================================
     function obtenerMesaDesdeURL() {
         const urlParams = new URLSearchParams(window.location.search);
-        const mesa = urlParams.get('mesa');
+        let mesa = urlParams.get('mesa');
+        
         if (mesa && !isNaN(mesa) && mesa >= 1 && mesa <= 20) {
             numeroMesa = parseInt(mesa);
-            console.log(`📱 Cliente en MESA ${numeroMesa}`);
+            // Guardar la mesa en localStorage para futuras visitas
+            guardarMesaEnStorage(numeroMesa);
+            console.log(`📱 Cliente en MESA ${numeroMesa} (desde URL)`);
             mostrarBannerMesa();
             return true;
+        } else {
+            // Intentar cargar mesa desde localStorage
+            const mesaGuardada = localStorage.getItem('parcheMesaActual');
+            if (mesaGuardada && !isNaN(mesaGuardada) && mesaGuardada >= 1 && mesaGuardada <= 20) {
+                numeroMesa = parseInt(mesaGuardada);
+                console.log(`📱 Cliente en MESA ${numeroMesa} (desde localStorage)`);
+                mostrarBannerMesa();
+                // Actualizar URL sin recargar la página
+                actualizarURLConMesa();
+                return true;
+            }
         }
         console.log('📱 Cliente sin mesa asignada');
         return false;
+    }
+
+    // ============================================
+    // ACTUALIZAR URL CON EL NÚMERO DE MESA (SIN RECARGAR)
+    // ============================================
+    function actualizarURLConMesa() {
+        if (!numeroMesa) return;
+        const nuevaURL = `${window.location.pathname}?mesa=${numeroMesa}`;
+        window.history.replaceState({}, '', nuevaURL);
+        console.log(`🔄 URL actualizada a: ${nuevaURL}`);
+    }
+
+    // ============================================
+    // GUARDAR MESA EN LOCALSTORAGE
+    // ============================================
+    function guardarMesaEnStorage(mesa) {
+        if (mesa) {
+            localStorage.setItem('parcheMesaActual', mesa);
+            // Guardar también una cookie con expiración de 30 días
+            const fechaExpiracion = new Date();
+            fechaExpiracion.setTime(fechaExpiracion.getTime() + (30 * 24 * 60 * 60 * 1000));
+            document.cookie = `parcheMesa=${mesa}; expires=${fechaExpiracion.toUTCString()}; path=/`;
+            console.log(`💾 Mesa ${mesa} guardada en localStorage y cookie`);
+        }
+    }
+
+    // ============================================
+    // CARGAR MESA DESDE COOKIE (respaldo)
+    // ============================================
+    function obtenerMesaDesdeCookie() {
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+            const [name, value] = cookie.trim().split('=');
+            if (name === 'parcheMesa' && value && !isNaN(value) && value >= 1 && value <= 20) {
+                return parseInt(value);
+            }
+        }
+        return null;
     }
 
     // ============================================
@@ -67,15 +119,6 @@
         }
         
         console.log(`✅ Enlaces de pedido actualizados a: ${nuevaURL}`);
-    }
-
-    // ============================================
-    // GUARDAR MESA EN LOCALSTORAGE PARA USO FUTURO
-    // ============================================
-    function guardarMesaEnStorage() {
-        if (numeroMesa) {
-            localStorage.setItem('parcheMesaActual', numeroMesa);
-        }
     }
 
     function formatPrice(price) {
@@ -285,7 +328,6 @@
     // ============================================
     function init() {
         obtenerMesaDesdeURL();
-        guardarMesaEnStorage();
         renderMenu('clasicos');
         updateCartBadge();
         

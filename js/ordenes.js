@@ -33,17 +33,32 @@
     });
 
     // ============================================
-    // OBTENER NÚMERO DE MESA DESDE LA URL
+    // OBTENER NÚMERO DE MESA DESDE LA URL O LOCALSTORAGE
     // ============================================
     function obtenerMesaDesdeURL() {
         const urlParams = new URLSearchParams(window.location.search);
-        const mesa = urlParams.get('mesa');
+        let mesa = urlParams.get('mesa');
+        
         if (mesa && !isNaN(mesa) && mesa >= 1 && mesa <= 20) {
             numeroMesa = parseInt(mesa);
-            console.log(`📱 Cliente en MESA ${numeroMesa}`);
-        } else {
-            console.log('📱 Cliente sin mesa asignada (visita directa)');
+            // Guardar la mesa en localStorage para futuras visitas
+            localStorage.setItem('parcheMesaActual', numeroMesa);
+            console.log(`📱 Cliente en MESA ${numeroMesa} (desde URL)`);
+            return;
         }
+        
+        // Intentar cargar mesa desde localStorage
+        const mesaGuardada = localStorage.getItem('parcheMesaActual');
+        if (mesaGuardada && !isNaN(mesaGuardada) && mesaGuardada >= 1 && mesaGuardada <= 20) {
+            numeroMesa = parseInt(mesaGuardada);
+            console.log(`📱 Cliente en MESA ${numeroMesa} (desde localStorage)`);
+            // Actualizar URL sin recargar la página
+            const nuevaURL = `${window.location.pathname}?mesa=${numeroMesa}`;
+            window.history.replaceState({}, '', nuevaURL);
+            return;
+        }
+        
+        console.log('📱 Cliente sin mesa asignada (visita directa)');
     }
 
     // ============================================
@@ -54,7 +69,7 @@
         const mesaNumeroDisplay = document.getElementById('mesaNumeroDisplay');
         
         if (numeroMesa && mesaInfo && mesaNumeroDisplay) {
-            mesaNumeroDisplay.innerHTML = `<i class="fas fa-chair"></i> Mesa ${numeroMesa} - Escanea el código QR de tu mesa`;
+            mesaNumeroDisplay.innerHTML = `<i class="fas fa-chair"></i> Mesa ${numeroMesa} - Tus pedidos llegarán directamente a esta mesa`;
             mesaInfo.style.display = 'block';
         }
     }
