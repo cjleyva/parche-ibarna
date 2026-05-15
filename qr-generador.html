@@ -45,7 +45,17 @@
       font-size: 16px;
     }
 
-    /* Controles */
+    .warning {
+      background: rgba(255, 100, 0, 0.15);
+      border: 1px solid rgba(255, 100, 0, 0.3);
+      border-radius: 12px;
+      padding: 12px 20px;
+      margin-bottom: 30px;
+      text-align: center;
+      color: #ffaa44;
+      font-size: 14px;
+    }
+
     .controls {
       display: flex;
       justify-content: center;
@@ -78,17 +88,16 @@
       color: #00ffff;
     }
 
-    .btn-danger {
-      background: rgba(255, 68, 68, 0.1);
-      border: 1px solid rgba(255, 68, 68, 0.3);
-      color: #ff8888;
+    .btn-warning {
+      background: rgba(255, 100, 0, 0.15);
+      border: 1px solid rgba(255, 100, 0, 0.3);
+      color: #ffaa44;
     }
 
     .btn:hover {
       transform: translateY(-2px);
     }
 
-    /* Grid de mesas */
     .mesas-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -153,7 +162,6 @@
       font-size: 12px;
     }
 
-    /* Acciones generales */
     .acciones-generales {
       display: flex;
       justify-content: center;
@@ -195,12 +203,18 @@
 <div class="container">
   <div class="header">
     <div class="logo">PARCHE <span>IBARNA</span></div>
-    <div class="subtitle">Códigos QR por Mesa - Imprimir y colocar en cada mesa</div>
+    <div class="subtitle">Códigos QR PERMANENTES por Mesa</div>
+  </div>
+
+  <div class="warning">
+    <i class="fas fa-info-circle"></i> 
+    Estos códigos QR son <strong>PERMANENTES</strong>. Guárdalos e imprímelos una sola vez. 
+    No es necesario volver a generarlos, el enlace siempre será el mismo.
   </div>
 
   <div class="controls">
     <button class="btn btn-primary" onclick="generarTodasLasMesas()">
-      <i class="fas fa-qrcode"></i> Generar QR para todas las mesas
+      <i class="fas fa-qrcode"></i> Generar/Actualizar QR
     </button>
     <button class="btn btn-secondary" onclick="imprimirTodo()">
       <i class="fas fa-print"></i> Imprimir todos los QR
@@ -213,8 +227,8 @@
   <div id="mesasGrid" class="mesas-grid"></div>
 
   <div class="acciones-generales">
-    <button class="btn btn-secondary" onclick="limpiarMesas()">
-      <i class="fas fa-trash-alt"></i> Limpiar todo
+    <button class="btn btn-warning" onclick="exportarConfiguracion()">
+      <i class="fas fa-save"></i> Exportar configuración (JSON)
     </button>
   </div>
 </div>
@@ -225,9 +239,23 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
 <script>
-  // Configuración de mesas
-  const NUMERO_MESAS = 12; // Mesas del 1 al 12
-  const BASE_URL = window.location.origin + window.location.pathname.replace('qr-mesas.html', 'ordenes.html');
+  // ============================================
+  // CONFIGURACIÓN PERMANENTE - CAMBIA SEGÚN TU DOMINIO
+  // ============================================
+  // ¡IMPORTANTE! Cambia esta URL por tu dominio real
+  // Ejemplo: https://tusitio.com o http://localhost:5500
+  const DOMINIO_BASE = 'https://cjleyva.github.io/parche-ibarna';
+  // La ruta de la carta (siempre la misma)
+  const RUTA_CARTA = '/menu.html';
+  
+  // Construir la URL base permanente
+  const BASE_URL = DOMINIO_BASE + RUTA_CARTA;
+  
+  // Número de mesas
+  const NUMERO_MESAS = 12;
+
+  // Clave para guardar en localStorage
+  const STORAGE_KEY = 'parche_mesas_qr_permanente';
 
   function showMessage(text, isError = false) {
     const msg = document.getElementById('message');
@@ -252,6 +280,7 @@
   }
 
   function obtenerURLMesa(mesaNumero) {
+    // La URL es siempre la misma: dominio + /menu.html?mesa=X
     return `${BASE_URL}?mesa=${mesaNumero}`;
   }
 
@@ -283,18 +312,30 @@
   function generarTodasLasMesas() {
     const grid = document.getElementById('mesasGrid');
     let html = '';
+    const mesasData = [];
+    
     for (let i = 1; i <= NUMERO_MESAS; i++) {
       html += generarTarjetaMesa(i);
+      mesasData.push({ 
+        numero: i, 
+        url: obtenerURLMesa(i),
+        fechaGeneracion: new Date().toISOString()
+      });
     }
-    grid.innerHTML = html;
-    showMessage(`✅ Generados ${NUMERO_MESAS} códigos QR para todas las mesas`);
     
-    // Guardar en localStorage
-    const mesas = [];
-    for (let i = 1; i <= NUMERO_MESAS; i++) {
-      mesas.push({ numero: i, url: obtenerURLMesa(i) });
-    }
-    localStorage.setItem('mesasQR', JSON.stringify(mesas));
+    grid.innerHTML = html;
+    
+    // Guardar configuración permanente
+    const configuracion = {
+      dominio: DOMINIO_BASE,
+      rutaCarta: RUTA_CARTA,
+      totalMesas: NUMERO_MESAS,
+      mesas: mesasData,
+      ultimaActualizacion: new Date().toISOString()
+    };
+    
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(configuracion));
+    showMessage(`✅ QR PERMANENTES generados para ${NUMERO_MESAS} mesas. Estos QR no cambiarán.`);
   }
 
   function descargarQRMesa(mesaNumero) {
@@ -307,14 +348,16 @@
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `mesa-${mesaNumero}-qr.svg`;
+    a.download = `mesa-${mesaNumero}-qr-permanente.svg`;
     a.click();
     URL.revokeObjectURL(url);
-    showMessage(`📥 QR de Mesa ${mesaNumero} descargado`);
+    showMessage(`📥 QR de Mesa ${mesaNumero} descargado (guardar para siempre)`);
   }
 
   function imprimirMesa(mesaNumero) {
     const mesaCard = document.getElementById(`mesa-${mesaNumero}`).cloneNode(true);
+    const urlBase = obtenerURLMesa(mesaNumero);
+    
     const ventana = window.open('', '_blank');
     ventana.document.write(`
       <html>
@@ -336,7 +379,7 @@
               border: 2px solid #00ffff;
               border-radius: 20px;
               padding: 30px;
-              width: 300px;
+              width: 320px;
             }
             .qr-container svg {
               width: 200px;
@@ -345,10 +388,17 @@
             .qr-container h1 {
               color: #00ffff;
               margin-bottom: 20px;
+              font-size: 24px;
             }
             .qr-container p {
               color: #333;
               margin-top: 20px;
+              font-size: 12px;
+            }
+            .qr-container .small-note {
+              font-size: 10px;
+              color: #999;
+              margin-top: 15px;
             }
           </style>
         </head>
@@ -356,8 +406,9 @@
           <div class="qr-container">
             <h1>MESA ${mesaNumero}</h1>
             ${mesaCard.querySelector('.mesa-qr').innerHTML}
-            <p>Escanea este código QR para ver la carta y hacer tu pedido</p>
-            <p><strong>PARCHE IBARNA</strong><br>Poblado Campestre</p>
+            <p><strong>PARCHE IBARNA</strong><br>Escanea este código QR para ver la carta y hacer tu pedido</p>
+            <div class="small-note">Código QR permanente - Válido siempre</div>
+            <p>📍 Poblado Campestre</p>
           </div>
         </body>
       </html>
@@ -375,7 +426,7 @@
 
   async function descargarZip() {
     const zip = new JSZip();
-    const folder = zip.folder("QR-Mesas-PARCHE-IBARNA");
+    const folder = zip.folder("QR-Mesas-PARCHE-IBARNA-PERMANENTES");
     
     for (let i = 1; i <= NUMERO_MESAS; i++) {
       const qrDiv = document.getElementById(`qr-${i}`);
@@ -383,65 +434,86 @@
         const svg = qrDiv.querySelector('svg');
         if (svg) {
           const data = new XMLSerializer().serializeToString(svg);
-          folder.file(`mesa-${i}-qr.svg`, data);
+          folder.file(`mesa-${i}-qr-permanente.svg`, data);
         }
       }
+    }
+    
+    // Guardar también la configuración
+    const configuracion = localStorage.getItem(STORAGE_KEY);
+    if (configuracion) {
+      folder.file("configuracion-mesas.json", configuracion);
     }
     
     const content = await zip.generateAsync({ type: "blob" });
     const url = URL.createObjectURL(content);
     const a = document.createElement('a');
     a.href = url;
-    a.download = "qr-mesas-parche-ibarna.zip";
+    a.download = "qr-mesas-parche-ibarna-permanentes.zip";
     a.click();
     URL.revokeObjectURL(url);
-    showMessage(`📦 ZIP descargado con ${NUMERO_MESAS} códigos QR`);
+    showMessage(`📦 ZIP descargado con ${NUMERO_MESAS} códigos QR PERMANENTES`);
   }
 
-  function limpiarMesas() {
-    if (confirm('¿Estás seguro de limpiar todas las mesas?')) {
-      document.getElementById('mesasGrid').innerHTML = '';
-      localStorage.removeItem('mesasQR');
-      showMessage('🗑️ Todas las mesas han sido limpiadas');
+  function exportarConfiguracion() {
+    const configuracion = localStorage.getItem(STORAGE_KEY);
+    if (configuracion) {
+      const blob = new Blob([configuracion], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'parche-mesas-configuracion.json';
+      a.click();
+      URL.revokeObjectURL(url);
+      showMessage(`📄 Configuración exportada`);
+    } else {
+      showMessage(`❌ No hay configuración guardada. Genera los QR primero.`, true);
     }
   }
 
-  // Cargar mesas guardadas al iniciar
   function cargarMesasGuardadas() {
-    const mesasGuardadas = localStorage.getItem('mesasQR');
-    if (mesasGuardadas) {
-      const mesas = JSON.parse(mesasGuardadas);
-      const grid = document.getElementById('mesasGrid');
-      let html = '';
-      mesas.forEach(mesa => {
-        const qrSvg = generarQR(mesa.url, 150);
-        html += `
-          <div class="mesa-card" id="mesa-${mesa.numero}">
-            <div class="mesa-numero">MESA ${mesa.numero}</div>
-            <div class="mesa-qr" id="qr-${mesa.numero}">
-              ${qrSvg}
+    const configuracion = localStorage.getItem(STORAGE_KEY);
+    if (configuracion) {
+      try {
+        const data = JSON.parse(configuracion);
+        const grid = document.getElementById('mesasGrid');
+        let html = '';
+        
+        data.mesas.forEach(mesa => {
+          const qrSvg = generarQR(mesa.url, 150);
+          html += `
+            <div class="mesa-card" id="mesa-${mesa.numero}">
+              <div class="mesa-numero">MESA ${mesa.numero}</div>
+              <div class="mesa-qr" id="qr-${mesa.numero}">
+                ${qrSvg}
+              </div>
+              <div class="mesa-url">
+                <i class="fas fa-link"></i> ${mesa.url}
+              </div>
+              <div class="mesa-buttons">
+                <button class="btn btn-sm btn-secondary" onclick="descargarQRMesa(${mesa.numero})">
+                  <i class="fas fa-download"></i> QR
+                </button>
+                <button class="btn btn-sm btn-secondary" onclick="imprimirMesa(${mesa.numero})">
+                  <i class="fas fa-print"></i> Imprimir
+                </button>
+              </div>
             </div>
-            <div class="mesa-url">
-              <i class="fas fa-link"></i> ${mesa.url}
-            </div>
-            <div class="mesa-buttons">
-              <button class="btn btn-sm btn-secondary" onclick="descargarQRMesa(${mesa.numero})">
-                <i class="fas fa-download"></i> QR
-              </button>
-              <button class="btn btn-sm btn-secondary" onclick="imprimirMesa(${mesa.numero})">
-                <i class="fas fa-print"></i> Imprimir
-              </button>
-            </div>
-          </div>
-        `;
-      });
-      grid.innerHTML = html;
-      showMessage(`📱 Cargadas ${mesas.length} mesas guardadas`);
+          `;
+        });
+        
+        grid.innerHTML = html;
+        showMessage(`📱 Cargadas ${data.mesas.length} mesas guardadas (QR PERMANENTES)`);
+      } catch(e) {
+        console.error('Error al cargar configuración', e);
+        generarTodasLasMesas();
+      }
     } else {
       generarTodasLasMesas();
     }
   }
 
+  // Inicializar
   cargarMesasGuardadas();
 </script>
 </body>
