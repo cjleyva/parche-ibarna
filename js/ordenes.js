@@ -1,11 +1,15 @@
 // ============================================
 // PARCHE IBARNA - Órdenes JavaScript
 // Envío de pedido al WhatsApp de la coctelería
+// CON IDENTIFICACIÓN DE MESA Y LIMPIEZA AUTOMÁTICA
 // SIN IVA
 // ============================================
 
 (function() {
+    'use strict';
+
     let currentCart = [];
+    let numeroMesa = null;
 
     // NÚMERO DE WHATSAPP DE LA COCTELERÍA
     const WHATSAPP_NUMBER = "573204901827";
@@ -21,12 +25,43 @@
     ];
 
     document.addEventListener('DOMContentLoaded', function() {
+        obtenerMesaDesdeURL();
         loadCart();
         initEventListeners();
         initHeroCarousel();
+        mostrarInfoMesa();
     });
 
-    // Inicializar carrusel del hero
+    // ============================================
+    // OBTENER NÚMERO DE MESA DESDE LA URL
+    // ============================================
+    function obtenerMesaDesdeURL() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const mesa = urlParams.get('mesa');
+        if (mesa && !isNaN(mesa) && mesa >= 1 && mesa <= 20) {
+            numeroMesa = parseInt(mesa);
+            console.log(`📱 Cliente en MESA ${numeroMesa}`);
+        } else {
+            console.log('📱 Cliente sin mesa asignada (visita directa)');
+        }
+    }
+
+    // ============================================
+    // MOSTRAR BANNER DE MESA
+    // ============================================
+    function mostrarInfoMesa() {
+        const mesaInfo = document.getElementById('mesaInfo');
+        const mesaNumeroDisplay = document.getElementById('mesaNumeroDisplay');
+        
+        if (numeroMesa && mesaInfo && mesaNumeroDisplay) {
+            mesaNumeroDisplay.innerHTML = `<i class="fas fa-chair"></i> Mesa ${numeroMesa} - Escanea el código QR de tu mesa`;
+            mesaInfo.style.display = 'block';
+        }
+    }
+
+    // ============================================
+    // INICIALIZAR CARRUSEL DEL HERO
+    // ============================================
     function initHeroCarousel() {
         const heroWrapper = document.getElementById('heroCarouselWrapper');
         if (!heroWrapper) return;
@@ -52,23 +87,46 @@
         });
     }
 
+    // ============================================
+    // CARGAR CARRITO (por mesa o general)
+    // ============================================
     function loadCart() {
-        currentCart = JSON.parse(localStorage.getItem('parcheCart') || '[]');
+        const cartKey = numeroMesa ? `parcheCart_mesa_${numeroMesa}` : 'parcheCart';
+        const savedCart = localStorage.getItem(cartKey);
+        currentCart = savedCart ? JSON.parse(savedCart) : [];
         renderCart();
         updateSummary();
         updateCounters();
         checkEmptyState();
-    }
-
-    function formatPrice(price) {
-        return `$${price.toLocaleString('es-CO')}`;
-    }
-
-    function saveCart() {
-        localStorage.setItem('parcheCart', JSON.stringify(currentCart));
         updateCartBadge();
     }
 
+    // ============================================
+    // GUARDAR CARRITO (por mesa o general)
+    // ============================================
+    function saveCart() {
+        const cartKey = numeroMesa ? `parcheCart_mesa_${numeroMesa}` : 'parcheCart';
+        localStorage.setItem(cartKey, JSON.stringify(currentCart));
+        updateCartBadge();
+    }
+
+    // ============================================
+    // LIMPIAR CARRITO DESPUÉS DEL PEDIDO
+    // ============================================
+    function limpiarCarritoDespuesDePedido() {
+        const cartKey = numeroMesa ? `parcheCart_mesa_${numeroMesa}` : 'parcheCart';
+        currentCart = [];
+        localStorage.setItem(cartKey, JSON.stringify(currentCart));
+        renderCart();
+        updateSummary();
+        updateCounters();
+        checkEmptyState();
+        updateCartBadge();
+    }
+
+    // ============================================
+    // ACTUALIZAR BADGE DEL CARRITO
+    // ============================================
     function updateCartBadge() {
         const totalItems = currentCart.reduce((sum, item) => sum + item.quantity, 0);
         document.querySelectorAll('#cartBadge, #cartBadgeMobile').forEach(badge => {
@@ -83,6 +141,16 @@
         });
     }
 
+    // ============================================
+    // FORMATO DE PRECIO
+    // ============================================
+    function formatPrice(price) {
+        return `$${price.toLocaleString('es-CO')}`;
+    }
+
+    // ============================================
+    // RENDERIZAR CARRITO
+    // ============================================
     function renderCart() {
         const container = document.getElementById('cartItemsContainer');
         if (!container) return;
@@ -129,6 +197,9 @@
         bindCartItemEvents();
     }
 
+    // ============================================
+    // EVENTOS DEL CARRITO
+    // ============================================
     function bindCartItemEvents() {
         document.querySelectorAll('.qty-decrease').forEach(btn => {
             btn.removeEventListener('click', handleDecrease);
@@ -199,9 +270,11 @@
         }
     }
 
+    // ============================================
+    // ACTUALIZAR RESUMEN
+    // ============================================
     function updateSummary() {
         const total = currentCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
         document.getElementById('summarySubtotal').textContent = formatPrice(total);
         document.getElementById('summaryTotal').textContent = formatPrice(total);
     }
@@ -226,6 +299,9 @@
         }
     }
 
+    // ============================================
+    // CONFIRMAR Y ENVIAR PEDIDO POR WHATSAPP
+    // ============================================
     function confirmOrder() {
         if (currentCart.length === 0) {
             showNotification('No hay productos en tu pedido');
@@ -239,9 +315,16 @@
         const fecha = ahora.toLocaleDateString('es-CO');
         const hora = ahora.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' });
         
-        // Mensaje para el personal de la coctelería - SIN IVA
+        // Mensaje para el personal de la coctelería
         let mensaje = "🍸 *¡NUEVO PEDIDO - PARCHE IBARNA!* 🍸\n\n";
         mensaje += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
+        
+        // Mostrar número de mesa si está disponible
+        if (numeroMesa) {
+            mensaje += `🪑 *MESA:* ${numeroMesa}\n`;
+        } else {
+            mensaje += `🪑 *MESA:* No especificada (pedido desde web)\n`;
+        }
         mensaje += `📅 *Fecha:* ${fecha}\n`;
         mensaje += `⏰ *Hora:* ${hora}\n`;
         mensaje += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n";
@@ -262,6 +345,9 @@
         mensaje += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
         mensaje += "👨‍🍳 *INSTRUCCIONES PARA EL PERSONAL:*\n";
         mensaje += "┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈\n";
+        if (numeroMesa) {
+            mensaje += `✅ Servir en MESA ${numeroMesa}\n`;
+        }
         mensaje += "✅ Preparar con los ingredientes premium\n";
         mensaje += "✅ Entregar al cliente en la mesa\n\n";
         
@@ -272,9 +358,16 @@
         const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`;
         
         window.open(url, '_blank');
-        showNotification('Redirigiendo a WhatsApp del local...');
+        
+        // LIMPIAR EL CARRITO DESPUÉS DE ENVIAR EL PEDIDO
+        limpiarCarritoDespuesDePedido();
+        
+        showNotification('✅ Pedido enviado. ¡Gracias por tu compra!');
     }
 
+    // ============================================
+    // NOTIFICACIONES
+    // ============================================
     function showNotification(message) {
         let toast = document.querySelector('.toast-notification');
         if (!toast) {
@@ -284,7 +377,7 @@
         }
         toast.textContent = message;
         toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 2000);
+        setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
     function escapeHtml(text) {
@@ -293,11 +386,34 @@
         return div.innerHTML;
     }
 
+    // ============================================
+    // EVENT LISTENERS
+    // ============================================
     function initEventListeners() {
-        document.getElementById('clearAllBtn')?.addEventListener('click', clearAllItems);
-        document.getElementById('confirmOrderBtn')?.addEventListener('click', confirmOrder);
-        document.getElementById('continueShoppingBtn')?.addEventListener('click', () => {
-            window.location.href = 'menu.html';
-        });
+        const clearAllBtn = document.getElementById('clearAllBtn');
+        const confirmOrderBtn = document.getElementById('confirmOrderBtn');
+        const continueShoppingBtn = document.getElementById('continueShoppingBtn');
+        
+        if (clearAllBtn) {
+            clearAllBtn.addEventListener('click', clearAllItems);
+        }
+        
+        if (confirmOrderBtn) {
+            confirmOrderBtn.addEventListener('click', confirmOrder);
+        }
+        
+        if (continueShoppingBtn) {
+            continueShoppingBtn.addEventListener('click', () => {
+                window.location.href = 'menu.html';
+            });
+        }
     }
+
+    // Escuchar cambios en localStorage para sincronizar
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'parcheCart' || (numeroMesa && e.key === `parcheCart_mesa_${numeroMesa}`)) {
+            loadCart();
+        }
+    });
+
 })();
