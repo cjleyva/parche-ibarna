@@ -1,6 +1,6 @@
 // ============================================
 // PARCHE IBARNA - Datos del Menú
-// Catálogo completo de 24 bebidas únicas
+// Catálogo completo de bebidas únicas
 // Organizado por categorías correctas
 // ============================================
 
@@ -18,7 +18,7 @@ const cocktailData = {
         { 
             name: 'Tinto de Verano', 
             description: 'La bebida ideal para los días soleados. Vino tinto con Sprite, servido con abundante hielo. Refrescante, tradicional y perfecto para compartir en el Poblado Campestre.', 
-            price: 19000, 
+            price: 12000, 
             image: 'imagenes/tinto_verano.jpeg', 
             alcohol: true, 
             badge: null,
@@ -27,7 +27,7 @@ const cocktailData = {
         { 
             name: 'Cubata', 
             description: 'Un clásico con sello propio llega al Poblado Campestre. Nuestra Cubata rinde homenaje a la tradición: la madurez y el sabor inigualable del Ron Viejo de Caldas se encuentra con la chispa de la Coca-Cola y un toque esencial de limón.', 
-            price: 24000, 
+            price: 15000, 
             image: 'imagenes/cubata.jpeg', 
             alcohol: true, 
             badge: null,
@@ -36,7 +36,7 @@ const cocktailData = {
         { 
             name: 'Havana Sunrise', 
             description: 'El alma del Caribe se encuentra con el Poblado Campestre. Disfruta de nuestro Havana Sunrise, una mezcla vibrante donde la fuerza del Ron Havana Club 3 Años se funde con la frescura natural del jugo de naranja y el toque cítrico de la toronja.', 
-            price: 20000, 
+            price: 16000, 
             image: 'imagenes/havana_sunrise.jpeg', 
             alcohol: true, 
             badge: null,
@@ -59,6 +59,15 @@ const cocktailData = {
             alcohol: true, 
             badge: null,
             emoji: '💙'
+        },
+        { 
+            name: 'Sangría', 
+            description: 'La clásica sangría española. Vino tinto con trozos de frutas frescas, un toque de brandy y soda. Refrescante y perfecta para compartir.', 
+            price: 25000, 
+            image: 'imagenes/sangria.jpeg', 
+            alcohol: true, 
+            badge: null,
+            emoji: '🍷🍊'
         }
     ],
     'exclusivos': [
@@ -119,7 +128,7 @@ const cocktailData = {
         { 
             name: 'Cherry Temptation', 
             description: 'Una tentación dulce y vibrante. Absolut Vodka con cerezas seleccionadas y sirope de fresa. Coronado con burbujas de Sprite. Fresco y visualmente encantador.', 
-            price: 30000, 
+            price: 16000, 
             image: 'imagenes/charry_templatation.jpeg', 
             badge: null,
             alcohol: true,
@@ -149,25 +158,61 @@ const cocktailData = {
             name: 'Corona Extra', 
             description: 'La cerveza mexicana clara por excelencia. Ligera, refrescante y perfecta para cualquier momento. Servida con su tradicional limón.', 
             price: 12000, 
-            image: 'imagenes/corona.jpeg', 
+            image: 'imagenes/cerveza_corona.jpeg', 
             alcohol: true, 
             badge: null,
             emoji: '🍺'
         },
         { 
-            name: 'Mango Viche Supreme', 
-            description: 'El placer de lo cítrico. Una michelada audaz que fusiona la cerveza con sirope de mango biche y jugosas rebanadas de fruta natural. Escarchada con sal y limón.', 
-            price: 28000, 
-            image: 'imagenes/mango_biche.jpeg', 
-            badge: '🥭 Especial',
-            alcohol: true,
-            emoji: '🥭🍺'
+            name: 'Budweiser', 
+            description: 'La cerveza americana rey de las cervezas. Suave, refrescante y con un sabor inconfundible. Servida bien fría.', 
+            price: 11000, 
+            image: 'imagenes/cerveza_budweiser.jpeg', 
+            alcohol: true, 
+            badge: null,
+            emoji: '🍺'
+        },
+        { 
+            name: 'Budweiser Lata', 
+            description: 'La clásica Budweiser en presentación lata. Práctica, refrescante y con el mismo sabor inconfundible.', 
+            price: 10000, 
+            image: 'imagenes/cerveza_budweiser_lata.jpeg', 
+            alcohol: true, 
+            badge: null,
+            emoji: '🍺'
+        },
+        { 
+            name: 'Poker', 
+            description: 'La cerveza colombiana de tradición. Sabor intenso y carácter único. Ideal para los amantes de las cervezas con cuerpo.', 
+            price: 9000, 
+            image: 'imagenes/cerveza_poker.jpeg', 
+            alcohol: true, 
+            badge: null,
+            emoji: '🍺'
+        },
+        { 
+            name: 'Águila Light', 
+            description: 'La cerveza ligera premium. Refrescante, baja en calorías y con todo el sabor de la tradición Águila.', 
+            price: 9000, 
+            image: 'imagenes/cerveza_aguila_light.jpeg', 
+            alcohol: true, 
+            badge: null,
+            emoji: '🍺'
+        },
+        { 
+            name: 'BBC Negra', 
+            description: 'Cerveza artesanal negra. Cuerpo completo, notas a café y chocolate. Una experiencia única para los paladares exigentes.', 
+            price: 14000, 
+            image: 'imagenes/cerveza_bbc_negra.jpeg', 
+            alcohol: true, 
+            badge: '🍺 Premium',
+            emoji: '🍺'
         },
         { 
             name: 'Club Colombia Dorada', 
             description: 'Orgullo nacional. Una cerveza dorada con el balance perfecto entre malta y lúpulo. Suave, refrescante y con carácter.', 
             price: 11000, 
-            image: 'imagenes/club_colombia.jpeg', 
+            image: 'imagenes/cerveza_club_colombia.jpeg', 
             alcohol: true, 
             badge: null,
             emoji: '🍺'
@@ -182,16 +227,81 @@ const cocktailData = {
             emoji: '🍺'
         },
         { 
-            name: 'Michelada', 
-            description: 'La reina de las cervezas preparadas. Cerveza con limón, sales, salsas y especias. Perfecta para cualquier hora.', 
-            price: 15000, 
-            image: 'imagenes/michelada.jpeg', 
+            name: 'Mango Viche Supreme', 
+            description: 'El placer de lo cítrico. Una michelada audaz que fusiona la cerveza con sirope de mango biche y jugosas rebanadas de fruta natural. Escarchada con sal y limón.', 
+            price: 28000, 
+            image: 'imagenes/mango_biche.jpeg', 
+            badge: '🥭 Especial',
+            alcohol: true,
+            emoji: '🥭🍺'
+        }
+    ],
+    'micheladas': [
+        { 
+            name: 'Michelada Águila', 
+            description: 'La clásica michelada con cerveza Águila. Limón, salsas, especias y el sabor refrescante de Águila.', 
+            price: 16000, 
+            image: 'imagenes/aguila_michelada_3.jpeg', 
             alcohol: true, 
-            badge: null,
+            badge: '🌶️ Michelada',
+            emoji: '🍺🌶️'
+        },
+        { 
+            name: 'Michelada Águila Light', 
+            description: 'La versión ligera de nuestra michelada. Con cerveza Águila Light, perfecta para cuidar la línea sin perder el sabor.', 
+            price: 16000, 
+            image: 'imagenes/aguila_light_michelada.jpeg', 
+            alcohol: true, 
+            badge: '🌶️ Michelada',
+            emoji: '🍺🌶️'
+        },
+        { 
+            name: 'Michelada Águila 2', 
+            description: 'Nuestra michelada especial. Cerveza Águila con nuestra receta secreta de salsas y especias.', 
+            price: 16000, 
+            image: 'imagenes/aguila_michelada_2.jpeg', 
+            alcohol: true, 
+            badge: '🌶️ Michelada',
+            emoji: '🍺🌶️'
+        },
+        { 
+            name: 'Michelada Águila 1', 
+            description: 'La michelada clásica. Limón, sal, salsas y la mejor cerveza Águila bien fría.', 
+            price: 16000, 
+            image: 'imagenes/aguila_michelada_1.jpeg', 
+            alcohol: true, 
+            badge: '🌶️ Michelada',
+            emoji: '🍺🌶️'
+        },
+        { 
+            name: 'Michelada Corona', 
+            description: 'La michelada con la famosa Corona Extra. Limón, salsas, especias y el sabor refrescante de México.', 
+            price: 22000, 
+            image: 'imagenes/corona_michelada_1.jpeg', 
+            alcohol: true, 
+            badge: '🌶️ Michelada',
+            emoji: '🍺🌶️'
+        },
+        { 
+            name: 'Michelada Corona 2', 
+            description: 'Nuestra versión premium de michelada con Corona Extra. Ingredientes seleccionados para una experiencia única.', 
+            price: 17000, 
+            image: 'imagenes/corona_michelada_2.jpeg', 
+            alcohol: true, 
+            badge: '🌶️ Michelada',
             emoji: '🍺🌶️'
         }
     ],
     'tragos': [
+        { 
+            name: 'Aguardiente Amarillo', 
+            description: 'El tradicional aguardiente amarillo colombiano. Suave, con el característico sabor a anís y la fuerza que lo caracteriza.', 
+            price: 15000, 
+            image: 'imagenes/aguardiante_amarillo.jpeg', 
+            alcohol: true, 
+            badge: null,
+            emoji: '🍾'
+        },
         { 
             name: 'Ron Viejo de Caldas', 
             description: 'Ron añejo colombiano, suave y con carácter. Perfecto solo, en las rocas o como base para los mejores cócteles.', 
@@ -348,9 +458,15 @@ function getCategoryName(category) {
         'clasicos': '🍸 Clásicos',
         'exclusivos': '✨ Exclusivos',
         'cervezas': '🍺 Cervezas',
+        'micheladas': '🌶️ Micheladas',
         'tragos': '🥃 Tragos',
         'sodas': '🥤 Sodas',
         'sin-alcohol': '🌿 Sin Alcohol'
     };
     return names[category] || '🍸 Coctel';
+}
+
+// Exportar para usar en otros archivos
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { cocktailData, getCategoryName };
 }

@@ -45,19 +45,20 @@
 
     /* Contenedor principal */
     .carta-fisica-container {
-      max-width: 1200px;
-      margin: 0 auto;
+      max-width: 100%;
+      margin: 0;
       padding: 0;
       background: transparent;
     }
 
     /* ============================================
-       PORTADA - SIN ESPACIOS
+       PORTADA - FULL WIDTH
     ============================================ */
     .carta-portada {
       position: relative;
       width: 100%;
-      height: 180px;
+      height: auto;
+      min-height: 250px;
       overflow: hidden;
       margin: 0;
       border-bottom: 2px solid var(--primary);
@@ -65,9 +66,11 @@
 
     .carta-portada-img {
       width: 100%;
-      height: 100%;
+      height: auto;
+      min-height: 250px;
       object-fit: cover;
-      object-position: center 30%;
+      object-position: center;
+      display: block;
     }
 
     .carta-portada-overlay {
@@ -75,28 +78,30 @@
       bottom: 0;
       left: 0;
       right: 0;
-      background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
-      padding: 10px 20px;
+      background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%);
+      padding: 20px;
       text-align: center;
     }
 
     .carta-portada-texto {
-      font-size: 11px;
-      letter-spacing: 3px;
+      font-size: 14px;
+      letter-spacing: 4px;
       color: var(--primary-light);
       text-transform: uppercase;
       font-weight: 600;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
     }
 
     /* Header compacto */
     .carta-header {
       text-align: center;
-      padding: 15px 0 10px;
+      padding: 20px 15px 10px;
       margin: 0;
+      background: linear-gradient(135deg, rgba(10,21,37,0.95), rgba(16,32,53,0.95));
     }
 
     .carta-logo {
-      font-size: 32px;
+      font-size: 36px;
       font-weight: 800;
       color: var(--text-white);
       margin-bottom: 5px;
@@ -108,15 +113,15 @@
 
     .carta-subtitle {
       color: var(--text-gray);
-      font-size: 11px;
+      font-size: 12px;
       letter-spacing: 2px;
-      margin-bottom: 5px;
+      margin-bottom: 8px;
     }
 
     .carta-direccion {
       color: var(--text-dim);
       font-size: 10px;
-      line-height: 1.3;
+      line-height: 1.4;
     }
 
     .carta-direccion i {
@@ -132,126 +137,150 @@
       margin-bottom: 20px;
     }
 
-    /* Tarjeta de producto */
+    /* Tarjeta de producto con fondo de imagen opaco */
     .carta-producto-card {
+      position: relative;
       background: var(--bg-card-solid);
       border: 1px solid var(--border-light);
       border-radius: 12px;
       overflow: hidden;
       page-break-inside: avoid;
       break-inside: avoid;
+      transition: transform 0.3s ease;
+      background-size: cover;
+      background-position: center;
+      background-blend-mode: overlay;
     }
 
-    /* Imagen del producto */
-    .carta-producto-imagen {
-      height: 140px;
-      overflow: hidden;
-      background: linear-gradient(135deg, #0a1525, #102035);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-
-    .carta-producto-imagen::before {
+    /* Overlay oscuro para mejorar legibilidad */
+    .carta-producto-card::after {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      filter: blur(20px);
-      opacity: 0.5;
-      z-index: 0;
+      background: linear-gradient(135deg, rgba(0,0,0,0.5), rgba(0,0,0,0.7));
+      z-index: 1;
+      pointer-events: none;
+      border-radius: 12px;
+    }
+
+    /* Contenido de la tarjeta por encima del fondo */
+    .carta-producto-imagen,
+    .carta-producto-info {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Imagen del producto */
+    .carta-producto-imagen {
+      height: 150px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background: transparent;
     }
 
     .carta-producto-imagen img {
       position: relative;
       width: auto;
       height: 120px;
-      max-width: 90%;
+      max-width: 85%;
       object-fit: contain;
-      z-index: 1;
+      z-index: 2;
       border-radius: 10px;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
     }
 
     /* Información del producto */
     .carta-producto-info {
-      padding: 10px;
+      padding: 12px;
     }
 
     .carta-producto-nombre {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 700;
       color: var(--text-white);
-      margin-bottom: 3px;
+      margin-bottom: 4px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 3px;
+      gap: 5px;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
     }
 
     .carta-producto-badge {
       font-size: 8px;
       background: var(--primary);
       color: var(--bg-dark);
-      padding: 2px 5px;
+      padding: 2px 6px;
       border-radius: 20px;
-      font-weight: 600;
+      font-weight: 700;
     }
 
     .carta-producto-descripcion {
       font-size: 10px;
-      color: var(--text-gray);
-      line-height: 1.3;
-      margin-bottom: 5px;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.35;
+      margin-bottom: 6px;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
     }
 
     .carta-producto-precio {
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 800;
       color: var(--primary-light);
+      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
     }
 
     .carta-producto-alcohol {
       font-size: 8px;
       color: #ffaa44;
-      margin-top: 3px;
+      margin-top: 4px;
+      text-shadow: 0 1px 1px rgba(0,0,0,0.3);
     }
 
     .carta-producto-alcohol.no-alcohol {
       color: #44ffaa;
     }
 
+    /* Contenedor de contenido principal */
+    .carta-contenido-principal {
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
     /* Categorías */
     .carta-categoria {
-      margin-bottom: 25px;
+      margin-bottom: 30px;
       page-break-inside: avoid;
       break-inside: avoid;
     }
 
     .carta-categoria-titulo {
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 700;
       color: var(--primary);
       border-left: 4px solid var(--primary);
-      padding-left: 10px;
-      margin-bottom: 12px;
+      padding-left: 12px;
+      margin-bottom: 15px;
       margin-top: 0;
     }
 
     /* Footer */
     .carta-footer {
       text-align: center;
-      padding: 15px 0 10px;
+      padding: 20px;
       border-top: 1px solid var(--border-light);
-      margin-top: 15px;
+      margin-top: 20px;
       color: var(--text-dim);
       font-size: 9px;
+      background: linear-gradient(135deg, rgba(10,21,37,0.95), rgba(16,32,53,0.95));
     }
 
     /* Botón de impresión */
@@ -263,21 +292,21 @@
       background: linear-gradient(135deg, var(--primary), var(--primary-light));
       color: var(--bg-dark);
       border: none;
-      padding: 10px 18px;
+      padding: 12px 20px;
       border-radius: 40px;
       cursor: pointer;
-      font-weight: 600;
+      font-weight: 700;
       display: flex;
       align-items: center;
       gap: 8px;
       transition: all 0.3s;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
       font-size: 14px;
     }
 
     .print-btn-flotante:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.4);
     }
 
     /* ============================================
@@ -286,7 +315,7 @@
     @media print {
       /* Eliminar márgenes del navegador */
       @page {
-        margin: 0.5cm;
+        margin: 0;
         size: A4;
       }
       
@@ -302,7 +331,7 @@
       }
 
       body {
-        background: linear-gradient(135deg, #0a0a0f, #0f0f1a) !important;
+        background: #0a0a0f !important;
         padding: 0 !important;
         margin: 0 !important;
       }
@@ -313,11 +342,11 @@
       }
 
       .carta-portada {
-        height: 150px;
+        min-height: 200px;
       }
 
       .carta-header {
-        padding: 10px 0 8px;
+        padding: 15px;
       }
 
       .carta-logo {
@@ -330,8 +359,8 @@
       }
 
       .carta-categoria-titulo {
-        font-size: 16px;
-        margin-bottom: 10px;
+        font-size: 18px;
+        margin-bottom: 12px;
       }
 
       /* Evitar saltos de página dentro de categorías */
@@ -339,30 +368,79 @@
         break-inside: avoid;
         page-break-inside: avoid;
       }
+      
+      .carta-contenido-principal {
+        padding: 15px;
+      }
     }
 
     /* Responsive */
-    @media (max-width: 768px) {
+    @media (max-width: 992px) {
       .carta-productos-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
       }
       
+      .carta-contenido-principal {
+        padding: 15px;
+      }
+    }
+
+    @media (max-width: 768px) {
       .carta-portada {
-        height: 140px;
+        min-height: 180px;
+      }
+      
+      .carta-portada-texto {
+        font-size: 10px;
+        letter-spacing: 2px;
+      }
+      
+      .carta-logo {
+        font-size: 28px;
+      }
+      
+      .carta-productos-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+      
+      .carta-producto-imagen {
+        height: 130px;
+      }
+      
+      .carta-producto-imagen img {
+        height: 100px;
+      }
+      
+      .carta-categoria-titulo {
+        font-size: 18px;
       }
     }
 
     @media (max-width: 576px) {
+      .carta-portada {
+        min-height: 150px;
+      }
+      
       .carta-productos-grid {
         grid-template-columns: 1fr;
       }
       
-      .carta-portada {
-        height: 120px;
+      .carta-producto-imagen {
+        height: 160px;
+      }
+      
+      .carta-producto-imagen img {
+        height: 130px;
       }
       
       .carta-logo {
         font-size: 24px;
+      }
+      
+      .carta-categoria-titulo {
+        font-size: 16px;
       }
     }
   </style>
@@ -375,9 +453,9 @@
 </button>
 
 <div class="carta-fisica-container">
-  <!-- PORTADA COMPACTA -->
+  <!-- PORTADA FULL WIDTH -->
   <div class="carta-portada">
-    <img class="carta-portada-img" src="imagenes/barcelona.jpeg" alt="PARCHE IBARNA" onerror="this.src='https://placehold.co/1200x180/1a1a2e/00ffff?text=PARCHE+IBARNA'">
+    <img class="carta-portada-img" src="imagenes/barcelona.jpeg" alt="PARCHE IBARNA" onerror="this.src='https://placehold.co/1920x400/1a1a2e/00ffff?text=PARCHE+IBARNA'">
     <div class="carta-portada-overlay">
       <span class="carta-portada-texto">✦ La mejor coctelería del Poblado Campestre ✦</span>
     </div>
@@ -393,10 +471,13 @@
     </div>
   </div>
 
-  <div id="cartaFisicaContenido">
-    <div class="text-center" style="padding: 30px;">
-      <i class="fas fa-spinner fa-spin" style="font-size: 1.5rem; color: var(--primary);"></i>
-      <p style="color: var(--text-gray);">Cargando carta...</p>
+  <!-- CONTENIDO PRINCIPAL -->
+  <div class="carta-contenido-principal">
+    <div id="cartaFisicaContenido">
+      <div class="text-center" style="padding: 40px;">
+        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary);"></i>
+        <p style="color: var(--text-gray); margin-top: 15px;">Cargando carta...</p>
+      </div>
     </div>
   </div>
 
@@ -417,6 +498,7 @@
       'clasicos': '🍸 Clásicos',
       'exclusivos': '✨ Exclusivos',
       'cervezas': '🍺 Cervezas',
+      'micheladas': '🌶️ Micheladas',
       'tragos': '🥃 Tragos',
       'sodas': '🥤 Sodas',
       'sin-alcohol': '🌿 Sin Alcohol'
@@ -424,7 +506,8 @@
     return names[category] || '🍸 Coctel';
   }
 
-  const categoriasOrden = ['clasicos', 'exclusivos', 'cervezas', 'tragos', 'sodas', 'sin-alcohol'];
+  // Orden de categorías incluyendo Micheladas
+  const categoriasOrden = ['clasicos', 'exclusivos', 'cervezas', 'micheladas', 'tragos', 'sodas', 'sin-alcohol'];
 
   function renderizarCartaFisica() {
     const container = document.getElementById('cartaFisicaContenido');
@@ -447,7 +530,7 @@
         
         html += `
           <div class="carta-producto-card">
-            <div class="carta-producto-imagen" style="background: linear-gradient(135deg, #0a1525, #102035);">
+            <div class="carta-producto-imagen">
               <img src="${imagePath}" alt="${item.name}" loading="lazy" onerror="this.src='https://placehold.co/400x300/1a1a2e/00ffff?text=${encodeURIComponent(item.name)}'">
             </div>
             <div class="carta-producto-info">
@@ -472,6 +555,22 @@
     }
 
     container.innerHTML = html;
+    
+    // Asignar la imagen de fondo a cada tarjeta con opacidad controlada
+    const cards = document.querySelectorAll('.carta-producto-card');
+    cards.forEach((card) => {
+      const img = card.querySelector('.carta-producto-imagen img');
+      if (img && img.src && img.src !== 'https://placehold.co/400x300/1a1a2e/00ffff?text=...') {
+        // Aplicar fondo con la imagen - opacidad controlada por background-blend-mode
+        card.style.backgroundImage = `linear-gradient(135deg, rgba(0,0,0,0.3), rgba(0,0,0,0.6)), url('${img.src}')`;
+        card.style.backgroundSize = 'cover';
+        card.style.backgroundPosition = 'center';
+        card.style.backgroundBlendMode = 'overlay';
+      } else {
+        // Fondo por defecto si no hay imagen
+        card.style.background = 'linear-gradient(135deg, #0a1525, #102035)';
+      }
+    });
   }
 
   function init() {

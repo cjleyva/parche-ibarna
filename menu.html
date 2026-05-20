@@ -60,6 +60,7 @@
   </div>
 </div>
 
+<!-- Hero Section -->
 <section class="menu-hero">
   <div class="container">
     <h1>Nuestra <span>Carta</span></h1>
@@ -67,23 +68,41 @@
   </div>
 </section>
 
+<!-- Menu Section con todas las categorías -->
 <section class="menu-section">
   <div class="container">
     <div class="menu-tabs">
-      <button class="tab-btn active" data-category="clasicos"><i class="fas fa-glass-martini-alt"></i> Clásicos</button>
-      <button class="tab-btn" data-category="exclusivos"><i class="fas fa-star"></i> Exclusivos</button>
-      <button class="tab-btn" data-category="cervezas"><i class="fas fa-beer"></i> Cervezas</button>
-      <button class="tab-btn" data-category="tragos"><i class="fas fa-whiskey-glass"></i> Tragos</button>
-      <button class="tab-btn" data-category="sodas"><i class="fas fa-bottle-water"></i> Sodas</button>
-      <button class="tab-btn" data-category="sin-alcohol"><i class="fas fa-leaf"></i> Sin Alcohol</button>
+      <button class="tab-btn active" data-category="clasicos">
+        <i class="fas fa-glass-martini-alt"></i> Clásicos
+      </button>
+      <button class="tab-btn" data-category="exclusivos">
+        <i class="fas fa-star"></i> Exclusivos
+      </button>
+      <button class="tab-btn" data-category="cervezas">
+        <i class="fas fa-beer"></i> Cervezas
+      </button>
+      <button class="tab-btn" data-category="micheladas">
+        <i class="fas fa-pepper-hot"></i> Micheladas
+      </button>
+      <button class="tab-btn" data-category="tragos">
+        <i class="fas fa-whiskey-glass"></i> Tragos
+      </button>
+      <button class="tab-btn" data-category="sodas">
+        <i class="fas fa-bottle-water"></i> Sodas
+      </button>
+      <button class="tab-btn" data-category="sin-alcohol">
+        <i class="fas fa-leaf"></i> Sin Alcohol
+      </button>
     </div>
 
     <div id="menu-container" class="menu-grid"></div>
   </div>
 </section>
 
+<!-- Toast Notification -->
 <div id="toastNotification" class="toast-notification"></div>
 
+<!-- Footer -->
 <footer class="footer">
   <div class="container">
     <div class="footer-content">
@@ -111,6 +130,7 @@
         <a href="menu.html#clasicos">Clásicos</a>
         <a href="menu.html#exclusivos">Exclusivos</a>
         <a href="menu.html#cervezas">Cervezas</a>
+        <a href="menu.html#micheladas">Micheladas</a>
         <a href="menu.html#tragos">Tragos</a>
         <a href="menu.html#sodas">Sodas</a>
         <a href="menu.html#sin-alcohol">Sin Alcohol</a>
@@ -130,12 +150,13 @@
   </div>
 </footer>
 
-<!-- BOTÓN FLOTANTE PARA MÓVIL - SIEMPRE VISIBLE -->
+<!-- Botón flotante para móvil -->
 <a href="ordenes.html" class="float-order-btn" id="floatOrderBtn">
-    <i class="fas fa-shopping-bag"></i>
-    <span class="float-order-count" id="floatOrderCount">0</span>
+  <i class="fas fa-shopping-bag"></i>
+  <span class="float-order-count" id="floatOrderCount">0</span>
 </a>
 
+<!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/global.js"></script>
 <script src="js/menu-data.js"></script>
