@@ -1,6 +1,7 @@
 // ============================================
 // PARCHE IBARNA - Menu Page JavaScript
 // Con identificación de mesa, redirección a órdenes y botón flotante
+// Soporte para productos con múltiples tamaños (ej: Sangría)
 // ============================================
 
 (function() {
@@ -21,19 +22,16 @@
         
         if (mesa && !isNaN(mesa) && mesa >= 1 && mesa <= 20) {
             numeroMesa = parseInt(mesa);
-            // Guardar la mesa en localStorage para futuras visitas
             guardarMesaEnStorage(numeroMesa);
             console.log(`📱 Cliente en MESA ${numeroMesa} (desde URL)`);
             mostrarBannerMesa();
             return true;
         } else {
-            // Intentar cargar mesa desde localStorage
             const mesaGuardada = localStorage.getItem('parcheMesaActual');
             if (mesaGuardada && !isNaN(mesaGuardada) && mesaGuardada >= 1 && mesaGuardada <= 20) {
                 numeroMesa = parseInt(mesaGuardada);
                 console.log(`📱 Cliente en MESA ${numeroMesa} (desde localStorage)`);
                 mostrarBannerMesa();
-                // Actualizar URL sin recargar la página
                 actualizarURLConMesa();
                 return true;
             }
@@ -42,9 +40,6 @@
         return false;
     }
 
-    // ============================================
-    // ACTUALIZAR URL CON EL NÚMERO DE MESA (SIN RECARGAR)
-    // ============================================
     function actualizarURLConMesa() {
         if (!numeroMesa) return;
         const nuevaURL = `${window.location.pathname}?mesa=${numeroMesa}`;
@@ -52,13 +47,9 @@
         console.log(`🔄 URL actualizada a: ${nuevaURL}`);
     }
 
-    // ============================================
-    // GUARDAR MESA EN LOCALSTORAGE
-    // ============================================
     function guardarMesaEnStorage(mesa) {
         if (mesa) {
             localStorage.setItem('parcheMesaActual', mesa);
-            // Guardar también una cookie con expiración de 30 días
             const fechaExpiracion = new Date();
             fechaExpiracion.setTime(fechaExpiracion.getTime() + (30 * 24 * 60 * 60 * 1000));
             document.cookie = `parcheMesa=${mesa}; expires=${fechaExpiracion.toUTCString()}; path=/`;
@@ -66,23 +57,6 @@
         }
     }
 
-    // ============================================
-    // CARGAR MESA DESDE COOKIE (respaldo)
-    // ============================================
-    function obtenerMesaDesdeCookie() {
-        const cookies = document.cookie.split(';');
-        for (let cookie of cookies) {
-            const [name, value] = cookie.trim().split('=');
-            if (name === 'parcheMesa' && value && !isNaN(value) && value >= 1 && value <= 20) {
-                return parseInt(value);
-            }
-        }
-        return null;
-    }
-
-    // ============================================
-    // MOSTRAR BANNER DE MESA
-    // ============================================
     function mostrarBannerMesa() {
         const banner = document.getElementById('mesaBannerTop');
         const mesaTexto = document.getElementById('mesaNumeroTexto');
@@ -90,15 +64,10 @@
         if (banner && mesaTexto && numeroMesa) {
             mesaTexto.innerHTML = `<i class="fas fa-chair"></i> Estás en la MESA ${numeroMesa} - Tus pedidos llegarán directamente a esta mesa`;
             banner.style.display = 'block';
-            
-            // Actualizar los enlaces de "Mi Pedido" con el parámetro de mesa
             actualizarEnlacesPedido();
         }
     }
 
-    // ============================================
-    // ACTUALIZAR ENLACES DE "MI PEDIDO" CON LA MESA
-    // ============================================
     function actualizarEnlacesPedido() {
         if (!numeroMesa) return;
         
@@ -108,36 +77,29 @@
         
         const nuevaURL = `ordenes.html?mesa=${numeroMesa}`;
         
-        if (ordenesLinkDesktop) {
-            ordenesLinkDesktop.href = nuevaURL;
-        }
-        if (ordenesLinkMobile) {
-            ordenesLinkMobile.href = nuevaURL;
-        }
-        if (floatOrderBtn) {
-            floatOrderBtn.href = nuevaURL;
-        }
+        if (ordenesLinkDesktop) ordenesLinkDesktop.href = nuevaURL;
+        if (ordenesLinkMobile) ordenesLinkMobile.href = nuevaURL;
+        if (floatOrderBtn) floatOrderBtn.href = nuevaURL;
         
         console.log(`✅ Enlaces de pedido actualizados a: ${nuevaURL}`);
     }
 
     function formatPrice(price) {
-        return `$${price.toLocaleString('es-CO')}`;
+        if (typeof price === 'number') {
+            return `$${price.toLocaleString('es-CO')}`;
+        }
+        if (typeof price === 'object' && price !== null) {
+            return '';
+        }
+        return price;
     }
 
     function updateCartBadge() {
         let cart = [];
-        
-        if (numeroMesa) {
-            const cartKey = `parcheCart_mesa_${numeroMesa}`;
-            cart = JSON.parse(localStorage.getItem(cartKey) || '[]');
-        } else {
-            cart = JSON.parse(localStorage.getItem('parcheCart') || '[]');
-        }
-        
+        const cartKey = numeroMesa ? `parcheCart_mesa_${numeroMesa}` : 'parcheCart';
+        cart = JSON.parse(localStorage.getItem(cartKey) || '[]');
         const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
         
-        // Actualizar badges del header (desktop)
         document.querySelectorAll('#cartBadge, #cartBadgeMobile').forEach(badge => {
             if (badge) {
                 if (totalItems > 0) {
@@ -149,7 +111,6 @@
             }
         });
         
-        // Actualizar badge del botón flotante (móvil)
         const floatOrderCount = document.getElementById('floatOrderCount');
         if (floatOrderCount) {
             if (totalItems > 0) {
@@ -176,12 +137,7 @@
 
     function addToCart(product) {
         let cart = [];
-        let cartKey = 'parcheCart';
-        
-        if (numeroMesa) {
-            cartKey = `parcheCart_mesa_${numeroMesa}`;
-        }
-        
+        const cartKey = numeroMesa ? `parcheCart_mesa_${numeroMesa}` : 'parcheCart';
         cart = JSON.parse(localStorage.getItem(cartKey) || '[]');
         
         const existingIndex = cart.findIndex(item => item.name === product.name);
@@ -216,10 +172,66 @@
             const qtyId = `qty_${item.name.replace(/\s/g, '_').replace(/'/g, '')}`;
             const imagePath = item.image || `https://placehold.co/400x300/1a1a2e/00ffff?text=${encodeURIComponent(item.name)}`;
             
+            const hasSizes = item.hasSizes === true && typeof item.price === 'object' && item.price.vaso && item.price.jarra;
+            
+            let priceAndButtonHTML = '';
+            
+            if (hasSizes) {
+                // Producto con múltiples tamaños (Vaso y Jarra) - cada uno con su propio selector de cantidad
+                priceAndButtonHTML = `
+                    <div class="size-options">
+                        <div class="size-option">
+                            <div class="size-info">
+                                <span class="size-name">🍷 Vaso</span>
+                                <span class="size-price">$${item.price.vaso.toLocaleString('es-CO')}</span>
+                            </div>
+                            <div class="quantity-selector size-quantity">
+                                <button class="qty-btn qty-minus-size" data-size="vaso" data-name="${item.name}">−</button>
+                                <span class="qty-value" id="${qtyId}_vaso">1</span>
+                                <button class="qty-btn qty-plus-size" data-size="jarra" data-name="${item.name}">+</button>
+                                <button class="btn-add-to-cart-size" data-name="${item.name} (Vaso)" data-price="${item.price.vaso}" data-desc="${item.description.replace(/'/g, '\\\'')}" data-img="${imagePath}" data-alcohol="${item.alcohol}" data-size="vaso">
+                                    <i class="fas fa-cart-plus"></i> Agregar
+                                </button>
+                            </div>
+                        </div>
+                        <div class="size-option">
+                            <div class="size-info">
+                                <span class="size-name">🍷 Jarra</span>
+                                <span class="size-price">$${item.price.jarra.toLocaleString('es-CO')}</span>
+                            </div>
+                            <div class="quantity-selector size-quantity">
+                                <button class="qty-btn qty-minus-size" data-size="jarra" data-name="${item.name}">−</button>
+                                <span class="qty-value" id="${qtyId}_jarra">1</span>
+                                <button class="qty-btn qty-plus-size" data-size="jarra" data-name="${item.name}">+</button>
+                                <button class="btn-add-to-cart-size" data-name="${item.name} (Jarra)" data-price="${item.price.jarra}" data-desc="${item.description.replace(/'/g, '\\\'')}" data-img="${imagePath}" data-alcohol="${item.alcohol}" data-size="jarra">
+                                    <i class="fas fa-cart-plus"></i> Agregar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                priceAndButtonHTML = `
+                    <div class="menu-footer">
+                        <span class="menu-price">${formatPrice(item.price)}</span>
+                    </div>
+                    <div class="quantity-controls-wrapper">
+                        <div class="quantity-selector">
+                            <button class="qty-btn qty-minus" data-name="${item.name.replace(/'/g, '\\\'')}">−</button>
+                            <span class="qty-value" id="${qtyId}">1</span>
+                            <button class="qty-btn qty-plus" data-name="${item.name.replace(/'/g, '\\\'')}">+</button>
+                            <button class="btn-add-to-cart" data-name="${item.name.replace(/'/g, '\\\'')}" data-price="${typeof item.price === 'number' ? item.price : 0}" data-desc="${item.description.replace(/'/g, '\\\'')}" data-img="${imagePath}" data-alcohol="${item.alcohol}">
+                                <i class="fas fa-cart-plus"></i> Agregar
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+            
             return `
                 <div class="menu-card reveal">
                     <div class="menu-image" style="background: linear-gradient(135deg, rgba(10,21,37,0.7), rgba(16,32,53,0.9)), url('${imagePath}'); background-size: cover; background-position: center;">
-                        <img src="${imagePath}" alt="${item.name}" loading="lazy" onerror="this.parentElement.style.background='linear-gradient(135deg, #0a1525, #102035)'; this.style.display='none'; this.parentElement.innerHTML='<div class=\'menu-placeholder\'>${item.emoji || '🍸'}</div>'">
+                        <img src="${imagePath}" alt="${item.name}" loading="lazy" onerror="this.parentElement.style.background='linear-gradient(135deg, #0a1525, #102035)'; this.style.display='none'; this.parentElement.innerHTML='<div class=\\'menu-placeholder\\'>${item.emoji || '🍸'}</div>'">
                         ${item.badge ? `<div class="menu-badge">${item.badge}</div>` : ''}
                         <div class="menu-overlay"></div>
                         <div class="alcohol-badge ${item.alcohol ? 'with-alcohol' : 'no-alcohol'}">
@@ -230,19 +242,7 @@
                         <span class="menu-category">✦ ${getCategoryName(category)}</span>
                         <h3 class="menu-title">${item.name}</h3>
                         <p class="menu-description">${item.description}</p>
-                        <div class="menu-footer">
-                            <span class="menu-price">${formatPrice(item.price)}</span>
-                        </div>
-                        <div class="quantity-controls-wrapper">
-                            <div class="quantity-selector">
-                                <button class="qty-btn qty-minus" data-name="${item.name.replace(/'/g, '\\\'')}">−</button>
-                                <span class="qty-value" id="${qtyId}">1</span>
-                                <button class="qty-btn qty-plus" data-name="${item.name.replace(/'/g, '\\\'')}">+</button>
-                                <button class="btn-add-to-cart" data-name="${item.name.replace(/'/g, '\\\'')}" data-price="${item.price}" data-desc="${item.description.replace(/'/g, '\\\'')}" data-img="${imagePath}" data-alcohol="${item.alcohol}">
-                                    <i class="fas fa-cart-plus"></i> Agregar
-                                </button>
-                            </div>
-                        </div>
+                        ${priceAndButtonHTML}
                     </div>
                 </div>
             `;
@@ -264,6 +264,7 @@
     }
 
     function initQuantityControls() {
+        // Controles normales
         document.querySelectorAll('.qty-minus').forEach(btn => {
             btn.removeEventListener('click', handleMinus);
             btn.addEventListener('click', handleMinus);
@@ -277,6 +278,22 @@
         document.querySelectorAll('.btn-add-to-cart').forEach(btn => {
             btn.removeEventListener('click', handleAddToCart);
             btn.addEventListener('click', handleAddToCart);
+        });
+
+        // Controles para productos con tamaños (Vaso/Jarra)
+        document.querySelectorAll('.qty-minus-size').forEach(btn => {
+            btn.removeEventListener('click', handleMinusSize);
+            btn.addEventListener('click', handleMinusSize);
+        });
+
+        document.querySelectorAll('.qty-plus-size').forEach(btn => {
+            btn.removeEventListener('click', handlePlusSize);
+            btn.addEventListener('click', handlePlusSize);
+        });
+
+        document.querySelectorAll('.btn-add-to-cart-size').forEach(btn => {
+            btn.removeEventListener('click', handleAddToCartSize);
+            btn.addEventListener('click', handleAddToCartSize);
         });
     }
 
@@ -314,7 +331,48 @@
         if (qtySpan) qtySpan.textContent = '1';
     }
 
-    // Tab click handlers
+    function handleMinusSize(e) {
+        e.stopPropagation();
+        const name = e.currentTarget.dataset.name;
+        const size = e.currentTarget.dataset.size;
+        const qtySpan = document.querySelector(`#qty_${name.replace(/\s/g, '_').replace(/'/g, '')}_${size}`);
+        if (qtySpan) {
+            let val = parseInt(qtySpan.textContent);
+            if (val > 1) qtySpan.textContent = val - 1;
+        }
+    }
+
+    function handlePlusSize(e) {
+        e.stopPropagation();
+        const name = e.currentTarget.dataset.name;
+        const size = e.currentTarget.dataset.size;
+        const qtySpan = document.querySelector(`#qty_${name.replace(/\s/g, '_').replace(/'/g, '')}_${size}`);
+        if (qtySpan) {
+            let val = parseInt(qtySpan.textContent);
+            qtySpan.textContent = val + 1;
+        }
+    }
+
+    function handleAddToCartSize(e) {
+        const btn = e.currentTarget;
+        const name = btn.dataset.name;
+        const price = parseInt(btn.dataset.price);
+        const description = btn.dataset.desc;
+        const image = btn.dataset.img;
+        const alcohol = btn.dataset.alcohol === 'true';
+        const size = btn.dataset.size;
+        
+        // Obtener la cantidad específica para este tamaño
+        const originalName = name.replace(/\s\(Vaso\)|\s\(Jarra\)/, '');
+        const qtySpan = document.querySelector(`#qty_${originalName.replace(/\s/g, '_').replace(/'/g, '')}_${size}`);
+        const quantity = qtySpan ? parseInt(qtySpan.textContent) : 1;
+        
+        addToCart({ name, price, description, image, alcohol, quantity });
+        
+        // Resetear cantidad a 1
+        if (qtySpan) qtySpan.textContent = '1';
+    }
+
     tabBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             tabBtns.forEach(b => b.classList.remove('active'));
@@ -323,14 +381,10 @@
         });
     });
 
-    // ============================================
-    // INICIALIZAR
-    // ============================================
     function init() {
         obtenerMesaDesdeURL();
         renderMenu('clasicos');
         updateCartBadge();
-        
         window.addEventListener('storage', updateCartBadge);
     }
 

@@ -78,7 +78,7 @@
       bottom: 0;
       left: 0;
       right: 0;
-      background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%);
+      background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%);
       padding: 20px;
       text-align: center;
     }
@@ -137,7 +137,7 @@
       margin-bottom: 20px;
     }
 
-    /* Tarjeta de producto con fondo de imagen opaco */
+    /* Tarjeta de producto con fondo de imagen visible */
     .carta-producto-card {
       position: relative;
       background: var(--bg-card-solid);
@@ -149,10 +149,10 @@
       transition: transform 0.3s ease;
       background-size: cover;
       background-position: center;
-      background-blend-mode: overlay;
+      background-repeat: no-repeat;
     }
 
-    /* Overlay oscuro para mejorar legibilidad */
+    /* Overlay más claro para que se vea la imagen de fondo */
     .carta-producto-card::after {
       content: '';
       position: absolute;
@@ -160,7 +160,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: linear-gradient(135deg, rgba(0,0,0,0.5), rgba(0,0,0,0.7));
+      background: linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.55));
       z-index: 1;
       pointer-events: none;
       border-radius: 12px;
@@ -173,9 +173,9 @@
       z-index: 2;
     }
 
-    /* Imagen del producto */
+    /* Imagen del producto - más pequeña para ver el fondo */
     .carta-producto-imagen {
-      height: 150px;
+      height: 130px;
       overflow: hidden;
       display: flex;
       align-items: center;
@@ -187,17 +187,20 @@
     .carta-producto-imagen img {
       position: relative;
       width: auto;
-      height: 120px;
-      max-width: 85%;
+      height: 100px;
+      max-width: 80%;
       object-fit: contain;
       z-index: 2;
       border-radius: 10px;
-      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+      background: rgba(0,0,0,0.3);
+      padding: 5px;
     }
 
-    /* Información del producto */
+    /* Información del producto con fondo semi-transparente para legibilidad */
     .carta-producto-info {
       padding: 12px;
+      background: linear-gradient(0deg, rgba(0,0,0,0.7), rgba(0,0,0,0.4));
     }
 
     .carta-producto-nombre {
@@ -224,7 +227,7 @@
 
     .carta-producto-descripcion {
       font-size: 10px;
-      color: rgba(255,255,255,0.85);
+      color: rgba(255,255,255,0.9);
       line-height: 1.35;
       margin-bottom: 6px;
       text-shadow: 0 1px 2px rgba(0,0,0,0.3);
@@ -490,7 +493,23 @@
 <script src="js/menu-data.js"></script>
 <script>
   function formatPrice(price) {
-    return `$${price.toLocaleString('es-CO')}`;
+    // Si es null o undefined, mostrar vacío
+    if (price === null || price === undefined) {
+      return '';
+    }
+    // Si es número, formatear
+    if (typeof price === 'number') {
+      return `$${price.toLocaleString('es-CO')}`;
+    }
+    // Si es objeto (para productos con tamaños como Sangría)
+    if (typeof price === 'object' && price !== null) {
+      if (price.vaso && price.jarra) {
+        return `Vaso $${price.vaso.toLocaleString('es-CO')} / Jarra $${price.jarra.toLocaleString('es-CO')}`;
+      }
+      return '';
+    }
+    // Si es string, mostrarlo directamente
+    return price;
   }
 
   function getCategoryName(category) {
@@ -528,21 +547,39 @@
       items.forEach(item => {
         const imagePath = item.image || `https://placehold.co/400x300/1a1a2e/00ffff?text=${encodeURIComponent(item.name)}`;
         
+        // Manejar la descripción (si es muy larga)
+        let descripcion = item.description;
+        if (descripcion && descripcion.length > 100) {
+          descripcion = descripcion.substring(0, 100) + '...';
+        }
+        
+        // Manejar badge
+        let badgeHtml = '';
+        if (item.badge) {
+          badgeHtml = `<span class="carta-producto-badge">${item.badge}</span>`;
+        }
+        
+        // Manejar precio formateado
+        const precioFormateado = formatPrice(item.price);
+        
+        // Manejar alcohol
+        const alcoholHtml = item.alcohol 
+          ? '<span class="carta-producto-alcohol">🍸 Con Alcohol</span>' 
+          : '<span class="carta-producto-alcohol no-alcohol">🥤 Sin Alcohol</span>';
+        
         html += `
-          <div class="carta-producto-card">
+          <div class="carta-producto-card" data-img="${imagePath}">
             <div class="carta-producto-imagen">
               <img src="${imagePath}" alt="${item.name}" loading="lazy" onerror="this.src='https://placehold.co/400x300/1a1a2e/00ffff?text=${encodeURIComponent(item.name)}'">
             </div>
             <div class="carta-producto-info">
               <div class="carta-producto-nombre">
                 ${item.name}
-                ${item.badge ? `<span class="carta-producto-badge">${item.badge}</span>` : ''}
+                ${badgeHtml}
               </div>
-              <div class="carta-producto-descripcion">${item.description.substring(0, 100)}${item.description.length > 100 ? '...' : ''}</div>
-              <div class="carta-producto-precio">${formatPrice(item.price)}</div>
-              <div class="carta-producto-alcohol ${item.alcohol ? '' : 'no-alcohol'}">
-                ${item.alcohol ? '🍸 Con Alcohol' : '🥤 Sin Alcohol'}
-              </div>
+              <div class="carta-producto-descripcion">${descripcion || ''}</div>
+              <div class="carta-producto-precio">${precioFormateado}</div>
+              ${alcoholHtml}
             </div>
           </div>
         `;
@@ -556,16 +593,16 @@
 
     container.innerHTML = html;
     
-    // Asignar la imagen de fondo a cada tarjeta con opacidad controlada
+    // Asignar la imagen de fondo a cada tarjeta - más clara para que se vea mejor
     const cards = document.querySelectorAll('.carta-producto-card');
     cards.forEach((card) => {
-      const img = card.querySelector('.carta-producto-imagen img');
-      if (img && img.src && img.src !== 'https://placehold.co/400x300/1a1a2e/00ffff?text=...') {
-        // Aplicar fondo con la imagen - opacidad controlada por background-blend-mode
-        card.style.backgroundImage = `linear-gradient(135deg, rgba(0,0,0,0.3), rgba(0,0,0,0.6)), url('${img.src}')`;
+      const imgSrc = card.dataset.img;
+      if (imgSrc && imgSrc !== 'https://placehold.co/400x300/1a1a2e/00ffff?text=...') {
+        // Aplicar fondo con la imagen - más claro y sin blend mode agresivo
+        card.style.backgroundImage = `url('${imgSrc}')`;
         card.style.backgroundSize = 'cover';
         card.style.backgroundPosition = 'center';
-        card.style.backgroundBlendMode = 'overlay';
+        card.style.backgroundRepeat = 'no-repeat';
       } else {
         // Fondo por defecto si no hay imagen
         card.style.background = 'linear-gradient(135deg, #0a1525, #102035)';
