@@ -179,7 +179,7 @@ const cocktailData = {
     { 
         name: 'Corona Extra', 
         description: 'La cerveza mexicana clara por excelencia. Ligera, refrescante y perfecta para cualquier momento. Servida con su tradicional limón.', 
-        price: "", 
+        price: 7000, 
         image: 'imagenes/cerveza_corona.jpeg', 
         alcohol: true, 
         badge: null,
@@ -188,7 +188,7 @@ const cocktailData = {
     { 
         name: 'Budweiser', 
         description: 'La cerveza americana rey de las cervezas. Suave, refrescante y con un sabor inconfundible. Servida bien fría.', 
-        price: "", 
+        price: 4000, 
         image: 'imagenes/cerveza_budweiser.jpeg', 
         alcohol: true, 
         badge: null,
@@ -197,7 +197,7 @@ const cocktailData = {
     { 
         name: 'Budweiser Lata', 
         description: 'La clásica Budweiser en presentación lata. Práctica, refrescante y con el mismo sabor inconfundible.', 
-        price: "", 
+        price: 4000, 
         image: 'imagenes/cerveza_budweiser_lata.jpeg', 
         alcohol: true, 
         badge: null,
@@ -206,7 +206,7 @@ const cocktailData = {
     { 
         name: 'Poker', 
         description: 'La cerveza colombiana de tradición. Sabor intenso y carácter único. Ideal para los amantes de las cervezas con cuerpo.', 
-        price: "", 
+        price: 4000, 
         image: 'imagenes/cerveza_poker.jpeg', 
         alcohol: true, 
         badge: null,
@@ -215,50 +215,41 @@ const cocktailData = {
     { 
         name: 'Águila Light', 
         description: 'La cerveza ligera premium. Refrescante, baja en calorías y con todo el sabor de la tradición Águila.', 
-        price: "", 
+        price: 5000, 
         image: 'imagenes/cerveza_aguila_light.jpeg', 
         alcohol: true, 
         badge: null,
         emoji: '🍺'
     },
     { 
-        name: 'BBC Negra', 
-        description: 'Cerveza artesanal negra. Cuerpo completo, notas a café y chocolate. Una experiencia única para los paladares exigentes.', 
-        price: "", 
-        image: 'imagenes/cerveza_bbc_negra.jpeg', 
-        alcohol: true, 
-        badge: '🍺 Premium',
-        emoji: '🍺'
-    },
-    { 
         name: 'Club Colombia Dorada', 
         description: 'Orgullo nacional. Una cerveza dorada con el balance perfecto entre malta y lúpulo. Suave, refrescante y con carácter.', 
-        price: "", 
+        price: 5000, 
         image: 'imagenes/cerveza_club_colombia.jpeg', 
         alcohol: true, 
         badge: null,
         emoji: '🍺'
     },
-    { 
-        name: 'Heineken', 
-        description: 'La cerveza premium de origen holandés. Sabor suave, distintivo y reconocido mundialmente.', 
-        price: "", 
-        image: 'imagenes/heineken.jpeg', 
+   { 
+        name: 'Coronita', 
+        description: 'La clásica cerveza mexicana de sabor ligero y refrescante. Perfecta para disfrutar en cualquier momento, ideal con un toque de limón.', 
+        price: 4500, 
+        image: 'imagenes/coronita_1.jpeg', 
         alcohol: true, 
         badge: null,
         emoji: '🍺'
-    },
-    { 
-        name: 'Mango Viche Supreme', 
-        description: 'El placer de lo cítrico. Una michelada audaz que fusiona la cerveza con sirope de mango biche y jugosas rebanadas de fruta natural. Escarchada con sal y limón.', 
-        price: "", 
-        image: 'imagenes/mango_biche.jpeg', 
-        badge: '🥭 Especial',
-        alcohol: true,
-        emoji: '🥭🍺'
     }
 ],
     'micheladas': [
+        { 
+            name: 'Mango Viche Supreme', 
+            description: 'El placer de lo cítrico. Una michelada audaz que fusiona la cerveza con sirope de mango biche y jugosas rebanadas de fruta natural. Escarchada con sal y limón.', 
+            price: "", 
+            image: 'imagenes/mango_biche.jpeg', 
+            badge: '🥭 Especial',
+            alcohol: true,
+            emoji: '🥭🍺'
+        },
         { 
             name: 'Michelada Águila', 
             description: 'La clásica michelada con cerveza Águila. Limón, salsas, especias y el sabor refrescante de Águila.', 

@@ -6,105 +6,94 @@
   <meta name="description" content="Carta física PARCHE IBARNA - Coctelería de Élite">
   <title>Carta Física | PARCHE IBARNA</title>
   
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <!-- Tus estilos existentes -->
-  <link rel="stylesheet" href="css/global.css">
-  <link rel="stylesheet" href="css/menu.css">
   
   <style>
-    /* ============================================
-       ESTILOS ESPECÍFICOS PARA CARTA FÍSICA
-    ============================================ */
-    
-    /* Ocultar elementos no deseados */
-    .header, 
-    .mobile-menu-btn,
-    .nav-menu,
-    .header-buttons,
-    .float-order-btn,
-    .whatsapp-float,
-    .menu-hero,
-    .menu-tabs,
-    .quantity-controls-wrapper,
-    .btn-add-to-cart,
-    .toast-notification,
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-dark: #000000;
+      --primary: #FF1493;
+      --primary-light: #FF69B4;
+      --primary-neon: #FF00FF;
+      --text-white: #FFFFFF;
+      --text-gray: #A5A9B5;
+      --text-dim: #6F737E;
+      --border-light: rgba(255, 20, 147, 0.3);
+    }
+
+    body {
+      background-color: #000000;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23FF1493' fill-opacity='0.15'%3E%3Cpath d='M24.37 16c.2.65.39 1.32.54 2H21.17l1.17 2.34.45.9-.24.11V28a5 5 0 0 1-2.23 8.94l-.02.06a8 8 0 0 1-7.75 6h-20a8 8 0 0 1-7.74-6l-.02-.06A5 5 0 0 1-17.45 28v-6.76l-.79-1.58-.44-.9.9-.44.63-.32H-20a23.01 23.01 0 0 1 44.37-2zm-36.82 2a1 1 0 0 0-.44.1l-3.1 1.56.89 1.79 1.31-.66a3 3 0 0 1 2.69 0l2.2 1.1a1 1 0 0 0 .9 0l2.21-1.1a3 3 0 0 1 2.69 0l2.2 1.1a1 1 0 0 0 .9 0l2.21-1.1a3 3 0 0 1 2.69 0l2.2 1.1a1 1 0 0 0 .86.02l2.88-1.27a3 3 0 0 1 2.43 0l2.88 1.27a1 1 0 0 0 .85-.02l3.1-1.55-.89-1.79-1.42.71a3 3 0 0 1-2.56.06l-2.77-1.23a1 1 0 0 0-.4-.09h-.01a1 1 0 0 0-.4.09l-2.78 1.23a3 3 0 0 1-2.56-.06l-2.3-1.15a1 1 0 0 0-.45-.11h-.01a1 1 0 0 0-.44.1L.9 19.22a3 3 0 0 1-2.69 0l-2.2-1.1a1 1 0 0 0-.45-.11h-.01a1 1 0 0 0-.44.1l-2.21 1.11a3 3 0 0 1-2.69 0l-2.2-1.1a1 1 0 0 0-.45-.11h-.01zm0-2h-4.9a21.01 21.01 0 0 1 39.61 0h-2.09l-.06-.13-.26.13h-32.31zm30.35 7.68l1.36-.68h1.3v2h-36v-1.15l.34-.17 1.36-.68h2.59l1.36.68a3 3 0 0 0 2.69 0l1.36-.68h2.59l1.36.68a3 3 0 0 0 2.69 0L2.26 23h2.59l1.36.68a3 3 0 0 0 2.56.06l1.67-.74h3.23l1.67.74a3 3 0 0 0 2.56-.06zM-13.82 27l16.37 4.91L18.93 27h-32.75zm-.63 2h.34l16.66 5 16.67-5h.33a3 3 0 1 1 0 6h-34a3 3 0 1 1 0-6zm1.35 8a6 6 0 0 0 5.65 4h20a6 6 0 0 0 5.66-4H-13.1z'/%3E%3Cpath id='path6_fill-copy' d='M284.37 16c.2.65.39 1.32.54 2H281.17l1.17 2.34.45.9-.24.11V28a5 5 0 0 1-2.23 8.94l-.02.06a8 8 0 0 1-7.75 6h-20a8 8 0 0 1-7.74-6l-.02-.06a5 5 0 0 1-2.24-8.94v-6.76l-.79-1.58-.44-.9.9-.44.63-.32H240a23.01 23.01 0 0 1 44.37-2zm-36.82 2a1 1 0 0 0-.44.1l-3.1 1.56.89 1.79 1.31-.66a3 3 0 0 1 2.69 0l2.2 1.1a1 1 0 0 0 .9 0l2.21-1.1a3 3 0 0 1 2.69 0l2.2 1.1a1 1 0 0 0 .9 0l2.21-1.1a3 3 0 0 1 2.69 0l2.2 1.1a1 1 0 0 0 .86.02l2.88-1.27a3 3 0 0 1 2.43 0l2.88 1.27a1 1 0 0 0 .85-.02l3.1-1.55-.89-1.79-1.42.71a3 3 0 0 1-2.56.06l-2.77-1.23a1 1 0 0 0-.4-.09h-.01a1 1 0 0 0-.4.09l-2.78 1.23a3 3 0 0 1-2.56-.06l-2.3-1.15a1 1 0 0 0-.45-.11h-.01a1 1 0 0 0-.44.1l-2.21 1.11a3 3 0 0 1-2.69 0l-2.2-1.1a1 1 0 0 0-.45-.11h-.01a1 1 0 0 0-.44.1l-2.21 1.11a3 3 0 0 1-2.69 0l-2.2-1.1a1 1 0 0 0-.45-.11h-.01zm0-2h-4.9a21.01 21.01 0 0 1 39.61 0h-2.09l-.06-.13-.26.13h-32.31zm30.35 7.68l1.36-.68h1.3v2h-36v-1.15l.34-.17 1.36-.68h2.59l1.36.68a3 3 0 0 0 2.69 0l1.36-.68h2.59l1.36.68a3 3 0 0 0 2.69 0l1.36-.68h2.59l1.36.68a3 3 0 0 0 2.56.06l1.67-.74h3.23l1.67.74a3 3 0 0 0 2.56-.06zM246.18 27l16.37 4.91L278.93 27h-32.75zm-.63 2h.34l16.66 5 16.67-5h.33a3 3 0 1 1 0 6h-34a3 3 0 1 1 0-6zm1.35 8a6 6 0 0 0 5.65 4h20a6 6 0 0 0 5.66-4H246.9z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-position: center;
+      font-family: 'Inter', sans-serif;
+      color: var(--text-white);
+      padding: 0;
+      margin: 0;
+    }
+
+    /* Capa semitransparente para mejorar legibilidad */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* Ocultar elementos del sitio web */
+    .header, .mobile-menu-btn, .nav-menu, .header-buttons,
+    .float-order-btn, .whatsapp-float, .menu-hero, .menu-tabs,
+    .quantity-controls-wrapper, .btn-add-to-cart, .toast-notification,
     footer.footer {
       display: none !important;
     }
 
-    /* Resetear márgenes del body */
-    body {
-      background: linear-gradient(135deg, var(--bg-dark), var(--bg-dark-2)) !important;
-      color: var(--text-white) !important;
-      padding: 0 !important;
-      margin: 0 !important;
-    }
-
-    /* Contenedor principal */
-    .carta-fisica-container {
+    .carta-container {
       max-width: 100%;
-      margin: 0;
-      padding: 0;
-      background: transparent;
-    }
-
-    /* ============================================
-       PORTADA - FULL WIDTH
-    ============================================ */
-    .carta-portada {
+      margin: 0 auto;
+      padding: 12px 15px;
       position: relative;
-      width: 100%;
-      height: auto;
-      min-height: 250px;
-      overflow: hidden;
-      margin: 0;
-      border-bottom: 2px solid var(--primary);
+      z-index: 1;
     }
 
-    .carta-portada-img {
-      width: 100%;
-      height: auto;
-      min-height: 250px;
-      object-fit: cover;
-      object-position: center;
-      display: block;
-    }
-
-    .carta-portada-overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%);
-      padding: 20px;
-      text-align: center;
-    }
-
-    .carta-portada-texto {
-      font-size: 14px;
-      letter-spacing: 4px;
-      color: var(--primary-light);
-      text-transform: uppercase;
-      font-weight: 600;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-    }
-
-    /* Header compacto */
     .carta-header {
       text-align: center;
-      padding: 20px 15px 10px;
-      margin: 0;
-      background: linear-gradient(135deg, rgba(10,21,37,0.95), rgba(16,32,53,0.95));
+      margin-bottom: 15px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--primary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-header {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 5px;
+    }
+
+    .logo-img {
+      max-width: 120px;
+      height: auto;
+      filter: drop-shadow(0 0 8px var(--primary-light));
     }
 
     .carta-logo {
-      font-size: 36px;
+      font-size: 0;
       font-weight: 800;
-      color: var(--text-white);
-      margin-bottom: 5px;
+      display: none;
     }
 
     .carta-logo span {
@@ -112,513 +101,382 @@
     }
 
     .carta-subtitle {
-      color: var(--text-gray);
-      font-size: 12px;
-      letter-spacing: 2px;
-      margin-bottom: 8px;
+      font-size: 8px;
+      letter-spacing: 3px;
+      color: var(--primary-light);
+      margin-top: 2px;
     }
 
     .carta-direccion {
+      font-size: 7px;
       color: var(--text-dim);
-      font-size: 10px;
-      line-height: 1.4;
+      margin-top: 4px;
     }
 
-    .carta-direccion i {
-      margin-right: 3px;
-      font-size: 9px;
+    .categorias-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 15px;
+      justify-content: center;
     }
 
-    /* Grid de productos */
-    .carta-productos-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-      margin-bottom: 20px;
-    }
-
-    /* Tarjeta de producto con fondo de imagen visible */
-    .carta-producto-card {
-      position: relative;
-      background: var(--bg-card-solid);
-      border: 1px solid var(--border-light);
-      border-radius: 12px;
+    .categoria-columna {
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(2px);
+      border-radius: 10px;
       overflow: hidden;
-      page-break-inside: avoid;
-      break-inside: avoid;
-      transition: transform 0.3s ease;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
+      display: flex;
+      flex-direction: row;
+      width: 32%;
+      min-width: 280px;
+      flex: 1 1 auto;
+      border: 0.5px solid var(--border-light);
+      transition: border-color 0.3s, box-shadow 0.3s;
     }
 
-    /* Overlay más claro para que se vea la imagen de fondo */
-    .carta-producto-card::after {
-      content: '';
+    .categoria-columna:hover {
+      border-color: var(--primary);
+      box-shadow: 0 0 10px rgba(255, 20, 147, 0.3);
+    }
+
+    .categoria-imagen-lateral {
+      width: 85px;
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+      background: #1a1d27;
+    }
+
+    .categoria-imagen-lateral img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       position: absolute;
       top: 0;
       left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.55));
-      z-index: 1;
-      pointer-events: none;
-      border-radius: 12px;
     }
 
-    /* Contenido de la tarjeta por encima del fondo */
-    .carta-producto-imagen,
-    .carta-producto-info {
-      position: relative;
-      z-index: 2;
-    }
-
-    /* Imagen del producto - más pequeña para ver el fondo */
-    .carta-producto-imagen {
-      height: 130px;
-      overflow: hidden;
+    .categoria-productos {
+      flex: 1;
+      padding: 8px 10px;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      background: transparent;
+      flex-direction: column;
     }
 
-    .carta-producto-imagen img {
-      position: relative;
-      width: auto;
-      height: 100px;
-      max-width: 80%;
-      object-fit: contain;
-      z-index: 2;
-      border-radius: 10px;
-      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
-      background: rgba(0,0,0,0.3);
-      padding: 5px;
+    .categoria-titulo-area {
+      margin-bottom: 6px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--border-light);
     }
 
-    /* Información del producto con fondo semi-transparente para legibilidad */
-    .carta-producto-info {
-      padding: 12px;
-      background: linear-gradient(0deg, rgba(0,0,0,0.7), rgba(0,0,0,0.4));
+    .categoria-titulo {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      text-shadow: 0 0 5px rgba(255, 20, 147, 0.5);
     }
 
-    .carta-producto-nombre {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text-white);
-      margin-bottom: 4px;
+    .categoria-subtitulo {
+      font-size: 6px;
+      color: var(--primary-light);
+      letter-spacing: 1px;
+      margin-top: 1px;
+    }
+
+    .productos-lista {
+      flex: 1;
+    }
+
+    .producto-row {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 5px;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+      align-items: baseline;
+      padding: 3px 0;
+      border-bottom: 1px dotted rgba(255, 20, 147, 0.15);
+      gap: 6px;
     }
 
-    .carta-producto-badge {
-      font-size: 8px;
+    .producto-nombre {
+      font-weight: 500;
+      font-size: 9px;
+      color: var(--text-white);
+      flex: 1;
+    }
+
+    .producto-badge {
+      font-size: 5px;
       background: var(--primary);
-      color: var(--bg-dark);
-      padding: 2px 6px;
+      color: #000000;
+      padding: 1px 3px;
       border-radius: 20px;
       font-weight: 700;
+      margin-left: 3px;
+      display: inline-block;
+      vertical-align: middle;
     }
 
-    .carta-producto-descripcion {
-      font-size: 10px;
-      color: rgba(255,255,255,0.9);
-      line-height: 1.35;
-      margin-bottom: 6px;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-    }
-
-    .carta-producto-precio {
-      font-size: 13px;
-      font-weight: 800;
-      color: var(--primary-light);
-      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-    }
-
-    .carta-producto-alcohol {
-      font-size: 8px;
-      color: #ffaa44;
-      margin-top: 4px;
-      text-shadow: 0 1px 1px rgba(0,0,0,0.3);
-    }
-
-    .carta-producto-alcohol.no-alcohol {
-      color: #44ffaa;
-    }
-
-    /* Contenedor de contenido principal */
-    .carta-contenido-principal {
-      padding: 20px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    /* Categorías */
-    .carta-categoria {
-      margin-bottom: 30px;
-      page-break-inside: avoid;
-      break-inside: avoid;
-    }
-
-    .carta-categoria-titulo {
-      font-size: 20px;
+    .producto-precio {
       font-weight: 700;
-      color: var(--primary);
-      border-left: 4px solid var(--primary);
-      padding-left: 12px;
-      margin-bottom: 15px;
-      margin-top: 0;
+      font-size: 9px;
+      color: var(--primary-light);
+      white-space: nowrap;
     }
 
-    /* Footer */
+    .precio-complejo {
+      font-size: 7px;
+      font-weight: 600;
+      color: var(--primary-light);
+      text-align: right;
+      line-height: 1.2;
+    }
+
     .carta-footer {
       text-align: center;
-      padding: 20px;
+      margin-top: 15px;
+      padding-top: 10px;
       border-top: 1px solid var(--border-light);
-      margin-top: 20px;
+      font-size: 7px;
       color: var(--text-dim);
-      font-size: 9px;
-      background: linear-gradient(135deg, rgba(10,21,37,0.95), rgba(16,32,53,0.95));
     }
 
-    /* Botón de impresión */
-    .print-btn-flotante {
+    .instagram {
+      color: var(--primary-light);
+      font-weight: 600;
+      margin-top: 4px;
+      font-size: 8px;
+    }
+
+    .btn-imprimir {
       position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 1000;
+      bottom: 15px;
+      right: 15px;
       background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      color: var(--bg-dark);
+      color: #000000;
       border: none;
-      padding: 12px 20px;
+      padding: 8px 16px;
       border-radius: 40px;
       cursor: pointer;
-      font-weight: 700;
+      font-weight: 800;
       display: flex;
       align-items: center;
-      gap: 8px;
-      transition: all 0.3s;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      font-size: 14px;
+      gap: 6px;
+      z-index: 1000;
+      font-size: 11px;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
 
-    .print-btn-flotante:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+    .btn-imprimir:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 15px rgba(255, 20, 147, 0.5);
     }
 
-    /* ============================================
-       ESTILOS PARA IMPRESIÓN - ELIMINA MÁRGENES
-    ============================================ */
     @media print {
-      /* Eliminar márgenes del navegador */
       @page {
-        margin: 0;
-        size: A4;
+        margin: 0.3cm;
+        size: landscape;
       }
       
-      /* Forzar colores */
       * {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
         color-adjust: exact !important;
       }
-
-      .print-btn-flotante {
-        display: none;
-      }
-
+      
       body {
-        background: #0a0a0f !important;
-        padding: 0 !important;
-        margin: 0 !important;
-      }
-
-      .carta-fisica-container {
-        padding: 0;
-        margin: 0;
-      }
-
-      .carta-portada {
-        min-height: 200px;
-      }
-
-      .carta-header {
-        padding: 15px;
-      }
-
-      .carta-logo {
-        font-size: 28px;
-      }
-
-      .carta-productos-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 12px;
-      }
-
-      .carta-categoria-titulo {
-        font-size: 18px;
-        margin-bottom: 12px;
-      }
-
-      /* Evitar saltos de página dentro de categorías */
-      .carta-categoria {
-        break-inside: avoid;
-        page-break-inside: avoid;
+        background-color: #000000 !important;
       }
       
-      .carta-contenido-principal {
-        padding: 15px;
+      .carta-container {
+        background: transparent !important;
+        padding: 8px !important;
+      }
+      
+      .categoria-columna {
+        background: rgba(0, 0, 0, 0.85) !important;
+        border: 0.5px solid #FF1493 !important;
+        break-inside: avoid !important;
+      }
+      
+      .categoria-titulo {
+        color: #FF1493 !important;
+      }
+      
+      .producto-precio, .precio-complejo {
+        color: #FF69B4 !important;
+      }
+      
+      .btn-imprimir {
+        display: none !important;
       }
     }
 
-    /* Responsive */
-    @media (max-width: 992px) {
-      .carta-productos-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-      }
-      
-      .carta-contenido-principal {
-        padding: 15px;
+    @media (max-width: 900px) {
+      .categoria-columna {
+        width: 48%;
+        min-width: 240px;
       }
     }
-
-    @media (max-width: 768px) {
-      .carta-portada {
-        min-height: 180px;
-      }
-      
-      .carta-portada-texto {
-        font-size: 10px;
-        letter-spacing: 2px;
-      }
-      
-      .carta-logo {
-        font-size: 28px;
-      }
-      
-      .carta-productos-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-      }
-      
-      .carta-producto-imagen {
-        height: 130px;
-      }
-      
-      .carta-producto-imagen img {
-        height: 100px;
-      }
-      
-      .carta-categoria-titulo {
-        font-size: 18px;
-      }
-    }
-
-    @media (max-width: 576px) {
-      .carta-portada {
-        min-height: 150px;
-      }
-      
-      .carta-productos-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .carta-producto-imagen {
-        height: 160px;
-      }
-      
-      .carta-producto-imagen img {
-        height: 130px;
-      }
-      
-      .carta-logo {
-        font-size: 24px;
-      }
-      
-      .carta-categoria-titulo {
-        font-size: 16px;
+    
+    @media (max-width: 600px) {
+      .categoria-columna {
+        width: 100%;
       }
     }
   </style>
 </head>
 <body>
 
-<!-- Botón flotante para imprimir -->
-<button class="print-btn-flotante" onclick="window.print()">
+<button class="btn-imprimir" onclick="window.print()">
   <i class="fas fa-print"></i> Imprimir / Guardar PDF
 </button>
 
-<div class="carta-fisica-container">
-  <!-- PORTADA FULL WIDTH -->
-  <div class="carta-portada">
-    <img class="carta-portada-img" src="imagenes/barcelona.jpeg" alt="PARCHE IBARNA" onerror="this.src='https://placehold.co/1920x400/1a1a2e/00ffff?text=PARCHE+IBARNA'">
-    <div class="carta-portada-overlay">
-      <span class="carta-portada-texto">✦ La mejor coctelería del Poblado Campestre ✦</span>
-    </div>
-  </div>
-
-  <!-- HEADER COMPACTO -->
+<div class="carta-container" id="cartaContainer">
   <div class="carta-header">
+    <div class="logo-header">
+      <img src="imagenes/logo.jpeg" alt="PARCHE IBARNA" class="logo-img" onerror="this.style.display='none'; document.querySelector('.carta-logo').style.display='block'">
+    </div>
     <div class="carta-logo">PARCHE <span>IBARNA</span></div>
-    <div class="carta-subtitle">✦ Coctelería de Élite ✦</div>
+    <div class="carta-subtitle">✦ COCTELERÍA DE ÉLITE ✦</div>
     <div class="carta-direccion">
-      <i class="fas fa-map-marker-alt"></i> Poblado Campestre, Bogotá<br>
-      <i class="fas fa-clock"></i> Mié–Jue 6pm–1am | Vie–Sáb 6pm–3am | Dom 4pm–11pm
+      <i class="fas fa-map-marker-alt"></i> Inspirado en Barcelona ❤️ Poblado Campestre
+      <span style="margin:0 6px">|</span>
+      <i class="fas fa-clock"></i> Martes–Jueves 4pm–11pm | Viernes–Sábado 4pm–1am | Domingo 4pm–11pm
     </div>
   </div>
 
-  <!-- CONTENIDO PRINCIPAL -->
-  <div class="carta-contenido-principal">
-    <div id="cartaFisicaContenido">
-      <div class="text-center" style="padding: 40px;">
-        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary);"></i>
-        <p style="color: var(--text-gray); margin-top: 15px;">Cargando carta...</p>
-      </div>
+  <div id="cartaGrid" class="categorias-grid">
+    <div style="text-align:center; padding: 40px; width: 100%;">
+      <i class="fas fa-spinner fa-pulse" style="font-size: 24px; color: #FF1493;"></i>
+      <p style="margin-top: 10px; font-size: 12px;">Cargando carta...</p>
     </div>
   </div>
 
   <div class="carta-footer">
-    <p>✨ Todos nuestros cocteles son preparados con ingredientes premium ✨</p>
-    <p>📍 PARCHE IBARNA - Poblado Campestre | 📞 +57 316 000 0000 | www.parcheibarna.co</p>
+   <a href="index.html" class="footer-logo">PARCHE<span> IBARNA</span></a>
+    <p>Inspiración europea, alma colombiana. Coctelería de autor en Poblado Campestre.</p>
+    <div class="instagram">
+      <i class="fab fa-instagram"></i> @parche_i_barna
+    </div>
+     <p>Inspirado en Barcelona ❤️ Poblado Campestre</p>
   </div>
 </div>
 
 <script src="js/menu-data.js"></script>
+
 <script>
+  const imagenesCategorias = {
+    'clasicos': 'imagenes/corona_michelada_2.jpeg',
+    'exclusivos': 'imagenes/margarita_froze.jpeg', 
+    'cervezas': 'imagenes/cerveza_corona.jpeg',
+    'micheladas': 'imagenes/aguila_michelada_3.jpeg',
+    'sodas': 'imagenes/soda_italiana_fresa.jpeg',
+    'sin-alcohol': 'imagenes/oreo_dream.jpeg'
+  };
+
+  const categoriasInfo = {
+    'clasicos': { titulo: '🍸 CLÁSICOS', subtitulo: 'TRADICIÓN' },
+    'exclusivos': { titulo: '✨ EXCLUSIVOS', subtitulo: 'FIRMA' },
+    'cervezas': { titulo: '🍺 CERVEZAS', subtitulo: '' },
+    'micheladas': { titulo: '🌶️ MICHELADAS', subtitulo: '' },
+    'sodas': { titulo: '🥤 SODAS', subtitulo: '' },
+    'sin-alcohol': { titulo: '🌿 SIN ALCOHOL', subtitulo: '' }
+  };
+
+  const ordenCategorias = ['clasicos', 'exclusivos', 'cervezas', 'micheladas', 'sodas', 'sin-alcohol'];
+
   function formatPrice(price) {
-    // Si es null o undefined, mostrar vacío
-    if (price === null || price === undefined) {
-      return '';
-    }
-    // Si es número, formatear
-    if (typeof price === 'number') {
-      return `$${price.toLocaleString('es-CO')}`;
-    }
-    // Si es objeto (para productos con tamaños como Sangría)
-    if (typeof price === 'object' && price !== null) {
-      if (price.vaso && price.jarra) {
-        return `Vaso $${price.vaso.toLocaleString('es-CO')} / Jarra $${price.jarra.toLocaleString('es-CO')}`;
-      }
-      return '';
-    }
-    // Si es string, mostrarlo directamente
+    if (price === null || price === undefined) return '';
+    if (typeof price === 'number') return `$${price.toLocaleString('es-CO')}`;
+    if (price === '') return 'Consultar';
     return price;
   }
 
-  function getCategoryName(category) {
-    const names = {
-      'clasicos': '🍸 Clásicos',
-      'exclusivos': '✨ Exclusivos',
-      'cervezas': '🍺 Cervezas',
-      'micheladas': '🌶️ Micheladas',
-      'tragos': '🥃 Tragos',
-      'sodas': '🥤 Sodas',
-      'sin-alcohol': '🌿 Sin Alcohol'
-    };
-    return names[category] || '🍸 Coctel';
+  function getPrecioComplejoHtml(price) {
+    if (typeof price === 'object' && price !== null && price.vaso && price.jarra) {
+      return `<div class="precio-complejo">Vaso $${price.vaso.toLocaleString('es-CO')}<br>Jarra $${price.jarra.toLocaleString('es-CO')}</div>`;
+    }
+    return null;
   }
 
-  // Orden de categorías incluyendo Micheladas
-  const categoriasOrden = ['clasicos', 'exclusivos', 'cervezas', 'micheladas', 'tragos', 'sodas', 'sin-alcohol'];
+  function getBadgeHtml(badge) {
+    if (!badge) return '';
+    return `<span class="producto-badge">${badge}</span>`;
+  }
 
-  function renderizarCartaFisica() {
-    const container = document.getElementById('cartaFisicaContenido');
+  function renderizarCartaHorizontal(data) {
+    const container = document.getElementById('cartaGrid');
     if (!container) return;
 
     let html = '';
 
-    for (const categoria of categoriasOrden) {
-      const items = cocktailData[categoria];
+    for (const cat of ordenCategorias) {
+      const items = data[cat];
       if (!items || items.length === 0) continue;
 
+      const imgSrc = imagenesCategorias[cat] || '';
+      const info = categoriasInfo[cat] || { titulo: cat.toUpperCase(), subtitulo: '' };
+
       html += `
-        <div class="carta-categoria">
-          <h2 class="carta-categoria-titulo">${getCategoryName(categoria)}</h2>
-          <div class="carta-productos-grid">
+        <div class="categoria-columna">
+          <div class="categoria-imagen-lateral">
+            <img src="${imgSrc}" alt="${info.titulo}" 
+                 onerror="this.style.opacity='0.3'">
+          </div>
+          <div class="categoria-productos">
+            <div class="categoria-titulo-area">
+              <div class="categoria-titulo">${info.titulo}</div>
+              ${info.subtitulo ? `<div class="categoria-subtitulo">${info.subtitulo}</div>` : ''}
+            </div>
+            <div class="productos-lista">
       `;
 
-      items.forEach(item => {
-        const imagePath = item.image || `https://placehold.co/400x300/1a1a2e/00ffff?text=${encodeURIComponent(item.name)}`;
+      for (const item of items) {
+        const badgeHtml = getBadgeHtml(item.badge);
+        const precioComplejoHtml = getPrecioComplejoHtml(item.price);
         
-        // Manejar la descripción (si es muy larga)
-        let descripcion = item.description;
-        if (descripcion && descripcion.length > 100) {
-          descripcion = descripcion.substring(0, 100) + '...';
-        }
-        
-        // Manejar badge
-        let badgeHtml = '';
-        if (item.badge) {
-          badgeHtml = `<span class="carta-producto-badge">${item.badge}</span>`;
-        }
-        
-        // Manejar precio formateado
-        const precioFormateado = formatPrice(item.price);
-        
-        // Manejar alcohol
-        const alcoholHtml = item.alcohol 
-          ? '<span class="carta-producto-alcohol">🍸 Con Alcohol</span>' 
-          : '<span class="carta-producto-alcohol no-alcohol">🥤 Sin Alcohol</span>';
-        
-        html += `
-          <div class="carta-producto-card" data-img="${imagePath}">
-            <div class="carta-producto-imagen">
-              <img src="${imagePath}" alt="${item.name}" loading="lazy" onerror="this.src='https://placehold.co/400x300/1a1a2e/00ffff?text=${encodeURIComponent(item.name)}'">
-            </div>
-            <div class="carta-producto-info">
-              <div class="carta-producto-nombre">
-                ${item.name}
-                ${badgeHtml}
+        if (precioComplejoHtml) {
+          html += `
+            <div>
+              <div class="producto-row">
+                <span class="producto-nombre">${item.name} ${badgeHtml}</span>
+                ${precioComplejoHtml}
               </div>
-              <div class="carta-producto-descripcion">${descripcion || ''}</div>
-              <div class="carta-producto-precio">${precioFormateado}</div>
-              ${alcoholHtml}
             </div>
-          </div>
-        `;
-      });
+          `;
+        } else {
+          const precioFormateado = formatPrice(item.price);
+          html += `
+            <div class="producto-row">
+              <span class="producto-nombre">${item.name} ${badgeHtml}</span>
+              <span class="producto-precio">${precioFormateado}</span>
+            </div>
+          `;
+        }
+      }
 
       html += `
+            </div>
           </div>
         </div>
       `;
     }
 
     container.innerHTML = html;
-    
-    // Asignar la imagen de fondo a cada tarjeta - más clara para que se vea mejor
-    const cards = document.querySelectorAll('.carta-producto-card');
-    cards.forEach((card) => {
-      const imgSrc = card.dataset.img;
-      if (imgSrc && imgSrc !== 'https://placehold.co/400x300/1a1a2e/00ffff?text=...') {
-        // Aplicar fondo con la imagen - más claro y sin blend mode agresivo
-        card.style.backgroundImage = `url('${imgSrc}')`;
-        card.style.backgroundSize = 'cover';
-        card.style.backgroundPosition = 'center';
-        card.style.backgroundRepeat = 'no-repeat';
-      } else {
-        // Fondo por defecto si no hay imagen
-        card.style.background = 'linear-gradient(135deg, #0a1525, #102035)';
-      }
-    });
   }
 
-  function init() {
-    if (typeof cocktailData !== 'undefined') {
-      renderizarCartaFisica();
+  function esperarDatos() {
+    if (typeof cocktailData !== 'undefined' && cocktailData !== null) {
+      renderizarCartaHorizontal(cocktailData);
     } else {
-      setTimeout(init, 100);
+      setTimeout(esperarDatos, 100);
     }
   }
 
-  init();
+  esperarDatos();
 </script>
+
 </body>
 </html>

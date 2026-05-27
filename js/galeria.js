@@ -1,87 +1,198 @@
 // ============================================
 // PARCHE IBARNA - Gallery Page JavaScript
-// Con todas las imágenes del menú (36 productos)
+// Genera galleryData automáticamente desde cocktailData
 // ============================================
 
 (function() {
     'use strict';
 
-    // Datos de la galería - TODAS las imágenes del menú
-    const galleryData = [
-        // ========== CLÁSICOS (6) ==========
-        { id: 1, image: 'imagenes/barcelona.jpeg', title: 'Kalimotxo', description: 'Vino tinto con Coca-Cola, refrescante y auténtico. La fusión perfecta entre España y el Valle.', category: 'clasicos', price: '$22.000' },
-        { id: 2, image: 'imagenes/tinto_verano.jpeg', title: 'Tinto de Verano', description: 'Vino tinto con Sprite, servido con abundante hielo. Refrescante y tradicional.', category: 'clasicos', price: '$19.000' },
-        { id: 3, image: 'imagenes/cubata.jpeg', title: 'Cubata', description: 'Ron Viejo de Caldas con Coca-Cola y un toque esencial de limón.', category: 'clasicos', price: '$24.000' },
-        { id: 4, image: 'imagenes/havana_sunrise.jpeg', title: 'Havana Sunrise', description: 'Ron Havana Club 3 Años, jugo de naranja, toronja y granadina.', category: 'clasicos', price: '$20.000' },
-        { id: 5, image: 'imagenes/margarita_clasica.jpeg', title: 'Margarita Clásica', description: 'Tequila Jose Cuervo con limón fresco, servida en copa escarchada con sal.', category: 'clasicos', price: '$25.000' },
-        { id: 6, image: 'imagenes/blue_lagoon.jpeg', title: 'Blue Lagoon', description: 'Absolut Vodka con Curacao Azul, color vibrante y sabor refrescante.', category: 'clasicos', price: '$28.000' },
+    // Función para formatear precios
+    function formatPrice(price) {
+        if (price === null || price === undefined) return '';
+        if (typeof price === 'number') return `$${price.toLocaleString('es-CO')}`;
+        if (typeof price === 'object' && price !== null) {
+            if (price.vaso && price.jarra) {
+                return `Vaso $${price.vaso.toLocaleString('es-CO')} / Jarra $${price.jarra.toLocaleString('es-CO')}`;
+            }
+            return '';
+        }
+        if (price === '') return 'Consultar en tienda';
+        return price;
+    }
 
-        // ========== SIGNATURE (9) ==========
-        { id: 7, image: 'imagenes/golde_tea.jpeg', title: 'Gold Tea Fresh', description: 'Licor de té con sirope de maracuyá y toque cítrico de limón.', category: 'signature', price: '$32.000' },
-        { id: 8, image: 'imagenes/pina_cream.jpeg', title: 'Piña Cream Barna', description: 'Granizado ultra cremoso de piña natural con ron añejo premium.', category: 'signature', price: '$30.000' },
-        { id: 9, image: 'imagenes/blue_zombie.jpeg', title: 'Blue Zombie', description: 'Granizado de ron con chicle, limón, perlas explosivas y gomitas ácidas.', category: 'signature', price: '$31.000' },
-        { id: 10, image: 'imagenes/terciopelo_hersheys.jpeg', title: 'Terciopelo Hershey\'s', description: 'Crema de Baileys Premium con chocolate Hershey\'s fundido.', category: 'signature', price: '$35.000' },
-        { id: 11, image: 'imagenes/mexicana.jpeg', title: 'La Mexicana', description: 'Tequila con chamoy, limón, granadina y escarchado de Tajín.', category: 'signature', price: '$29.000' },
-        { id: 12, image: 'imagenes/toxic.jpeg', title: 'Tóxic', description: 'Aguardiente Antioqueño Sin Azúcar con toque cítrico secreto.', category: 'signature', price: '$27.000' },
-        { id: 13, image: 'imagenes/charry_templatation.jpeg', title: 'Cherry Temptation', description: 'Absolut Vodka con cerezas, sirope de fresa y burbujas de Sprite.', category: 'signature', price: '$30.000' },
-        { id: 14, image: 'imagenes/tropical_premiu.jpeg', title: 'Tropical & Premium', description: 'Aguardiente granizado de maracuyá con perlas explosivas y gomas ácidas.', category: 'signature', price: '$31.000' },
-        { id: 15, image: 'imagenes/havana_spirit.jpeg', title: 'Havana Spirit', description: 'Hierbabuena macerada, limón fresco y Havana Club 3 Años con soda.', category: 'signature', price: '$26.000' },
+    // Mapeo de categorías
+    const categoryMapping = {
+        'clasicos': 'clasicos',
+        'exclusivos': 'signature',
+        'cervezas': 'cervezas',
+        'micheladas': 'cervezas',
+        'sodas': 'sodas',
+        'sin-alcohol': 'sin-alcohol'
+    };
 
-        // ========== CERVEZAS (5) ==========
-        { id: 16, image: 'imagenes/corona.jpeg', title: 'Corona Extra', description: 'Cerveza mexicana clara, ligera y refrescante. Servida con limón.', category: 'cervezas', price: '$12.000' },
-        { id: 17, image: 'imagenes/mango_biche.jpeg', title: 'Mango Viche Supreme', description: 'Michelada de mango biche con sal y limón. Refrescante y audaz.', category: 'cervezas', price: '$28.000' },
-        { id: 18, image: 'imagenes/club_colombia.jpeg', title: 'Club Colombia Dorada', description: 'Cerveza dorada con balance perfecto entre malta y lúpulo.', category: 'cervezas', price: '$11.000' },
-        { id: 19, image: 'imagenes/heineken.jpeg', title: 'Heineken', description: 'Cerveza premium de origen holandés, sabor suave y distintivo.', category: 'cervezas', price: '$12.000' },
-        { id: 20, image: 'imagenes/michelada.jpeg', title: 'Michelada', description: 'Cerveza preparada con limón, sales, salsas y especias.', category: 'cervezas', price: '$15.000' },
+    let galleryData = [];
 
-        // ========== TRAGOS (5) ==========
-        { id: 21, image: 'imagenes/ron_viejo.jpeg', title: 'Ron Viejo de Caldas', description: 'Ron añejo colombiano, suave y con carácter.', category: 'tragos', price: '$18.000' },
-        { id: 22, image: 'imagenes/havana_club.jpeg', title: 'Havana Club 3 Años', description: 'Ron cubano suave, ideal para cócteles.', category: 'tragos', price: '$20.000' },
-        { id: 23, image: 'imagenes/aguardiente.jpeg', title: 'Aguardiente Antioqueño', description: 'El trago tradicional colombiano con sabor a anís.', category: 'tragos', price: '$15.000' },
-        { id: 24, image: 'imagenes/tequila.jpeg', title: 'Tequila Jose Cuervo', description: 'Tequila reposado mexicano, perfecto para chupitos o margaritas.', category: 'tragos', price: '$22.000' },
-        { id: 25, image: 'imagenes/beefeater.jpeg', title: 'Ginebra Beefeater', description: 'Ginebra inglesa seca, ideal para Gin Tonics premium.', category: 'tragos', price: '$25.000' },
+    // Convertir cocktailData a galleryData automáticamente
+    function buildGalleryFromCocktailData(data) {
+        const result = [];
+        let idCounter = 1;
 
-        // ========== SODAS (4) ==========
-        { id: 26, image: 'imagenes/soda_italiana_fresa.jpeg', title: 'Soda Italiana de Fresa - Berry Barna', description: 'Trozos de fruta natural con sirope premium de fresa y soda cristalina.', category: 'sodas', price: '$12.000' },
-        { id: 27, image: 'imagenes/soda_italiana_maracuya.jpeg', title: 'Soda Italiana de Maracuyá - Passion Barna', description: 'Sirope artesanal con pulpa de maracuyá natural y soda premium.', category: 'sodas', price: '$12.000' },
-        { id: 28, image: 'imagenes/cocacola.jpeg', title: 'Coca-Cola', description: 'La clásica bebida de burbujas, servida con hielo y limón.', category: 'sodas', price: '$6.000' },
-        { id: 29, image: 'imagenes/sprite.jpeg', title: 'Sprite', description: 'Refrescante bebida de limón, libre de cafeína.', category: 'sodas', price: '$6.000' },
+        // Procesar Clásicos
+        if (data.clasicos) {
+            data.clasicos.forEach(item => {
+                result.push({
+                    id: idCounter++,
+                    image: item.image,
+                    title: item.name,
+                    description: item.description,
+                    category: 'clasicos',
+                    price: formatPrice(item.price)
+                });
+            });
+        }
 
-        // ========== SIN ALCOHOL (7) ==========
-        { id: 30, image: 'imagenes/virgin_mojito.jpeg', title: 'Virgin Mojito', description: 'Menta fresca, lima, azúcar de caña y soda. Refrescante y tradicional.', category: 'sin-alcohol', price: '$14.000' },
-        { id: 31, image: 'imagenes/oreo_dream.jpeg', title: 'Oreo Dream', description: 'Granizado cremoso de galleta Oreo con crema chantilly y trozos de galleta.', category: 'sin-alcohol', price: '$18.000' },
-        { id: 32, image: 'imagenes/ibarna_sour.jpeg', title: 'Ibarna Zero', description: 'Maracuyá, albahaca, jengibre y soda. Refrescante y lleno de personalidad.', category: 'sin-alcohol', price: '$15.000' },
-        { id: 33, image: 'imagenes/berry_smash.jpeg', title: 'Berry Smash', description: 'Frutos rojos, limón, tónica y lavanda. Elegancia en cada sorbo.', category: 'sin-alcohol', price: '$15.000' },
-        { id: 34, image: 'imagenes/coco_loco.jpeg', title: 'Coconut Dream', description: 'Leche de coco, piña, canela y espuma. Cremoso y tropical.', category: 'sin-alcohol', price: '$16.000' },
-        { id: 35, image: 'imagenes/passion_cooler.jpeg', title: 'Passion Cooler', description: 'Maracuyá, limón, miel y soda. El equilibrio perfecto entre dulce y ácido.', category: 'sin-alcohol', price: '$14.000' },
-        { id: 36, image: 'imagenes/ginger_fizz.jpeg', title: 'Ginger Fizz', description: 'Jengibre, limón, miel y agua con gas. Refrescante y digestivo.', category: 'sin-alcohol', price: '$13.000' }
-    ];
+        // Procesar Exclusivos
+        if (data.exclusivos) {
+            data.exclusivos.forEach(item => {
+                result.push({
+                    id: idCounter++,
+                    image: item.image,
+                    title: item.name,
+                    description: item.description,
+                    category: 'signature',
+                    price: formatPrice(item.price)
+                });
+            });
+        }
 
-    // Top 10 imágenes para el carrusel (las más destacadas)
-    const carouselImages = galleryData.slice(0, 12);
+        // Procesar Cervezas
+        if (data.cervezas) {
+            data.cervezas.forEach(item => {
+                result.push({
+                    id: idCounter++,
+                    image: item.image,
+                    title: item.name,
+                    description: item.description,
+                    category: 'cervezas',
+                    price: formatPrice(item.price)
+                });
+            });
+        }
+
+        // Procesar Micheladas
+        if (data.micheladas) {
+            data.micheladas.forEach(item => {
+                result.push({
+                    id: idCounter++,
+                    image: item.image,
+                    title: item.name,
+                    description: item.description,
+                    category: 'cervezas',
+                    price: formatPrice(item.price)
+                });
+            });
+        }
+
+        // Procesar Sodas
+        if (data.sodas) {
+            data.sodas.forEach(item => {
+                result.push({
+                    id: idCounter++,
+                    image: item.image,
+                    title: item.name,
+                    description: item.description,
+                    category: 'sodas',
+                    price: formatPrice(item.price)
+                });
+            });
+        }
+
+        // Procesar Sin Alcohol
+        if (data['sin-alcohol']) {
+            data['sin-alcohol'].forEach(item => {
+                result.push({
+                    id: idCounter++,
+                    image: item.image,
+                    title: item.name,
+                    description: item.description,
+                    category: 'sin-alcohol',
+                    price: formatPrice(item.price)
+                });
+            });
+        }
+
+        return result;
+    }
+
+    // Construir datos del carrusel (primeras 12 imágenes destacadas)
+    function buildCarouselData(data) {
+        // Priorizar items con badge primero
+        const withBadge = data.filter(item => {
+            // Buscar en cocktailData si tiene badge
+            for (const category in cocktailData) {
+                const found = cocktailData[category]?.find(c => c.name === item.title);
+                if (found && found.badge) return true;
+            }
+            return false;
+        });
+        
+        const withoutBadge = data.filter(item => {
+            for (const category in cocktailData) {
+                const found = cocktailData[category]?.find(c => c.name === item.title);
+                if (found && !found.badge) return true;
+            }
+            return false;
+        });
+        
+        const destacados = [...withBadge, ...withoutBadge];
+        return destacados.slice(0, 12);
+    }
+
+    // Esperar a que cargue cocktailData
+    function esperarDatos() {
+        if (typeof cocktailData !== 'undefined' && cocktailData !== null) {
+            // Construir galleryData desde cocktailData
+            galleryData = buildGalleryFromCocktailData(cocktailData);
+            const carouselData = buildCarouselData(galleryData);
+            
+            // Renderizar todo
+            renderCarousel(carouselData);
+            renderGallery('all');
+            updateCartBadge();
+            
+            console.log(`✨ Galería cargada con ${galleryData.length} productos`);
+        } else {
+            setTimeout(esperarDatos, 100);
+        }
+    }
 
     const galleryGrid = document.getElementById('galeria-grid');
     const filterBtns = document.querySelectorAll('.filter-btn');
 
     // Renderizar carrusel
-    function renderCarousel() {
+    function renderCarousel(carouselData) {
         const carouselWrapper = document.getElementById('carousel-wrapper');
         if (!carouselWrapper) return;
 
-        carouselWrapper.innerHTML = carouselImages.map(item => `
+        if (!carouselData || carouselData.length === 0) {
+            carouselWrapper.innerHTML = '<div class="swiper-slide">Cargando imágenes...</div>';
+            return;
+        }
+
+        carouselWrapper.innerHTML = carouselData.map(item => `
             <div class="swiper-slide">
                 <div class="carousel-card">
                     <img src="${item.image}" alt="${item.title}" loading="lazy" onerror="this.src='https://placehold.co/600x400/1a1a2e/00ffff?text=${encodeURIComponent(item.title)}'">
                     <div class="carousel-info">
                         <h4>${item.title}</h4>
-                        <p>${item.description.substring(0, 60)}...</p>
+                        <p>${item.description ? item.description.substring(0, 60) + '...' : 'Descubre este increíble cóctel'}</p>
                         <span class="carousel-price">${item.price}</span>
                     </div>
                 </div>
             </div>
         `).join('');
 
-        // Reinicializar Swiper si ya existe
+        // Reinicializar Swiper
         if (window.gallerySwiper) {
             window.gallerySwiper.destroy(true, true);
         }
@@ -89,7 +200,7 @@
         window.gallerySwiper = new Swiper('.galeria-swiper', {
             slidesPerView: 1,
             spaceBetween: 20,
-            loop: true,
+            loop: carouselData.length > 3,
             autoplay: {
                 delay: 4000,
                 disableOnInteraction: false,
@@ -103,25 +214,25 @@
                 prevEl: '.swiper-button-prev',
             },
             breakpoints: {
-                640: {
-                    slidesPerView: 2,
-                    spaceBetween: 20,
-                },
-                1024: {
-                    slidesPerView: 3,
-                    spaceBetween: 30,
-                },
+                640: { slidesPerView: 2, spaceBetween: 20 },
+                1024: { slidesPerView: 3, spaceBetween: 30 },
             }
         });
     }
 
-    // Renderizar galería completa con filtros
+    // Renderizar galería completa
     function renderGallery(filter = 'all') {
         if (!galleryGrid) return;
         
-        const filtered = filter === 'all' 
-            ? galleryData 
-            : galleryData.filter(item => item.category === filter);
+        let filtered = galleryData;
+        if (filter !== 'all') {
+            filtered = galleryData.filter(item => item.category === filter);
+        }
+        
+        if (filtered.length === 0) {
+            galleryGrid.innerHTML = '<div class="no-results">No hay productos en esta categoría</div>';
+            return;
+        }
         
         galleryGrid.innerHTML = filtered.map(item => `
             <div class="galeria-item" data-category="${item.category}" data-id="${item.id}">
@@ -130,14 +241,14 @@
                     <div class="overlay-content">
                         <i class="fas fa-search-plus"></i>
                         <h4>${item.title}</h4>
-                        <p>${item.description.substring(0, 80)}${item.description.length > 80 ? '...' : ''}</p>
+                        <p>${item.description ? (item.description.substring(0, 80) + (item.description.length > 80 ? '...' : '')) : 'Descubre esta deliciosa bebida'}</p>
                         <span class="overlay-price">${item.price}</span>
                     </div>
                 </div>
             </div>
         `).join('');
         
-        // Add click event for lightbox
+        // Evento click para lightbox
         document.querySelectorAll('.galeria-item').forEach(item => {
             item.addEventListener('click', () => {
                 const img = item.querySelector('img');
@@ -149,7 +260,7 @@
         });
     }
 
-    // Lightbox mejorado
+    // Lightbox
     function openLightbox(src, title, description, price) {
         const lightbox = document.createElement('div');
         lightbox.className = 'lightbox-modal';
@@ -194,7 +305,7 @@
     // Actualizar badge del carrito
     function updateCartBadge() {
         const cart = JSON.parse(localStorage.getItem('parcheCart') || '[]');
-        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
         document.querySelectorAll('#cartBadge, #cartBadgeMobile').forEach(badge => {
             if (badge) {
                 if (totalItems > 0) {
@@ -207,19 +318,17 @@
         });
     }
 
-    // Filter buttons
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            filterBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            renderGallery(btn.dataset.filter);
+    // Configurar filtros
+    if (filterBtns) {
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderGallery(btn.dataset.filter);
+            });
         });
-    });
+    }
 
     // Inicializar
-    renderCarousel();
-    renderGallery('all');
-    updateCartBadge();
-
-    console.log('✨ PARCHE IBARNA | Gallery page initialized with 36 images');
+    esperarDatos();
 })();
