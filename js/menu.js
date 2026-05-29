@@ -153,10 +153,26 @@
         showNotification(`✓ ${product.name} agregado (${product.quantity})`);
     }
 
+    function getCategoryDisplayName(category) {
+        const names = {
+            'clasicos': '🍸 Clásicos',
+            'exclusivos': '✨ Exclusivos',
+            'espanoles': '🇪🇸 Españoles',
+            'granizados': '🍧 Granizados',
+            'granizados_cremosos': '🥤 Granizados Cremosos',
+            'cervezas': '🍺 Cervezas',
+            'micheladas': '🌶️ Micheladas',
+            'sodas': '🥤 Sodas',
+            'shots': '🥃 Shots',
+            'sin-alcohol': '🌿 Sin Alcohol'
+        };
+        return names[category] || '🍸 Coctel';
+    }
+
     function renderMenu(category) {
         if (!menuContainer) return;
         
-        const items = cocktailData[category] || cocktailData.clasicos;
+        const items = cocktailData[category];
         
         if (!items || items.length === 0) {
             menuContainer.innerHTML = `
@@ -169,7 +185,7 @@
         }
         
         menuContainer.innerHTML = items.map(item => {
-            const qtyId = `qty_${item.name.replace(/\s/g, '_').replace(/'/g, '')}`;
+            const qtyId = `qty_${item.name.replace(/\s/g, '_').replace(/'/g, '').replace(/[áéíóú]/g, '')}`;
             const imagePath = item.image || `https://placehold.co/400x300/1a1a2e/00ffff?text=${encodeURIComponent(item.name)}`;
             
             const hasSizes = item.hasSizes === true && typeof item.price === 'object' && item.price.vaso && item.price.jarra;
@@ -177,7 +193,6 @@
             let priceAndButtonHTML = '';
             
             if (hasSizes) {
-                // Producto con múltiples tamaños (Vaso y Jarra) - cada uno con su propio selector de cantidad
                 priceAndButtonHTML = `
                     <div class="size-options">
                         <div class="size-option">
@@ -186,9 +201,9 @@
                                 <span class="size-price">$${item.price.vaso.toLocaleString('es-CO')}</span>
                             </div>
                             <div class="quantity-selector size-quantity">
-                                <button class="qty-btn qty-minus-size" data-size="vaso" data-name="${item.name}">−</button>
+                                <button class="qty-btn qty-minus-size" data-size="vaso" data-name="${item.name.replace(/'/g, '\\\'')}">−</button>
                                 <span class="qty-value" id="${qtyId}_vaso">1</span>
-                                <button class="qty-btn qty-plus-size" data-size="jarra" data-name="${item.name}">+</button>
+                                <button class="qty-btn qty-plus-size" data-size="vaso" data-name="${item.name.replace(/'/g, '\\\'')}">+</button>
                                 <button class="btn-add-to-cart-size" data-name="${item.name} (Vaso)" data-price="${item.price.vaso}" data-desc="${item.description.replace(/'/g, '\\\'')}" data-img="${imagePath}" data-alcohol="${item.alcohol}" data-size="vaso">
                                     <i class="fas fa-cart-plus"></i> Agregar
                                 </button>
@@ -200,9 +215,9 @@
                                 <span class="size-price">$${item.price.jarra.toLocaleString('es-CO')}</span>
                             </div>
                             <div class="quantity-selector size-quantity">
-                                <button class="qty-btn qty-minus-size" data-size="jarra" data-name="${item.name}">−</button>
+                                <button class="qty-btn qty-minus-size" data-size="jarra" data-name="${item.name.replace(/'/g, '\\\'')}">−</button>
                                 <span class="qty-value" id="${qtyId}_jarra">1</span>
-                                <button class="qty-btn qty-plus-size" data-size="jarra" data-name="${item.name}">+</button>
+                                <button class="qty-btn qty-plus-size" data-size="jarra" data-name="${item.name.replace(/'/g, '\\\'')}">+</button>
                                 <button class="btn-add-to-cart-size" data-name="${item.name} (Jarra)" data-price="${item.price.jarra}" data-desc="${item.description.replace(/'/g, '\\\'')}" data-img="${imagePath}" data-alcohol="${item.alcohol}" data-size="jarra">
                                     <i class="fas fa-cart-plus"></i> Agregar
                                 </button>
@@ -239,7 +254,7 @@
                         </div>
                     </div>
                     <div class="menu-body">
-                        <span class="menu-category">✦ ${getCategoryName(category)}</span>
+                        <span class="menu-category">✦ ${getCategoryDisplayName(category)}</span>
                         <h3 class="menu-title">${item.name}</h3>
                         <p class="menu-description">${item.description}</p>
                         ${priceAndButtonHTML}
@@ -264,7 +279,6 @@
     }
 
     function initQuantityControls() {
-        // Controles normales
         document.querySelectorAll('.qty-minus').forEach(btn => {
             btn.removeEventListener('click', handleMinus);
             btn.addEventListener('click', handleMinus);
@@ -280,7 +294,6 @@
             btn.addEventListener('click', handleAddToCart);
         });
 
-        // Controles para productos con tamaños (Vaso/Jarra)
         document.querySelectorAll('.qty-minus-size').forEach(btn => {
             btn.removeEventListener('click', handleMinusSize);
             btn.addEventListener('click', handleMinusSize);
@@ -300,7 +313,7 @@
     function handleMinus(e) {
         e.stopPropagation();
         const name = e.currentTarget.dataset.name;
-        const qtySpan = document.querySelector(`#qty_${name.replace(/\s/g, '_').replace(/'/g, '')}`);
+        const qtySpan = document.querySelector(`#qty_${name.replace(/\s/g, '_').replace(/'/g, '').replace(/[áéíóú]/g, '')}`);
         if (qtySpan) {
             let val = parseInt(qtySpan.textContent);
             if (val > 1) qtySpan.textContent = val - 1;
@@ -310,7 +323,7 @@
     function handlePlus(e) {
         e.stopPropagation();
         const name = e.currentTarget.dataset.name;
-        const qtySpan = document.querySelector(`#qty_${name.replace(/\s/g, '_').replace(/'/g, '')}`);
+        const qtySpan = document.querySelector(`#qty_${name.replace(/\s/g, '_').replace(/'/g, '').replace(/[áéíóú]/g, '')}`);
         if (qtySpan) {
             let val = parseInt(qtySpan.textContent);
             qtySpan.textContent = val + 1;
@@ -324,7 +337,7 @@
         const description = btn.dataset.desc;
         const image = btn.dataset.img;
         const alcohol = btn.dataset.alcohol === 'true';
-        const qtySpan = document.querySelector(`#qty_${name.replace(/\s/g, '_').replace(/'/g, '')}`);
+        const qtySpan = document.querySelector(`#qty_${name.replace(/\s/g, '_').replace(/'/g, '').replace(/[áéíóú]/g, '')}`);
         const quantity = qtySpan ? parseInt(qtySpan.textContent) : 1;
         
         addToCart({ name, price, description, image, alcohol, quantity });
@@ -335,7 +348,7 @@
         e.stopPropagation();
         const name = e.currentTarget.dataset.name;
         const size = e.currentTarget.dataset.size;
-        const qtySpan = document.querySelector(`#qty_${name.replace(/\s/g, '_').replace(/'/g, '')}_${size}`);
+        const qtySpan = document.querySelector(`#qty_${name.replace(/\s/g, '_').replace(/'/g, '').replace(/[áéíóú]/g, '')}_${size}`);
         if (qtySpan) {
             let val = parseInt(qtySpan.textContent);
             if (val > 1) qtySpan.textContent = val - 1;
@@ -346,7 +359,7 @@
         e.stopPropagation();
         const name = e.currentTarget.dataset.name;
         const size = e.currentTarget.dataset.size;
-        const qtySpan = document.querySelector(`#qty_${name.replace(/\s/g, '_').replace(/'/g, '')}_${size}`);
+        const qtySpan = document.querySelector(`#qty_${name.replace(/\s/g, '_').replace(/'/g, '').replace(/[áéíóú]/g, '')}_${size}`);
         if (qtySpan) {
             let val = parseInt(qtySpan.textContent);
             qtySpan.textContent = val + 1;
@@ -362,17 +375,16 @@
         const alcohol = btn.dataset.alcohol === 'true';
         const size = btn.dataset.size;
         
-        // Obtener la cantidad específica para este tamaño
         const originalName = name.replace(/\s\(Vaso\)|\s\(Jarra\)/, '');
-        const qtySpan = document.querySelector(`#qty_${originalName.replace(/\s/g, '_').replace(/'/g, '')}_${size}`);
+        const qtySpan = document.querySelector(`#qty_${originalName.replace(/\s/g, '_').replace(/'/g, '').replace(/[áéíóú]/g, '')}_${size}`);
         const quantity = qtySpan ? parseInt(qtySpan.textContent) : 1;
         
         addToCart({ name, price, description, image, alcohol, quantity });
         
-        // Resetear cantidad a 1
         if (qtySpan) qtySpan.textContent = '1';
     }
 
+    // Configurar tabs
     tabBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             tabBtns.forEach(b => b.classList.remove('active'));

@@ -38,7 +38,6 @@
       margin: 0;
     }
 
-    /* Capa semitransparente para mejorar legibilidad */
     body::before {
       content: '';
       position: fixed;
@@ -51,7 +50,6 @@
       pointer-events: none;
     }
 
-    /* Ocultar elementos del sitio web */
     .header, .mobile-menu-btn, .nav-menu, .header-buttons,
     .float-order-btn, .whatsapp-float, .menu-hero, .menu-tabs,
     .quantity-controls-wrapper, .btn-add-to-cart, .toast-notification,
@@ -242,6 +240,19 @@
       color: var(--text-dim);
     }
 
+    .footer-logo {
+      font-size: 16px;
+      font-weight: 800;
+      text-decoration: none;
+      color: var(--text-white);
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    .footer-logo span {
+      color: var(--primary);
+    }
+
     .instagram {
       color: var(--primary-light);
       font-weight: 600;
@@ -355,37 +366,63 @@
   </div>
 
   <div class="carta-footer">
-   <a href="index.html" class="footer-logo">PARCHE<span> IBARNA</span></a>
+    <a href="index.html" class="footer-logo">PARCHE<span> IBARNA</span></a>
     <p>Inspiración europea, alma colombiana. Coctelería de autor en Poblado Campestre.</p>
     <div class="instagram">
       <i class="fab fa-instagram"></i> @parche_i_barna
     </div>
-     <p>Inspirado en Barcelona ❤️ Poblado Campestre</p>
+    <p>Inspirado en Barcelona ❤️ Poblado Campestre</p>
   </div>
 </div>
 
 <script src="js/menu-data.js"></script>
 
 <script>
+  // ============================================
+  // CARTA FÍSICA - CON TODAS LAS CATEGORÍAS
+  // ============================================
+
+  // Imágenes representativas para cada categoría
   const imagenesCategorias = {
-    'clasicos': 'imagenes/corona_michelada_2.jpeg',
-    'exclusivos': 'imagenes/margarita_froze.jpeg', 
+    'clasicos': 'imagenes/margarita_clasica.jpeg',
+    'exclusivos': 'imagenes/blue_lagoon.jpeg',
+    'espanoles': 'imagenes/sangria.jpeg',
+    'granizados': 'imagenes/granizado_maracuya.jpeg',
+    'granizados_cremosos': 'imagenes/granizado_pinacolada.jpeg',
     'cervezas': 'imagenes/cerveza_corona.jpeg',
-    'micheladas': 'imagenes/aguila_michelada_3.jpeg',
+    'micheladas': 'imagenes/michelada_maracuya.jpeg',
     'sodas': 'imagenes/soda_italiana_fresa.jpeg',
+    'shots': 'imagenes/tequila_jose_cuervo.jpeg',
     'sin-alcohol': 'imagenes/oreo_dream.jpeg'
   };
 
+  // Títulos y subtítulos de cada categoría
   const categoriasInfo = {
-    'clasicos': { titulo: '🍸 CLÁSICOS', subtitulo: 'TRADICIÓN' },
-    'exclusivos': { titulo: '✨ EXCLUSIVOS', subtitulo: 'FIRMA' },
+    'clasicos': { titulo: '🍸 CLÁSICOS', subtitulo: 'TRADICIÓN Y SABOR' },
+    'exclusivos': { titulo: '✨ EXCLUSIVOS', subtitulo: 'FIRMA DEL BARTENDER' },
+    'espanoles': { titulo: '🇪🇸 ESPAÑOLES', subtitulo: 'SABORES DE ESPAÑA' },
+    'granizados': { titulo: '🍧 GRANIZADOS', subtitulo: 'REFRESCANTES' },
+    'granizados_cremosos': { titulo: '🥤 GRANIZADOS CREMOSOS', subtitulo: 'SUAVIDAD Y SABOR' },
     'cervezas': { titulo: '🍺 CERVEZAS', subtitulo: '' },
-    'micheladas': { titulo: '🌶️ MICHELADAS', subtitulo: '' },
-    'sodas': { titulo: '🥤 SODAS', subtitulo: '' },
-    'sin-alcohol': { titulo: '🌿 SIN ALCOHOL', subtitulo: '' }
+    'micheladas': { titulo: '🌶️ MICHELADAS', subtitulo: 'PICANTES Y REFRESCANTES' },
+    'sodas': { titulo: '🥤 SODAS', subtitulo: 'SIN ALCOHOL' },
+    'shots': { titulo: '🥃 SHOTS', subtitulo: 'PARA CELEBRAR' },
+    'sin-alcohol': { titulo: '🌿 SIN ALCOHOL', subtitulo: 'PARA TODOS' }
   };
 
-  const ordenCategorias = ['clasicos', 'exclusivos', 'cervezas', 'micheladas', 'sodas', 'sin-alcohol'];
+  // Orden de las categorías en la carta
+  const ordenCategorias = [
+    'clasicos', 
+    'exclusivos', 
+    'espanoles', 
+    'granizados', 
+    'granizados_cremosos', 
+    'cervezas', 
+    'micheladas', 
+    'sodas', 
+    'shots', 
+    'sin-alcohol'
+  ];
 
   function formatPrice(price) {
     if (price === null || price === undefined) return '';
@@ -470,6 +507,7 @@
   function esperarDatos() {
     if (typeof cocktailData !== 'undefined' && cocktailData !== null) {
       renderizarCartaHorizontal(cocktailData);
+      console.log('✅ Carta física renderizada con todas las categorías');
     } else {
       setTimeout(esperarDatos, 100);
     }
